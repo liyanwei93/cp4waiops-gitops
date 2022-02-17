@@ -1,0 +1,12 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  name: openshift-gitops
+  namespace: openshift-gitops
+  finalizers:
+    - argoproj.io/finalizer
+spec:
+  applicationInstanceLabelKey: argocd.argoproj.io/instance
