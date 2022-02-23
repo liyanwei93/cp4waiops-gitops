@@ -10,7 +10,7 @@ metadata:
 spec:
   destination:
     namespace: '{{ .Values.cp4waiops.eventManager.namespace }}'
-    server: '{{ `{{server}}` }}'
+    server: 'https://kubernetes.default.svc'
   project: default
   source:
     path: config/3.3/eventManager

@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     namespace: '{{ .Values.cp4waiops.aiManager.namespace }}'
-    server: '{{ `{{server}}` }}'
+    server: 'https://kubernetes.default.svc'
   project: default
   source:
     path: config/3.3/aiManager
