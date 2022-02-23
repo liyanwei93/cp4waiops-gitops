@@ -4,7 +4,7 @@ kind: Application
 metadata:
   name: eventmanager-app
 metadata:
-  name: '{{ `{{name}}-eventmanager` }}'
+  name: eventmanagerapp
   annotations:
     argocd.argoproj.io/sync-wave: "200"
 spec:

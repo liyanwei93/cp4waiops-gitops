@@ -4,7 +4,7 @@ kind: Application
 metadata:
   name: rook-cephs
 metadata:
-  name: '{{ `{{name}}-rook-ceph` }}'
+  name: rook-ceph
   annotations:
     argocd.argoproj.io/sync-wave: "100"
 spec:
