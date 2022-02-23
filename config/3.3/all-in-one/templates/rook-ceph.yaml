@@ -1,0 +1,23 @@
+{{- if .Values.rookceph.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rook-cephs
+metadata:
+  name: '{{ `{{name}}-rook-ceph` }}'
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"
+spec:
+  destination:
+    namespace: rook-ceph
+    server: '{{ `{{server}}` }}'
+  project: default
+  source:
+    path: ceph
+    repoURL: https://github.com/IBM/cp4waiops-gitops
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}
