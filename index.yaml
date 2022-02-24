@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  aimanager33:
+  - apiVersion: v1
+    appVersion: "3.3"
+    created: "2022-02-24T08:26:26.341474538Z"
+    description: AIManager 3.3 Chart
+    digest: 2b1d7244bf942eb9d6434020831841b6373e28c50e6faaabaadea2187ebca5f7
+    name: aimanager33
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/aimanager33-3.3/aimanager33-3.3.tgz
+    version: "3.3"
   cp4waiops32:
   - apiVersion: v1
     appVersion: "3.2"
@@ -11,4 +22,26 @@ entries:
     urls:
     - https://github.com/IBM/cp4waiops-gitops/releases/download/cp4waiops32-0.1.0/cp4waiops32-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-07T13:02:28.672602337Z"
+  cp4waiops33:
+  - apiVersion: v1
+    appVersion: "3.3"
+    created: "2022-02-24T08:26:26.502258898Z"
+    description: CP4WAIOps All In One Instance
+    digest: 0be1131be458a0e78c7c11103ea54fa04ab09e29844acf8ef3dffce11bc6ad78
+    name: cp4waiops33
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/cp4waiops33-3.3/cp4waiops33-3.3.tgz
+    version: "3.3"
+  eventmanager33:
+  - apiVersion: v1
+    appVersion: "3.3"
+    created: "2022-02-24T08:26:26.667536091Z"
+    description: EventManager 3.3 Chart
+    digest: c9224716308b174af6db249f26d1d2df47b27b969acf3bf6ca213d5e3893cb2f
+    name: eventmanager33
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/eventmanager33-3.3/eventmanager33-3.3.tgz
+    version: "3.3"
+generated: "2022-02-24T08:26:26.667541191Z"
