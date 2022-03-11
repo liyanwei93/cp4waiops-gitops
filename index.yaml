@@ -25,6 +25,16 @@ entries:
   cp4waiops32:
   - apiVersion: v1
     appVersion: "3.2"
+    created: "2022-03-11T08:24:06.094909426Z"
+    description: Cloud Pak for Watson AIOps v3.2
+    digest: 37cd73d140639b77515fb6344eb74c9288afff16796962b8d3c1eb2ffacbc298
+    name: cp4waiops32
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/cp4waiops32-0.1.1/cp4waiops32-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    appVersion: "3.2"
     created: "2022-02-07T13:02:28.672595937Z"
     description: Cloud Pak for Watson AIOps v3.2
     digest: c83b9b7b69ca8a8bc15542e2167d4bb716ca4be92df53c46d04953b471468f24
@@ -55,4 +65,4 @@ entries:
     urls:
     - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/eventmanager33-3.3/eventmanager33-3.3.tgz
     version: "3.3"
-generated: "2022-02-25T02:46:34.780846657Z"
+generated: "2022-03-11T08:24:06.094918726Z"
