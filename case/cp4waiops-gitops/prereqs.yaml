@@ -1,0 +1,38 @@
+# Defines any external dependencies that are not directly supplied by this CASE
+# The dependencies are handled by dependency resolvers which evaluate the prerequiste
+# These values can be addressed canonically
+prereqs:
+  prereqDefs:
+    k8sResources: {}                      # Kubernetes resource instance resolver
+    k8sResourceVersions: {}               # Kubernetes APIs and Resource types. boolean: true if present
+    k8sDistros:                              # Kubernetes Distributions resolver
+      openshift:
+        distribution: openshift
+        semver: ">=1.14.6"
+      kubernetes:
+        distribution: kubernetes
+        semver: ">=1.14.6"
+    client:
+      docker:
+        command: "docker"
+        versionArgs: "--version"
+      oc:
+        metadata:
+          description: "Client has oc installed"
+        command: "oc"
+        versionArgs: "version --client"
+      skopeo:
+        metadata:
+          description: "Client has skopeo installed"
+        command: "skopeo"
+        versionArgs: "--version"
+      podman:
+        metadata:
+          description: "Client has podman installed"
+        command: "podman"
+      openssl:
+        metadata:
+          description: "openssl"
+        command: "which"
+        versionArgs: "openssl"
+
