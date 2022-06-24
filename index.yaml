@@ -43,6 +43,28 @@ entries:
     urls:
     - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/cp4waiops-33-3.3/cp4waiops-33-3.3.tgz
     version: "3.3"
+  cp4waiops-aio:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-06-24T03:52:12.895915813Z"
+    description: CP4WAIOps All In One Instance
+    digest: 0cc4d16019ff6baf79365da652dc33546bd1e0ce768d008de7524d5193bf1dc8
+    name: cp4waiops-aio
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/cp4waiops-aio-1/cp4waiops-aio-1.tgz
+    version: "1"
+  cp4waiops-custom:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2022-06-24T03:52:13.138883082Z"
+    description: The CP4WAIOps Customized Instance
+    digest: f11f86d49940dbda8bc952a03abb7d2ca8e753d5084186c9e8b5edba8bd0248c
+    name: cp4waiops-custom
+    type: application
+    urls:
+    - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/cp4waiops-custom-0.0.1/cp4waiops-custom-0.0.1.tgz
+    version: 0.0.1
   cp4waiops32:
   - apiVersion: v1
     appVersion: "3.2"
@@ -107,4 +129,4 @@ entries:
     urls:
     - https://github.com/liyanwei93/cp4waiops-gitops/releases/download/eventmanager33-0.0.2/eventmanager33-0.0.2.tgz
     version: 0.0.2
-generated: "2022-04-22T08:16:20.356262075Z"
+generated: "2022-06-24T03:52:13.138901282Z"
