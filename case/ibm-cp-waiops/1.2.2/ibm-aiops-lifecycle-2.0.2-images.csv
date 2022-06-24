@@ -1,0 +1,9 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+cp.icr.io,cp/cp4waiops/http-wait-initcontainer,v3.3.2-20220511.0601-57face60c,sha256:57face60c2db0540bce81ec96febb34f64905d489a44191e0760175d39f04210,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/lifecycle-policy,v3.3.2-20220511.0601-0456b277c,sha256:0456b277cc857c8727e1e237d8345856bde8c79a8d0cf052e1b307eade3ee04d,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/lifecycle-trigger,v3.3.2-20220511.0601-3e05ede35,sha256:3e05ede35695713aa9437f9ca28018ace0bb0a0a8e35eb70eeeac12bf8a8f284,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/logstash,v3.3.2-20220511.0601-ad5386695,sha256:ad5386695957e2c00e67d2c507e45155172e96a491580b7a005d5abadae1ca8c,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/policy-registry-service,v3.3.2-20220511.0601-6469b4b01,sha256:6469b4b01e3e6aa3e4f23407f73960fed3667cdbd6d110a0adeff0c8226b2f16,IMAGE,linux,amd64,"",0,CASE,"",""
+icr.io,cpopen/ibm-aiops-lifecycle-operator-bundle,v3.3.2-20220511.0601-2242b22ff,sha256:2242b22ff3aaef55d75271caa9395b890b2d202b8c094e7d02b2871318c02c38,IMAGE,linux,amd64,"",0,CASE,olm-bundle,""
+icr.io,cpopen/ibm-aiops-lifecycle-operator-catalog,v3.3.2-20220511.0601-ee3d2baa8,sha256:ee3d2baa8dba3204400f5684db33d876513618535f1834a1fb2020923a13d0c5,LIST,"","","",0,CASE,olm-catalog,""
+icr.io,cpopen/lifecycle-operator,v3.3.2-20220511.0601-38aa941cd,sha256:38aa941cdb2ea620312c276e49c44c184bceedd4ef41eb103654ae009251a9b2,IMAGE,linux,amd64,"",0,CASE,"",""

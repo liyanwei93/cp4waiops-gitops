@@ -1,0 +1,76 @@
+apiVersion: v1
+containerImages:
+- caseVersions:
+  - 1.0.0
+  category: catalog
+  digest: sha256:b6eef73e2bcb97c1f3a987dbdbcc8a353d647e4e1f990c9271c0d07eac36ac1f
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: v3.2.0-20211029.0822-b6eef73e2
+- caseVersions:
+  - 1.0.1
+  category: catalog
+  digest: sha256:e9fd9bc5b7e79b694f8bc50974f8177902ee8ced49a3cb1978dcb3488cd042ae
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: v3.2.1-20220207.1001-e9fd9bc5b
+- caseVersions:
+  - 2.0.0
+  category: catalog
+  digest: sha256:69429108f3201c708f46583a9db84c502744e450295c5004e2c2464ad53cda48
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.0-20220318.1607-3b9f2b608-linux.amd64
+- caseVersions:
+  - 2.0.0
+  category: catalog
+  digest: sha256:3b9f2b60826b199485e2c912409d67fd42e3c6f49b40e26c0007131960565ffe
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.0-20220318.1607-3b9f2b608
+- caseVersions:
+  - 2.0.1
+  category: catalog
+  digest: sha256:cb643aec01dbd2b90ec4dc8d1ac847c4d919054492ca14d56cdcaff5d4df40ef
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.1-20220411.1001-6e8b504bd-linux.amd64
+- caseVersions:
+  - 2.0.1
+  category: catalog
+  digest: sha256:6e8b504bda9baa63dec10e0f35145fe069e0388e30ad535a8858eb8f61c3671f
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.1-20220411.1001-6e8b504bd
+- caseVersions:
+  - 2.0.2
+  category: catalog
+  digest: sha256:80e89991a9ec9e693ec02b8895ea6ed93f1c9ea1597001a5a7b1f898478220bc
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.2-20220511.0601-58a54d06f-linux.amd64
+- caseVersions:
+  - 2.0.2
+  category: catalog
+  digest: sha256:58a54d06f269952eeee089331603c60d030ef98e61d064cf3d4c04a787a002d4
+  image: cpopen/ibm-aiops-analytics-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.2-20220511.0601-58a54d06f

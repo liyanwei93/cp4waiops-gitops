@@ -1,0 +1,5 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+cp.icr.io,cp/opencontent-etcd-3,2.2.15,sha256:af0eefcac710d03ff15fab56daeae3df8a1eed0e39317e5f97aee8a3a8fc4aee,IMAGE,linux,amd64,"",0,CASE,"",""
+icr.io,cpopen/opencontent-etcd-operator,1.6.14,sha256:7e1b8fcb2f07319ae09cc8fa2c5165a0799c33327346f60bfefa3437007393a8,IMAGE,linux,amd64,"",0,CASE,"",""
+icr.io,cpopen/ibm-etcd-operator-bundle,1.6.14,sha256:09b35be21d0830daf2c724afa1dbbbcf6eb179b01e4f6615994d83bca3c6146b,IMAGE,linux,amd64,"",0,CASE,olm-bundle,""
+icr.io,cpopen/ibm-etcd-operator-catalog,1.6.14,sha256:e650c6e9a0d8f54abac2d4150eb08f8557ed5c92b511576abe2526b662e5d11a,IMAGE,linux,amd64,"",0,CASE,olm-catalog,""

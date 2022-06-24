@@ -1,0 +1,13 @@
+supportsRelatedImages: false
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-etcd-operator-catalog@sha256:e650c6e9a0d8f54abac2d4150eb08f8557ed5c92b511576abe2526b662e5d11a
+    imageType: IMAGE
+    architecture: amd64
+    variant: ""
+    os: linux
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

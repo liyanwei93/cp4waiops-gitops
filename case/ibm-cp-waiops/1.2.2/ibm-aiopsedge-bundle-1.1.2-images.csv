@@ -1,0 +1,13 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+icr.io,cpopen/ibm-aiopsedge-operator-bundle,v3.3.2-20220511.0601-64f658986,sha256:64f658986526134eefdaf0a18eda0f6e0c5722616320ba9ddbe1ba97a6549c23,IMAGE,linux,amd64,"",0,CASE,olm-bundle,""
+icr.io,cpopen/ibm-aiopsedge-operator-catalog,v3.3.2-20220511.0601-35ebdc7b6,sha256:35ebdc7b6f08ba4748c9115b69b9775f9c989c370d2adc2536bb4f8fac2e5ba4,LIST,"","","",0,CASE,olm-catalog,""
+icr.io,cpopen/ibm-aiopsedge-operator,v3.3.2-20220511.0601-3bfc7b43e,sha256:3bfc7b43e0c72172b77051bfe50265f604276580b3ca44b9a8fd81438acb4f03,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/connector-manager,v3.3.2-20220511.0601-4ffd9ce23,sha256:4ffd9ce2368333eea1b862e706589ca13e248b8b774f8be486fdeacbbaac432d,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/cp4waiops-connectors,v3.3.2-20220511.0601-fb53b4c19,sha256:fb53b4c193461078d4f00ff5b217b4f045b2ded66df28b118f985d0c4f9c297a,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ibm-aiops-bridge,v3.3.2-20220511.0601-fa0c1b038,sha256:fa0c1b0387498d6d0692e645e06d708d2808eabb08edd9c2e02ce6d9c04960ea,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ibm-aiops-connector-orchestrator,v3.3.2-20220511.0601-023a2cff5,sha256:023a2cff53d4000003d5f013139c07fff5adfa0123f47c018a162ae9278d2054,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ibm-grpc-github-connector,v3.3.2-20220511.0601-ad6fad746,sha256:ad6fad746ffb25359e2c5af57dabc169e33b134e8e66306beca11eeaaa840567,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ibm-grpc-instana-connector,v3.3.2-20220511.0601-1121fc889,sha256:1121fc889d24e013b3627716ad208da0d1aa9769dddfc5b82e49836acf435cf7,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ibm-grpc-snow-connector,v3.3.2-20220511.0601-bc7d947da,sha256:bc7d947dadc7efacebdd71e981f02a9c6fe6cf8ca978e0847e3613974d557cff,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/instana-topology,v3.3.2-20220511.0601-188e390e7,sha256:188e390e75bf35da252d010b95c7f3fec49801a5edfed63362a718e2eb804b90,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/nasm-github-observer,v3.3.2-20220511.0601-2d8e158a0,sha256:2d8e158a07f9e63abdeee913147b2caeab4e7b5b59873038a32bf87e643db37d,IMAGE,linux,amd64,"",0,CASE,"",""

@@ -1,0 +1,13 @@
+supportsRelatedImages: true
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-postgreservice-operator-catalog@sha256:931ca3d92b092ba908e373cbbbd16221ec201adfec6fc832e52a2059b2a6ecbd
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

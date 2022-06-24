@@ -1,0 +1,7 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+icr.io,cpopen/ibm-cert-manager-operator,3.20.0,sha256:086cb692fa017bea980c9eff920348a38c0862c67d31302b2e84e2b23eb0e771,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-cert-manager-controller,1.6.0-jetstack.1.7.1,sha256:1840ca5f33ee7dbf73b5e3a07c4ffa6ef76470799edb8cf1505cd4e02d00daed,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-cert-manager-webhook,1.6.0-jetstack.1.7.1,sha256:e8d50dcb397b932c63455d7fd97dfa1add86e1600204e784dadb69200482a0ba,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-cert-manager-cainjector,1.6.0-jetstack.1.7.1,sha256:4a86826ac04899399dc767fe90929603fe5232a68e05323aa966f4a3a740d2ef,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-cert-manager-acmesolver,1.6.0-jetstack.1.7.1,sha256:fddb6e6d5ecb8bf1e3b3e82cd2e08e57cf142ccd3b32247272250606457ef474,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-configmap-watcher,3.15.0,sha256:40f78e716b57568cac4295b0346462705f20539578b79531648088139083fd6e,LIST,"","","",0,CASE,"",""

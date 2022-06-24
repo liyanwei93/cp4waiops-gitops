@@ -1,0 +1,113 @@
+apiVersion: v1
+containerImages:
+- caseVersions:
+  - 2.0.8
+  - 2.0.9
+  category: catalog
+  digest: sha256:1fd7b9c2ba34972d7cd092b9005afd76f6e4d3d087cd75a89348ac13c3a0cb5f
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.6
+- caseVersions:
+  - 2.0.3
+  category: catalog
+  digest: sha256:46428306440fb308603cdb5e795fc0d2a18c134c36192f140a83236185afbd20
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.3
+- caseVersions:
+  - 2.0.4
+  category: catalog
+  digest: sha256:b42d286979220e0daea3ef95b02b01a2f915f64571d67157fefc9bbc550549db
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.4
+- caseVersions:
+  - 2.0.7
+  category: catalog
+  digest: sha256:deab4b222a332dd3d93dc8d73743453318d1dc0e91c2638dc1e4b8d04c981044
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.5
+- caseVersions:
+  - 2.0.1
+  category: catalog
+  digest: sha256:dd1687d02b8fb35bc08464330471d6f6f6541c36ca56d2716d02fa071a5cc754
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.1
+- caseVersions:
+  - 2.0.2
+  category: catalog
+  digest: sha256:c97f7f833443f991c1fe610041c36f3dc774cea2dc00a39686a4b8f846db53a6
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.2
+- caseVersions:
+  - 2.0.12
+  category: catalog
+  digest: sha256:cfa5abdf2231475d7771254ee7115194624a4c84f2883768e1983b4441047b24
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.7
+- caseVersions:
+  - 2.0.14
+  category: catalog
+  digest: sha256:7b495c5ca5ee559a1f48af7fe1169d17cb2d58b3d388806d3e01d16795d0cb65
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.14
+- caseVersions:
+  - 2.0.15
+  category: catalog
+  digest: sha256:b26ebecdcf5be1e1a9b370985b327a8daff4d0cc126e0359e946ec37407446e3
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.14
+- caseVersions:
+  - 2.0.16
+  category: catalog
+  digest: sha256:995afd55cb1bdfac3b2c2ca716ef28cc7aee6ca7f9c5ccf9df1812fc2fa4132d
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.14
+- caseVersions:
+  - 2.0.17
+  category: catalog
+  digest: sha256:e650c6e9a0d8f54abac2d4150eb08f8557ed5c92b511576abe2526b662e5d11a
+  image: cpopen/ibm-etcd-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: 1.6.14

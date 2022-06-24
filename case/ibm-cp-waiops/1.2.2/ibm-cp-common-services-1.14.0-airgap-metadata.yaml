@@ -1,0 +1,13 @@
+supportsRelatedImages: false
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-common-service-catalog@sha256:5739bd0500b1b23a2be314a668f7e2cf8bd1eb6403010068a0e33bd073287b9f
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

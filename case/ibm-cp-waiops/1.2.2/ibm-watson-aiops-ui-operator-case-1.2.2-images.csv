@@ -1,0 +1,11 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+cp.icr.io,cp/cp4waiops/ai-models-ui,v3.3.2-20220511.0601-2217305cc,sha256:2217305ccaf9bdc5cc906964cc7e93a85100cbc516a7e97b8567c7f5daf8df0b,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/aiops-application-details-ui,v3.3.2-20220511.0601-ec73c6a0f,sha256:ec73c6a0fdb7190de7afd46cb426cdbdd230c27f36f97944c66d0c66fbc0ada3,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/aiops-base-ui,v3.3.2-20220511.0601-16d2fb9dd,sha256:16d2fb9dd5079b48d4e23ee42818f1ceabd0ff235f4f2885d98f4343fac569c0,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/connector-ui,v3.3.2-20220511.0601-12e1589d7,sha256:12e1589d73a0fb308b3afae3cd1fe1c8b3cc9600160d027778156ac185058d92,LIST,"","","",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ui-api,v3.3.2-20220511.0601-226d87685,sha256:226d87685f7e83ce41d5a7d8d538b87d474c612e92b6fb99f8e591d075871fc6,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/ui-content,v3.3.2-20220511.0601-3032fb9ab,sha256:3032fb9ab25e946d2482f06d34ee8e4abd52942f6dd8c9370dd3f933e06324a8,IMAGE,linux,amd64,"",0,CASE,"",""
+cp.icr.io,cp/cp4waiops/node-server,v3.3.2-20220511.0601-ab9f1ef4a,sha256:ab9f1ef4a1e692f472084ef86ba053e2386234f4703df6038708ad6f903eec36,IMAGE,linux,amd64,"",0,CASE,"",""
+icr.io,cpopen/ibm-watson-aiops-ui-operator-bundle,v3.3.2-20220511.0601-e7f4241ac,sha256:e7f4241ace4cc8b9a0be948c626c640d5a6a143433164e51482b9155ca4bee25,IMAGE,linux,amd64,"",0,CASE,olm-bundle,""
+icr.io,cpopen/ibm-watson-aiops-ui-catalog,v3.3.2-20220511.0601-719830040,sha256:719830040cb516e42f8738ec8125efe047c20563b4f2e405a7e8202abdd43505,LIST,"","","",0,CASE,olm-catalog,""
+icr.io,cpopen/ibm-cp4waiops-watson-aiops-ui-operator,v3.3.2-20220511.0601-5e9aee5dd,sha256:5e9aee5dd115e976af189ac5bf0a72600564a57ca56be44d1e365b33b64e191b,LIST,"","","",0,CASE,"",""

@@ -1,0 +1,12 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+icr.io,cpopen/ibm-iam-operator,3.18.0,sha256:6794a0586aa32b0762f52cc9870bf7d073fdf41300ef5d31a22343709a79f928,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/audit-syslog-service,1.9.0,sha256:25c7f8745ca486bb42f01ca5269c745cf8016cee9f66485b8d6283612bcd205c,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-oidcclient-watcher,3.7.6,sha256:9c2e0f3b064ef8a9c7df021e5b0163125d04dfd02908f6732783ef5f88c80180,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/iam-policy-decision,3.7.6,sha256:5d29187cabb0c94578f6b862feef19647902f9919333af48cff72775f3f58a73,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-platform-auth,3.7.6,sha256:12a4f58fa8694c929efd6f4b811459fd6b053b8bb5f5f4fcc8d45ff4831eea92,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-identity-manager,3.7.6,sha256:7a2f97148e999893eeb1e3a59fad6f88dec77e814875751dcef13224aa6e30d9,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-identity-provider,3.7.6,sha256:71cf9d0a9bca2f2279a7499d73216b3f3d1cb379d9ab5c3b6c62bcaeeda69a45,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/iam-policy-administration,3.7.6,sha256:07d90bcc779e30e3d3c9e348998716ef8f1975fbda8ef11f3f33858b58151a51,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/iam-policy-controller,3.7.6,sha256:10a1d997cc130c1ac80ef604f065d3aebcae6f215d9a73ccc1c7c9fe94860c3e,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-secret-watcher,3.7.6,sha256:98d9c1d72af3a308011bc4cbc8f49cce47008337ae9d091f56bfe895e1e1a3fb,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/icp-iam-onboarding,3.7.6,sha256:caf711e577d76518775141473a6464e7161017048bb25936b61643b589f310dd,LIST,"","","",0,CASE,"",""

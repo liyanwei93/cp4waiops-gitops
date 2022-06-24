@@ -1,0 +1,13 @@
+supportsRelatedImages: false
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-watson-ai-manager-operator-catalog@sha256:2762c59cd3093102d7f5413510b304b765aaf1aad714066b35728bc12fd653b4
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

@@ -1,0 +1,13 @@
+supportsRelatedImages: false
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/couchdb-operator-catalog@sha256:c35df32a8de999a4bb76229fbe302b1107d9c6bd17d159ee30167016c51bc215
+    imageType: IMAGE
+    architecture: amd64
+    variant: ""
+    os: linux
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

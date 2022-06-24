@@ -1,0 +1,13 @@
+supportsRelatedImages: true
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-cp-automation-foundation-catalog@sha256:267bbc17bad1966be259bb9a6951c520c6fb824bfa42bbec22570ba49883d4ae
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

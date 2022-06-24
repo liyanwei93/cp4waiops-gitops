@@ -1,0 +1,3 @@
+registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
+icr.io,cpopen/ibm-commonui-operator,1.16.0,sha256:b56d8c92c8f347af2d817dec2f10aaf9f9992a43d39a525fd226944a1759b884,LIST,"","","",0,CASE,"",""
+icr.io,cpopen/cpfs/common-web-ui,1.16.0,sha256:8bc251f5bb305a09e858a994ffb3aca6d5fc58f2f5bba6539f840353f0d74af2,LIST,"","","",0,CASE,"",""

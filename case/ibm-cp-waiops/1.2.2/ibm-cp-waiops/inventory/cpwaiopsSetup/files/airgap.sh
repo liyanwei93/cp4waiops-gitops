@@ -118,7 +118,7 @@ SKOPEO_DEBUG_LOGGING=""
 SCRIPT_DIR=`dirname "$0"`
 
 # script version
-VERSION=0.13.6
+VERSION=0.13.7
 
 # --- registry service variables ---
 
@@ -126,7 +126,7 @@ VERSION=0.13.6
 CONTAINER_ENGINE=
 
 # docker registry image
-REGISTRY_IMAGE=${REGISTRY_IMAGE:-docker.io/library/registry:2.7}
+REGISTRY_IMAGE=${REGISTRY_IMAGE:-docker.io/library/registry:2.8.1}
 
 # registry directory
 REGISTRY_DIR=${TMP_DIR_PATH}/docker-registry

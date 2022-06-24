@@ -1,0 +1,13 @@
+supportsRelatedImages: true
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-vault-operator-catalog@sha256:276c60615d3dd38441c0ac5988869aa1fa786ea78ac284b8e5cadf2a219100f5
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

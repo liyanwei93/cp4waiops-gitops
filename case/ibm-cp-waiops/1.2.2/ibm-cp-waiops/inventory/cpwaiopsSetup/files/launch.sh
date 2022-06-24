@@ -53,7 +53,7 @@ registry_subject=
 registry_port=
 
 # script version
-version=0.13.0
+version=0.14.0
 
 # Display usage information with return code (if specified)
 print_usage() {

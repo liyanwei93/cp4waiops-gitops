@@ -1,0 +1,13 @@
+supportsRelatedImages: false
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-watson-aiops-ui-catalog@sha256:719830040cb516e42f8738ec8125efe047c20563b4f2e405a7e8202abdd43505
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

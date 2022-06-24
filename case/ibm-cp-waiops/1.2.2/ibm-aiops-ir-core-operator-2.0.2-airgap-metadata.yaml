@@ -1,0 +1,13 @@
+supportsRelatedImages: true
+admCatalogMirror:
+  sourceCatalogs:
+  - catalog: icr.io/cpopen/ibm-aiops-ir-core-operator-catalog@sha256:bd9a1cff9c8321302e65a44e279856424d60cb9e8e8b08fd5017b8aefe1a79f2
+    imageType: LIST
+    architecture: ""
+    variant: ""
+    os: ""
+    isTopLevelCatalog: "true"
+indexPrune:
+  sourceCatalogs: []
+diff:
+  sourceCatalogs: []

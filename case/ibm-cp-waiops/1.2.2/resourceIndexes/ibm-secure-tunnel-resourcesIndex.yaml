@@ -1,0 +1,76 @@
+apiVersion: v1
+containerImages:
+- caseVersions:
+  - 3.2.0
+  category: catalog
+  digest: sha256:1879e8b6b3edd410e8ce988ee8ba2885620850d799e03b03c93981947d85b1c5
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: v3.2.0-20211029.0822-1879e8b6b
+- caseVersions:
+  - 3.2.1
+  category: catalog
+  digest: sha256:4f595707a6d88a59662afcaf9633dc9f61c092a7bae0d5933d850dfedf2b1343
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: v3.2.1-20220207.1001-4f595707a
+- caseVersions:
+  - 3.3.0
+  category: catalog
+  digest: sha256:802a557b292f1bde5711c5249f1bffaaadb5e9366b07816ebff5e0f35fe02725
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.0-20220318.1607-dae4b7b01-linux.amd64
+- caseVersions:
+  - 3.3.0
+  category: catalog
+  digest: sha256:dae4b7b016d26b1f5085c0cad816bd16a8d86a567577ac778b6106393e3e5ba7
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.0-20220318.1607-dae4b7b01
+- caseVersions:
+  - 3.3.1
+  category: catalog
+  digest: sha256:faa6a6100710a38b052bede8d712647fefd8df2da2480b1babed7951a92f337c
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.1-20220411.1001-57831a973-linux.amd64
+- caseVersions:
+  - 3.3.1
+  category: catalog
+  digest: sha256:57831a973eb8bbc7ec8aed72527ab9cf612a1880b30a78f9419fbacb2b89e5c4
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.1-20220411.1001-57831a973
+- caseVersions:
+  - 3.3.2
+  category: catalog
+  digest: sha256:3a91f1fc252575e313fb23e8047019756380b2fa288275564fa76820acba85f1
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    architecture: amd64
+    imagetype: manifestList
+    os: linux
+  tag: v3.3.2-20220511.0601-620fad374-linux.amd64
+- caseVersions:
+  - 3.3.2
+  category: catalog
+  digest: sha256:620fad3740b7b1b2da16757824f821301ef2d377d975356f85279089ca09b75b
+  image: cpopen/ibm-secure-tunnel-operator-catalog
+  platform:
+    imagetype: manifestList
+  tag: v3.3.2-20220511.0601-620fad374
