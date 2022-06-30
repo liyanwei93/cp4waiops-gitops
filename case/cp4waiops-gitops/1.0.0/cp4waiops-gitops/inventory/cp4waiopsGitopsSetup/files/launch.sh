@@ -232,6 +232,9 @@ run_action() {
     installCatalog)
         install_catalog
         ;;
+    installGitops)
+        install_gitops
+        ;;
     installOperator)
         install_operator
         ;;

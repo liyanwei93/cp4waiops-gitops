@@ -58,6 +58,15 @@ install_catalog() {
     fi
 }
 
+install_gitops() {
+
+    echo "-------------Installing Gitops-------------"
+
+    $kubernetesCLI apply -n "${namespace}" -f "${casePath}"/inventory/"${inventory}"/files/subscription.yaml
+
+    echo "done"
+
+}
 
 # Install utilizing default OLM method
 install_operator() {

@@ -1,0 +1,62 @@
+resources:
+  resourceDefs:
+    files:
+    - mediaType: application/vnd.case.resource.script.bash.v1
+      ref: airgap.sh
+    - mediaType: application/vnd.case.resource.script.bash.v1
+      ref: launch-impl.sh
+    - mediaType: application/vnd.case.resource.script.bash.v1+launcher
+      ref: launch.sh
+    - ref: catalog_source.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    containerImages:
+    - image: cpopen/ibm-aiops-orchestrator-bundle
+      digest: sha256:792f165a0f18d061d11c9349bc478baecdf9bb23c3e1a509f7555ad691dde2fd
+      tag: v3.3.2-20220511.0601-792f165a0
+      mediaType: application/vnd.docker.distribution.manifest.v2
+      platform:
+        architecture: amd64
+        os: linux
+      registries:
+      - host: icr.io
+      metadata:
+        operators_operatorframework_io:
+          bundle:
+            mediaType: registry+v1
+            cpcicd_ibm_com:
+              targetCatalogs:
+                catalogRefs:
+                - ibm-public: {}
+    - image: cpopen/ibm-cp-waiops-case-bundle-catalog
+      digest: sha256:989201b4e8fef5493ed7a0462647699fe5d68d38e652959843e4b00d521f031f
+      tag: v3.3.2-20220511.0601-989201b4e
+      mediaType: application/vnd.docker.distribution.manifest.list.v2
+      registries:
+      - host: icr.io
+      metadata:
+        operators_operatorframework_io:
+          catalog:
+            mediaType: registry+v1
+      manifests:
+      - digest: sha256:bcfbb0118639042dfcb006f8e2b3e84c85811824626e151bb3ba67da13a88984
+        mediaType: application/vnd.docker.distribution.manifest.v2
+        tag: v3.3.2-20220511.0601-989201b4e-linux.amd64
+        platform:
+          architecture: amd64
+          os: linux
+    - image: cpopen/ibm-aiops-orchestrator
+      digest: sha256:5dd52c08735def26195fb3a52b7e3d48581fbf36b258c6c0a9fd42b12156606a
+      tag: v3.3.2-20220511.0601-5dd52c087
+      mediaType: application/vnd.docker.distribution.manifest.list.v2
+      metadata:
+        name: ibm_aiops_orchestrator
+        displayName: cpopen/ibm-aiops-orchestrator
+      registries:
+      - host: icr.io
+      manifests:
+      - digest: sha256:3afabfc281b7bac1c8dbc59ed6aebb7e584caee07a88fe5b152746792e096513
+        mediaType: application/vnd.docker.distribution.manifest.v2
+        tag: v3.3.2-20220511.0601-5dd52c087-linux.amd64
+        platform:
+          architecture: amd64
+          os: linux
