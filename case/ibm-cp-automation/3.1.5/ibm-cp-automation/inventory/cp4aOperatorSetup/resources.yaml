@@ -110,5 +110,27 @@ resources:
       mediaType: application/vnd.case.resource.k8s.v1+yaml
     - ref: gitops/clusterrolebinding.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml
-    - ref: gitops/application.yaml
+    - ref: gitops/aimanager33/Chart.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/values.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/00-argocd-admin.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/catalogsource.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/check-prereqs-job.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/global-image-pull-secret.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/image-pull-secret.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/installation.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/namespace.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/operatorgroup.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/policy.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33/templates/subscription.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml

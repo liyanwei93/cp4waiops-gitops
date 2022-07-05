@@ -338,8 +338,9 @@ install_gitops() {
     chartmuseum/chartmuseum:latest
 
     helm repo add localrepo http://9.30.232.213:8080
-    cp "${casePath}"/inventory/"${inventory}"/files/gitops/aimanager33-0.0.1.tgz /opt/charts
-    helm search repo localrepo    
+    cp "${casePath}"/inventory/"${inventory}"/files/gitops/aimanager33 /opt/charts
+    tar czvf /opt/charts/aimanager33-0.0.1.tgz /opt/charts/aimanager33 
+    helm search repo localrepo
 
     $kubernetesCLI apply -n "${namespace}" -f "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
 
