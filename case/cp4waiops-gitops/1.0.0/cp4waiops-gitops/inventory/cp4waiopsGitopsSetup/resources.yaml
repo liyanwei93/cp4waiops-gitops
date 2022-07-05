@@ -7,7 +7,13 @@ resources:
       ref: launch-impl.sh
     - mediaType: application/vnd.case.resource.script.bash.v1+launcher
       ref: launch.sh
-    - ref: catalog_source.yaml
+    - ref: op-olm/catalog_source.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/operator_group.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/subscription.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: subscription.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml
     containerImages:
     - image: cpopen/ibm-aiops-orchestrator-bundle
