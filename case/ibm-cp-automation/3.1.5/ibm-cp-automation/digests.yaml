@@ -1,0 +1,372 @@
+digests:
+  digestDefs:
+    case:
+      digest: sha256:db9a0230f5a3b56c127a8802a1b5b67b92e6303d862d423471161e38f20848ca
+      size: 50523
+      skip: false
+    certification:
+      ibmccp:
+        resources:
+          resourceDefs:
+            files:
+            - digest: sha256:6279fe35d482429980ca33f958f600582c057a7f32391bc0a0aebdd45f552961
+              size: 472924
+              skip: false
+    inventory:
+      cp4aOperatorSdk:
+        imageManifest: {}
+        readme:
+          digest: sha256:8d7d839b55a4499a34d3143997a74d5eaeaa4bc9e1c3de333f5fe625a596314f
+          size: 15463
+          skip: false
+        resources:
+          resourceDefs:
+            cases:
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            containerImages:
+            - digest: sha256:fc3d73b4ee3306a3439cdad8ac5c62a8085e92be7064c6fc759e18a0c59ed3ab
+              skip: false
+            - digest: sha256:43089961d5f4c8a86e79767b4ede5ed3b9d23729264c58947263a7e03952efbc
+              skip: false
+            - digest: sha256:bd4e0bdd0f560087a6ab2a03cf179ba9819aaac108b0f20c75f5152879c91693
+              skip: false
+            - digest: sha256:c39d7ae4ded835156160d09c63bb8c728b81f9e7e5381fe5881b0b27068ff460
+              skip: false
+            - digest: sha256:d7431e97f9874da347eb375f7a113f93417e94135d05a4b08cd702491b972b45
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:9d0b2918bd4ddf8f44b016548fcdff5929d91632b4aca2428562b2ec8c0eaab5
+              skip: false
+            - digest: sha256:97ba8f854246c22a26953ab13a386b19216a015791b9fd8bd24ff9c4212d8dd9
+              skip: false
+            - digest: sha256:13a9fe37a105ed07a7715eda0ccceb8f0f91bddd19403364875393de39cc33de
+              skip: false
+            - digest: sha256:db7449d17846fb499cc068d4eee590fef17a827d627408240cd0448745d8569f
+              skip: false
+            - digest: sha256:2130389b2f3edfcf1e4e3dee896b25c8af4e6d02ee222aa7ec4d6bec27808173
+              skip: false
+            - digest: sha256:de945015d7f7cefa79c1f93468eed99ce5c1e1c0f14561c816533f5fbbe50e7b
+              skip: false
+            - digest: sha256:e7473d31e7e80117955da1d437ffb7b5f018359dfd06041f1e048e857980c310
+              skip: false
+            - digest: sha256:759555dae4116ed5e37fa79a2223ebf55f33318bd24a019c5cd9e3515864994b
+              skip: false
+            - digest: sha256:756621c5d9225ed0722f29931b659f854d247d3e4ffd224b04a6c737832ce6a7
+              skip: false
+            - digest: sha256:7e11107b913f351d0e3c11daea1831c4b235f5e701bfbd2a7bbe94c07158f1cd
+              skip: false
+            - digest: sha256:a16e618958f4fa9c92ea9a6933d20932b92199dc8bc8b4e85a02c03cdef2f4e5
+              skip: false
+            - digest: sha256:4d111fb3c074b9661073094906b2a1c06f1460c2c398524d13ec6301e44bab9c
+              skip: false
+            - digest: sha256:dcb6045ec83b62970e13089ab5eaf66517e4a29b222acd26520fcdf49123b2c6
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:5a2cb65c97022b07580ac4b4336e885edaa5faf446a3a1c01deae1f19fa8556a
+              skip: false
+            - digest: sha256:18440ec9bad66a7d4ae3d4a96a470baccf1310678e0c481b5a958304e5968e6a
+              skip: false
+            - digest: sha256:0e79b8b561aafaf10f0c1a2096cf3cc2b02bb62d57ea4fcff07ec88775259bcb
+              skip: false
+            - digest: sha256:4c0b41a3aaeaea6a5fc99c158d8b11c66bbbbe4ad757d3683f8e590d4071bd93
+              skip: false
+            - digest: sha256:16d396de7ede5382ba76a4a402965af8a230d4a9e4d891046c478284dc08f195
+              skip: false
+            - digest: sha256:c27f87719a0e0d1b1ef067edc38d0cf85665d9d42bc850d4e9fe5431c70c2780
+              skip: false
+            - digest: sha256:6f3b2f1c15b60813e5898ac00fe2f8eacd11890dee172cbaf630aa37c9cb17a7
+              skip: false
+            - digest: sha256:71bf0cd1ffadd7d501dc68d5052695bdb4b48fc9bb9d07735955f01cacf17ce0
+              skip: false
+            - digest: sha256:41fb6480b00a25df4eb72d67a939f6bac19cd3fe23494734d1daab5bd3027e97
+              skip: false
+            - digest: sha256:83cfb3ebcddadf1aabd878e612cb9061c59a9f4fc1e8658628d4bde89a08a13e
+              skip: false
+            - digest: sha256:c29edbd8d20faf90a2ffa759f594b4f94b7def23868ea041d05f2de87adf0c10
+              skip: false
+            - digest: sha256:8d9b127a30e2f91da29cd5162ba779b1b583217f22f8e4c5bfd51760300b4f13
+              skip: false
+            - digest: sha256:066cc6b8c025ed19f287d276ad7b0278c10118667d22239e8a531cae1f1f947b
+              skip: false
+            - digest: sha256:a1db8e3ff3ca8ec5480944acf246e7e39a093cb586981b912ccf22d069ea8280
+              skip: false
+            - digest: sha256:20244f0ba3febb4c8c0063b05f47f7c55462dfae25faefc3d937a2081ccafdf5
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:349e0c2c2ede72260a471b4af7cf6f972183947f7c98a16035852a449b7ab75a
+              skip: false
+            - digest: sha256:5a2cb65c97022b07580ac4b4336e885edaa5faf446a3a1c01deae1f19fa8556a
+              skip: false
+            - digest: sha256:6bc3a0ed8fe02baf199c360cdd5cab97196a5939955c687a0f1fe407be6d9c6c
+              skip: false
+            - digest: sha256:8d9b127a30e2f91da29cd5162ba779b1b583217f22f8e4c5bfd51760300b4f13
+              skip: false
+            - digest: sha256:066cc6b8c025ed19f287d276ad7b0278c10118667d22239e8a531cae1f1f947b
+              skip: false
+            - digest: sha256:a1db8e3ff3ca8ec5480944acf246e7e39a093cb586981b912ccf22d069ea8280
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:5a2cb65c97022b07580ac4b4336e885edaa5faf446a3a1c01deae1f19fa8556a
+              skip: false
+            - digest: sha256:6bc3a0ed8fe02baf199c360cdd5cab97196a5939955c687a0f1fe407be6d9c6c
+              skip: false
+            - digest: sha256:4c4d55020b004e11154fa6c9b82cad75c41dcc16f91f67eefa940a248d1d8f6b
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:349e0c2c2ede72260a471b4af7cf6f972183947f7c98a16035852a449b7ab75a
+              skip: false
+            - digest: sha256:11d54e9acb09be5a3f868e1ed14b18b915cabca3e6672e3860054723ecc3db41
+              skip: false
+            - digest: sha256:a7cd20b506de50ce5698a66c98ade7cc9743c08b0703405bbbfc24f5fa7461b2
+              skip: false
+            - digest: sha256:72c891d70e24ffc1a1535f7e4201577829278a4fb590b3d25a22b9ad673ca310
+              skip: false
+            - digest: sha256:c1db2ad0670b77c5bca7d1b7b0c6bdfc22793b98b4f442af4b24330cea7c1226
+              skip: false
+            - digest: sha256:cf24ed59e1320271019b5087f248fc0ae5dabb0b79e80768d946da4f52bce16f
+              skip: false
+            - digest: sha256:297ed334ace52bd36fcdf6f10ff477e4a18e4ee5302bcacba117ade84c2d6eea
+              skip: false
+            - digest: sha256:443ca85a57d9a3af9d85a036bedfc256f190f4ca240200181c010b12454df233
+              skip: false
+            - digest: sha256:cd54a50fdcca2d7f7b439c12899959303659a48e8e241e219cce9d29d3ebc664
+              skip: false
+            - digest: sha256:a093b1a4e7f2dfe330077c54d93b24944232d29c6681cfe515892f3f15ec0cb2
+              skip: false
+            - digest: sha256:bfcdc994a4b6d93deca6cffb70c6bd131fa280144086760e62d08bbc0eac1eba
+              skip: false
+            - digest: sha256:f60e883e9c637965ce01e2a71cb9055b46100f4953a95be98dd6b6c46136698a
+              skip: false
+            - digest: sha256:641c065374d80202ef8ca35c6685832ff08feab9373728fe10038af85aefc645
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:349e0c2c2ede72260a471b4af7cf6f972183947f7c98a16035852a449b7ab75a
+              skip: false
+            - digest: sha256:5a2cb65c97022b07580ac4b4336e885edaa5faf446a3a1c01deae1f19fa8556a
+              skip: false
+            - digest: sha256:78604be43ea91ca2b28fdd09149a258d3c8e23f3e51d5078bb5d2f2c53825a35
+              skip: false
+            - digest: sha256:dd692475dea76222bbf0831f0c836e62690853a86ade15abe827cc148b1de71a
+              skip: false
+            - digest: sha256:6291d36528904a7756ccfc1619c6a29be98af2e7e2db68413c6e7a0e81bb4c72
+              skip: false
+            - digest: sha256:e3389aafca0fb876c0c691c05c0289d3fe558db6b202d7dc0fb692e91bae3276
+              skip: false
+            - digest: sha256:74bb045ab10dd5349344b9fbc367a355b34a9f28f63e3231dd240ce00eee10d0
+              skip: false
+            - digest: sha256:d803aa1daecd2194436b3743cf8abf87aafb3fcfe5770cc30dc28801c216a14a
+              skip: false
+            - digest: sha256:26f5539200e91fee2f6d0766d15e020fbb0f16f640033be210a6ada3509571aa
+              skip: false
+            - digest: sha256:c29edbd8d20faf90a2ffa759f594b4f94b7def23868ea041d05f2de87adf0c10
+              skip: false
+            - digest: sha256:d601b005a6be5d5d5a5831168f957bd4e17e66719e61711346f867fdbe738f6a
+              skip: false
+            - digest: sha256:f6c5ede824ee05b2336e70ae19e06d334532be9b7ee5a54516f3ef8402de941e
+              skip: false
+            - digest: sha256:e0c56af54a389d1b049919a131bda1a51f73a9d81566e9a385a9e90caef02dc8
+              skip: false
+            - digest: sha256:e8f89d53d100695accc829a795e2db8fe393ac321b6bdd891560d173bbcad9e2
+              skip: false
+            - digest: sha256:26f7d7fcc6e707161dae819b09771383bfce694ce60747e0356e27fd2cd0f605
+              skip: false
+            - digest: sha256:e84dd01e6ec7bdb1bd9b97c3e6fc0ae3af284e8370ef558ab013b79047045b7e
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:349e0c2c2ede72260a471b4af7cf6f972183947f7c98a16035852a449b7ab75a
+              skip: false
+            - digest: sha256:5a2cb65c97022b07580ac4b4336e885edaa5faf446a3a1c01deae1f19fa8556a
+              skip: false
+            - digest: sha256:6bc3a0ed8fe02baf199c360cdd5cab97196a5939955c687a0f1fe407be6d9c6c
+              skip: false
+            - digest: sha256:3db296aea857daef490b50bc2a3e8d7c5a15e12e0318c76bd39cdb73c7dc98a5
+              skip: false
+            - digest: sha256:38765ea1971a0491b6888d62beff299cf4c3dcf9671f057bfc6428704e60d473
+              skip: false
+            - digest: sha256:8cb305c527ef55eea6f3a3458bb148aedebe92197c32606f8a102e74cbc5d465
+              skip: false
+            - digest: sha256:e644df0a12c3789f88cee26f2ce52f19e5e1e1dc85871900afb7273484b4001a
+              skip: false
+            - digest: sha256:73bea15574e28edd0dee8375c7b02e1fe8d20b3b20fecb79286912108c5faded
+              skip: false
+            - digest: sha256:871137eba07fa79535fb9a5ff3e7ae2df8d87571c9125dcf48b32b0911f2b993
+              skip: false
+            - digest: sha256:800e602f5cbad5d46e03abcada770067268c27e3f8fddda82531d570c85df5a6
+              skip: false
+            - digest: sha256:714c40ac22a9fc545c0ae3c7203ab212e8b1e20869964b9675cb6b68eb22d262
+              skip: false
+            - digest: sha256:b5df4da340e101e2ed89673ca678490a02052f32612cd6e60a31703b83edc22d
+              skip: false
+            - digest: sha256:070d72c32a06464c17c8a240b8b668da47b2af4fa72a75fdde008f81aa72b6eb
+              skip: false
+            - digest: sha256:640d54deec60f158384e5f262b0fd793f0660b5138876db92142460027de97f9
+              skip: false
+            - digest: sha256:c4b386a5793d0298ca7ce8e3a47b192072fa22d657bd62290861284ae98f21b0
+              skip: false
+            - digest: sha256:c8f4a13c4cba01fc7347c51cbb670023e9a67fcfabc67a8774d05f1979db45f4
+              skip: false
+            - digest: sha256:4a693532165e97a9790edf30d2000a83142ac9fb5708a5221ca9ba956954ae6e
+              skip: false
+            - digest: sha256:f60e883e9c637965ce01e2a71cb9055b46100f4953a95be98dd6b6c46136698a
+              skip: false
+            - digest: sha256:641c065374d80202ef8ca35c6685832ff08feab9373728fe10038af85aefc645
+              skip: false
+            - digest: sha256:b1e38a58074832eacaddeee41c11f102b0154b845f4ef9a7a5582975012b0733
+              skip: false
+            - digest: sha256:1b129f35b5fe1de70b9e51464f0bab31e6ed829f5ede0483731447c96f9f46d1
+              skip: false
+            - digest: sha256:b83b66ad25f358af6bd5328bcf6b81097bc006ee5be0fbf23e01877db1974092
+              skip: false
+            - digest: sha256:38b8222941d8acffb7bb9c3fb0e9e0b657e06815a090f1fb11ed6900a3c9f384
+              skip: false
+            - digest: sha256:0b1e0ac15fff82dc5fdf12be6de06f91dc97f5fc95df5a29422a4b168dd818a6
+              skip: false
+            - digest: sha256:36c3a913e62f77a82582eb7ce30d255f805c3d1e11d58e1f805e14d33c2bc5a5
+              skip: false
+            - digest: sha256:c9249fdf56138f0d929e2080ae98ee9cb2946f71498fc1484288e6a935b5e5bc
+              skip: false
+            files:
+            - digest: sha256:285dd75965a63335a65e6e0666c4e58ff97e699cc7f0f3c4f5b5aed7569f4f57
+              size: 11460
+              skip: false
+            - digest: sha256:adc6439886a1b13dc65fc47c75149d5ccb7c852677e24f6e756fc68414bca9d9
+              size: 6745295
+              skip: false
+      cp4aOperatorSetup:
+        imageManifest: {}
+        readme:
+          digest: sha256:204f81c55aa75021f072b287718a250c00e0a9ebde4e5adb83178d64ce9309f9
+          size: 15465
+          skip: false
+        resources:
+          resourceDefs:
+            cases:
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            containerImages:
+            - digest: sha256:57f4a80d188f93a989e2e2cc978f4d747530f49b8c4715cb0e3483b399566ed2
+              skip: false
+            - digest: sha256:3e9985dae60c6d00186b5876e8b1d9bd1f3726bbe4d95ab84c3af439b1ad2211
+              skip: false
+            - digest: sha256:76f48815fcad374e7eb8294189f6320e0c01b9fd7fdbfdf59e37ae9fbd71dfff
+              skip: false
+            files:
+            - digest: sha256:94507a546ad452c91aa5d01a5b835f1cc4e836310a0a9df3705a76af18cc8273
+              size: 85619
+              skip: false
+            - digest: sha256:e3b054c1f7b939cac37e504e0db4fe8629dfda3811ddb94d109499f7be0f29d4
+              size: 29068
+              skip: false
+            - digest: sha256:9c05237cdc0377a277f7acad772863a6ce1e06ba231fea220751f00c331c8fcc
+              size: 10736
+              skip: false
+            - digest: sha256:f3a2244a391d1e3f1aa9369cfdbe9e34be99f7f687dd7389b6f18b616073bbcf
+              size: 4050
+              skip: false
+            - digest: sha256:183a7aaab131771a164a7e2a8a626025322d9d0726fea132e8121cfb8ccc47b0
+              size: 778
+              skip: false
+            - digest: sha256:b9ca5faffac89cb0e066ab7d802751206b7fd4da6dd769ea1a7dc4c5db225746
+              size: 2136
+              skip: false
+            - digest: sha256:b3f04c590633c7b5641fb283f399923f10c9eff58a8decfe5b2f1d9b3df22d60
+              size: 610
+              skip: false
+            - digest: sha256:8d88fd3b151590e020525a0b744df730275111b5fb7a0ec8d226c587b04ee6b6
+              size: 2168
+              skip: false
+            - digest: sha256:e5dd169a3e333a8dda7e564ec366223a372ab0fd5a9f21bc1ab2f4df6b3e290c
+              size: 786
+              skip: false
+            - digest: sha256:d851ab5889105b51d16aee70f3da74c50ed002e63080a1c15976d276d833dd5d
+              size: 191
+              skip: false
+            - digest: sha256:5dec42a4f2f3271b7acffb28ca5ceaf0601ae0939a76ce199200f97cebb3a786
+              size: 308
+              skip: false
+            - digest: sha256:9183fe45640d03e21cb5e4a9b509d44419005b9fbc374f109df32b20880fb115
+              size: 1032
+              skip: false
+            - digest: sha256:ffb00f1f509c35078ee07d92cb65681e232645fc13cd87f4daddfb9575007751
+              size: 788
+              skip: false
+            - digest: sha256:15108c68cbf15e583aad697a8305d17f47c344fad6b034100df9d831201e2a85
+              size: 1791
+              skip: false
+            - digest: sha256:8827ed769a9dcb6aad26c8efb307f16fa15a5cd6348999f9a1cd8e93869d76cb
+              size: 1521
+              skip: false
+      ibmcloudEnablement:
+        imageManifest: {}
+        readme:
+          digest: sha256:6636088a46de45ec42c3e4ffd87f6917c385bf05ee43e0aac0bb4bc6bd0fdc37
+          size: 6538
+          skip: false
+        resources:
+          resourceDefs:
+            files:
+            - digest: sha256:3b65d6ac50a1a7b32d656cac7680cf7bcdca13d6b7b6569636babb33efe4c51f
+              size: 99
+              skip: false
+            - digest: sha256:ad8936189d6b11fd42c7a0e82032a3f04d1143bc0ac063d891045c508541880d
+              size: 619
+              skip: false
+            - digest: sha256:c5dfb8d8f76aa67a9a498b79701b80727d0e94d3a841fe742a5116357455a7e5
+              size: 14780
+              skip: false
+            - digest: sha256:c393079fd61ef3461ece2d8c75af2163cf1df3af14cda44accdd4f43d13c28c9
+              size: 14824
+              skip: false
+            - digest: sha256:fa2af72f86bb8e699124151da519948658ec380cbeb11c6f1ad64b81d2f2e3f6
+              size: 6538
+              skip: false
+            - digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+              skip: false
+            - digest: sha256:41a37e9b7ba11c4063e019c915ea45f83428a0dfd756fd78c8c5e514973f0920
+              size: 1514
+              skip: false
+            - digest: sha256:6d9ef44ee3cde8a8dd0040a0639f8eae76f7d22af0cf6921bac7d8f1ea8f70cd
+              size: 6277649
+              skip: false
+            - digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+              skip: false
+            - digest: sha256:2e2c1ee276178668b71f03003f3729b6e87e08062312181680a1157abce35988
+              size: 132344
+              skip: false
+            - digest: sha256:735a86e9ee04c22ef9d64017611ee77a3809ba4fa15ce9d988919679c0f30f39
+              size: 1718
+              skip: false
+            - digest: sha256:036acd5befd3825080ad58176d0fa45fa3b7449aee0493ea398e8abeeefb955a
+              size: 636
+              skip: false
+    license:
+      digest: sha256:354b6c66de02552084a87836027755625da60836ec9777b620c0d1800c157563
+      size: 11346
+      skip: false
+    licenses:
+      icp4a:
+        digest: sha256:d61528267b5aee3e53b440871417d2b22db297f925c6bdfeefbfcd37819c6714
+        size: 42175
+        skip: false
+    readme:
+      digest: sha256:204f81c55aa75021f072b287718a250c00e0a9ebde4e5adb83178d64ce9309f9
+      size: 15465
+      skip: false

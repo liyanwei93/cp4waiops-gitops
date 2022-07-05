@@ -1,0 +1,23 @@
+################################################################################
+#
+# Licensed Materials - Property of IBM
+#
+# (C) Copyright IBM Corp. 2021. All Rights Reserved.
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+###############################################################################
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-cp4a-operator-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: ibm-cp4a-operator
+  publisher: IBM
+  sourceType: grpc
+  image: cp.icr.io/cp/cp4a/ibm-cp-automation-catalog@sha256:76f48815fcad374e7eb8294189f6320e0c01b9fd7fdbfdf59e37ae9fbd71dfff
+  updateStrategy:
+    registryPoll:
+      interval: 45m

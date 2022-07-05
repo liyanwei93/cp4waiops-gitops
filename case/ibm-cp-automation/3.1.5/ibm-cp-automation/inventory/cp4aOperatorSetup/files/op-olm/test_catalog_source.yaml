@@ -1,0 +1,69 @@
+################################################################################
+#
+# Licensed Materials - Property of IBM
+#
+# (C) Copyright IBM Corp. 2021. All Rights Reserved.
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+###############################################################################
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-cp4a-operator-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: ibm-cp4a-operator
+  publisher: IBM
+  sourceType: grpc
+  image: cp.stg.icr.io/cp/cp4a/ibm-cp-automation-catalog@sha256:76f48815fcad374e7eb8294189f6320e0c01b9fd7fdbfdf59e37ae9fbd71dfff
+  updateStrategy:
+    registryPoll:
+      interval: 45m
+---
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: iaf-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IAF Operators
+  publisher: IBM
+  sourceType: grpc
+  image: cp.stg.icr.io/cp/ibm-cp-automation-foundation-catalog:1.2.0
+  updateStrategy:
+    registryPoll:
+      interval: 45m
+
+---
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: iaf-core-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IAF Core Operators
+  publisher: IBM
+  sourceType: grpc
+  image: cp.stg.icr.io/cp/ibm-automation-foundation-core-catalog:1.2.0
+  updateStrategy:
+    registryPoll:
+      interval: 45m
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: opencloud-operators
+  namespace: openshift-marketplace
+spec:
+  displayName: IBMCS Operators
+  publisher: IBM
+  sourceType: grpc
+  image: icr.io/cpopen/ibm-common-service-catalog:latest
+  updateStrategy:
+    registryPoll:
+      interval: 45m
+

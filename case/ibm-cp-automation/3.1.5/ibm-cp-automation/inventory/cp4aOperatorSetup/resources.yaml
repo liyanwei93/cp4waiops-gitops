@@ -1,0 +1,110 @@
+resources:
+  metadata:
+    name: cp4aOperatorSetup
+  resourceDefs:
+    cases:
+    - case: ibm-cp-automation-foundation
+      mediaType: application/vnd.case.core.v1
+      metadata:
+        description: IBM Automation Foundation
+        name: ibmAutomationFoundation
+      repositoryURLs:
+      - https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case
+      version: ">=1.1.0"
+    - case: ibm-process-mining
+      mediaType: application/vnd.case.core.v1
+      metadata:
+        description: IBM Process Mining
+        name: ibmProcessMining
+      repositoryURLs:
+      - https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case
+      version: ">=1.0.2"
+    - case: ibm-robotic-process-automation
+      mediaType: application/vnd.case.core.v1
+      metadata:
+        description: IBM Robotic Process Automation
+        name: ibmRoboticProcessAutomation
+      repositoryURLs:
+      - https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case
+      version: ">=1.0.0"
+    - case: ibm-db2uoperator
+      mediaType: application/vnd.case.core.v1
+      metadata:
+        description: IBM Db2 Operator Bundle for the Db2 Operator
+        name: ibmDb2uOperator
+      repositoryURLs:
+      - https://raw.githubusercontent.com/IBM/cloud-pak/master/repo/case
+      version: ">=4.0.4"
+    containerImages:
+    - image: cp/cp4a/icp4a-operator
+      tag: 21.0.2-IF005
+      digest: sha256:57f4a80d188f93a989e2e2cc978f4d747530f49b8c4715cb0e3483b399566ed2
+      mediaType: application/vnd.docker.distribution.manifest.v2
+      registries:
+      - host: cp.icr.io
+      platform:
+        architecture: amd64
+        os: linux
+    - metadata:
+        operators_operatorframework_io:
+          bundle:
+            cpcicd_ibm_com:
+              targetCatalogs:
+                catalogRefs:
+                - ibm-public: {}
+            mediaType: registry+v1
+      image: cpopen/icp4a-operator-bundle
+      tag: 21.2.5
+      digest: sha256:3e9985dae60c6d00186b5876e8b1d9bd1f3726bbe4d95ab84c3af439b1ad2211
+      mediaType: application/vnd.docker.distribution.manifest.v2
+      registries:
+      - host: icr.io
+      platform:
+        architecture: amd64
+        os: linux
+    - metadata:
+        operators_operatorframework_io:
+          catalog:
+            mediaType: registry+v1
+      image: cp/cp4a/ibm-cp-automation-catalog
+      tag: v21.2.5-20211111.214132-0BA34840C
+      digest: sha256:76f48815fcad374e7eb8294189f6320e0c01b9fd7fdbfdf59e37ae9fbd71dfff
+      mediaType: application/vnd.docker.distribution.manifest.v2
+      registries:
+      - host: cp.icr.io
+      platform:
+        architecture: amd64
+        os: linux
+    files:
+    - ref: airgap.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
+    - ref: launch.sh
+      mediaType: application/vnd.case.resource.script.bash.v1+launcher
+    - ref: launch-impl.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
+    - ref: op-cli/operator.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-cli/role_binding.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-cli/role.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-cli/service_account.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-cli/icp4a_v1_icp4a_crd.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-cli/operator-shared-pvc.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/operator_group.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/subscription.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/catalog_source.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/cv_catalog_source.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/test_catalog_source.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: op-olm/cp4a_catalogsource.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/subscription.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml

@@ -1,0 +1,12 @@
+apiVersion: v1
+containerImages:
+- caseVersions:
+  - 3.1.5
+  category: catalog
+  digest: sha256:76f48815fcad374e7eb8294189f6320e0c01b9fd7fdbfdf59e37ae9fbd71dfff
+  image: cp/cp4a/ibm-cp-automation-catalog
+  platform:
+    architecture: amd64
+    imagetype: singleArch
+    os: linux
+  tag: v21.2.5-20211111.214132-0BA34840C
