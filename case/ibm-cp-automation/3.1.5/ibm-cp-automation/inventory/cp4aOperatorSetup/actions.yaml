@@ -288,6 +288,9 @@ actions:
         case.cli.alias: "install-gitops"
       roles:
         - clusterAdmin
-      requires: "/case/prereqs/k8sDistros/openshift"
+      requires:
+        and: 
+          - "/case/prereqs/k8sDistros/openshift"
+          - "/case/prereqs/client/docker"
       k8sPermissions:
         rules: []

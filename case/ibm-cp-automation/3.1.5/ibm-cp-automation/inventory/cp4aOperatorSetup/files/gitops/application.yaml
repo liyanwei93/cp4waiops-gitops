@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aimanagerapp
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: cp4waiops
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: aimanager33
+    repoURL: http://9.30.232.213:8080
+    targetRevision: 0.0.1
+  syncPolicy:
+    automated: {}

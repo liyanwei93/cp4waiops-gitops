@@ -1,5 +1,0 @@
-apiVersion: v1
-entries:
-  ibm-cp-automation:
-    latestAppVersion: 21.0.2-IF005
-    latestVersion: 3.1.5

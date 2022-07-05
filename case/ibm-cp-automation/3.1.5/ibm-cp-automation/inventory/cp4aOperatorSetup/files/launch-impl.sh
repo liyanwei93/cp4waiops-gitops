@@ -326,6 +326,22 @@ install_gitops() {
     echo "-------------Installing Gitops-------------"
 
     $kubernetesCLI apply -n "${namespace}" -f "${casePath}"/inventory/"${inventory}"/files/gitops/subscription.yaml
+    $kubernetesCLI apply -n "${namespace}" -f "${casePath}"/inventory/"${inventory}"/files/gitops/clusterrolebinding.yaml
+
+    mkdir /opt/charts
+    docker run -d \
+    -p 8080:8080 \
+    -e DEBUG=1 \
+    -e STORAGE=local \
+    -e STORAGE_LOCAL_ROOTDIR=/charts \
+    -v /opt/charts:/charts \
+    chartmuseum/chartmuseum:latest
+
+    helm repo add localrepo http://9.30.232.213:8080
+    cp "${casePath}"/inventory/"${inventory}"/files/gitops/aimanager33-0.0.1.tgz /opt/charts
+    helm search repo localrepo    
+
+    $kubernetesCLI apply -n "${namespace}" -f "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
 
     echo "done"
 

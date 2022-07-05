@@ -108,3 +108,7 @@ resources:
       mediaType: application/vnd.case.resource.k8s.v1+yaml
     - ref: gitops/subscription.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/clusterrolebinding.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/application.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
