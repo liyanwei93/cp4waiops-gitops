@@ -113,3 +113,7 @@ resources:
     - ref: gitops/application.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml
     - ref: gitops/aimanager33-0.0.1.tgz
+    - ref: gitops/install.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
+    - ref: gitops/config.sh
+      mediaType: application/vnd.case.resource.script.bash.v1

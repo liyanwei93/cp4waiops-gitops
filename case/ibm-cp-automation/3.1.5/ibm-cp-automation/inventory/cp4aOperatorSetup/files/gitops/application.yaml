@@ -6,11 +6,11 @@ metadata:
 spec:
   destination:
     namespace: cp4waiops
-    server: https://kubernetes.default.svc
+    server: SERVER
   project: default
   source:
-    chart: aimanager33
-    repoURL: http://9.30.232.213:8080
+    chart: AIMANAGER_CHARTS
+    repoURL: http://HOSTNAME:8080
     targetRevision: 0.0.1
   syncPolicy:
     automated: {}
