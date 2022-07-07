@@ -431,7 +431,7 @@ check_cli_args() {
 
     # Verify kubernetes connection and namespace
     # skip this check for certain actions
-    skip_actions="imageInfo mirrorImages configureCredsAirgap initRegistry startRegistry stopRegistry postInstall validateInstall"
+    skip_actions="launchBootCluster imageInfo mirrorImages configureCredsAirgap initRegistry startRegistry stopRegistry postInstall validateInstall"
     if [[ "$skip_actions" != *$action* ]]; then
         print_client_tool_versions "1"
         check_kube_connection

@@ -399,15 +399,15 @@ It launched a kind cluster, installed following tools and applitions:
 - tekton dashboard ${TEKTON_DASHBOARD_VERSION}
 - tekton cli ${TEKTON_CLI_VERSION}
 - kube dashboard ${KUBE_DASHBOARD_VERSION}
-
+- helm ${HELM_VERSION}
 $(print-console)
 
-For tools you want to run anywhere, create links in a directory defined in your PATH, e.g:
-ln -s -f ${KUBECTL} /usr/local/bin/kubectl
-ln -s -f ${KIND} /usr/local/bin/kind
-ln -s -f ${ARGOCD_CLI} /usr/local/bin/argocd
-ln -s -f ${KUBESEAL_CLI} /usr/local/bin/kubeseal
-ln -s -f ${TEKTON_CLI} /usr/local/bin/tkn
+$(ln -s -f ${KUBECTL} /usr/local/bin/kubectl)
+$(ln -s -f ${KIND} /usr/local/bin/kind)
+$(ln -s -f ${ARGOCD_CLI} /usr/local/bin/argocd)
+$(ln -s -f ${KUBESEAL_CLI} /usr/local/bin/kubeseal)
+$(ln -s -f ${TEKTON_CLI} /usr/local/bin/tkn)
+$(ln -s -f ${HELM_CLI} /usr/local/bin/helm)
 
 EOF
 }
