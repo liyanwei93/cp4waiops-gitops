@@ -368,8 +368,6 @@ install_gitops_application() {
 
     echo "-------------Add Cluster to Argocd-------------"
 
-    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-    echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
     echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
 
@@ -383,6 +381,8 @@ launch_boot_cluster() {
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
 
+    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+    echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
     install_gitops_applicationset
 
     echo "done"

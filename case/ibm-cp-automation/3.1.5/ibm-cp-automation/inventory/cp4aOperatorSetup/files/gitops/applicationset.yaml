@@ -11,11 +11,11 @@ spec:
           argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: '{{ `{{name}}-aimanager` }}'
+      name: aimanager
     spec:
       destination:
         namespace: cp4waiops
-        server: '{{ `{{server}}` }}'
+        server: https://api.lyanwei.cp.fyre.ibm.com:6443
       project: default
       source:
         chart: aimanager33
