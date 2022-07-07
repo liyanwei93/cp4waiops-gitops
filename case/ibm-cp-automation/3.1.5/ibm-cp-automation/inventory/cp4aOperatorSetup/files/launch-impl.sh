@@ -358,6 +358,8 @@ install_gitops_applicationset() {
     echo y | argocd login https://$(hostname):9443 -u admin -p ${ARGOCD_PASSWORD}
 
     HOSTNAME=$(hostname -I | awk '{print $2}')
+    local storageclass=rook-cephfs
+    local storageclassblock=rook-cephfs
     sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
     $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
@@ -366,7 +368,7 @@ install_gitops_applicationset() {
 
 }
 
-install-gitops-application() {
+install_gitops_application() {
 
     echo "-------------Add Cluster to Argocd-------------"
 
@@ -383,9 +385,7 @@ launch_boot_cluster() {
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
 
-    if [[ ${applicationset} == "true" ]]; then
-      install_gitops_applicationset
-    fi
+    install_gitops_applicationset
 
     echo "done"
 

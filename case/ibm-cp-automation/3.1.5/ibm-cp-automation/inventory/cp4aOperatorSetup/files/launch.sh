@@ -53,11 +53,6 @@ registry_port=
 # script version
 version=0.10.0
 
-# gitops parameters
-applicationset=
-storageclass=
-storageclassblock=
-
 # Display usage information with return code (if specified)
 print_usage() {
     # Determine context of call (via cloudctl or script directly) based on presence of cananical json parameter
@@ -915,18 +910,6 @@ while [ "${1-}" != "" ]; do
     --instance | -i)
         shift
         instance="${1}"
-        ;;
-    --applicationset | -i)
-        shift
-        applicationset="${1}"
-        ;;
-    --storageclass | -i)
-        shift
-        storageclass="${1}"
-        ;;
-    --storageclassblock | -i)
-        shift
-        storageclassblock="${1}"
         ;;
     --args | -r | --)
         shift
