@@ -232,7 +232,7 @@ function install-helm {
   info "Installing Helm ${HELM_VERSION} ..."
 
   if [[ ! -f ${HELM_CLI} ]]; then
-    wget https://get.helm.sh/helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz || exit -1
+    curl -fsSLO https://get.helm.sh/helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz || exit -1
     tar -xvf helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz
     mv ${HOSTOS}-${SAFEHOSTARCH}/helm ${HELM_CLI}
     rm -rf ${HOSTOS}-${SAFEHOSTARCH} helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz
@@ -360,23 +360,25 @@ function install-helm-repo {
  
   echo "-------------Installing Helm Repo-------------"
 
-  mkdir /opt/charts
-  docker run -d \
-  -p 8080:8080 \
-  -e DEBUG=1 \
-  -e STORAGE=local \
-  -e STORAGE_LOCAL_ROOTDIR=/charts \
-  -v /opt/charts:/charts \
-  chartmuseum/chartmuseum:latest
-
-  sleep 10s
-
-  HOSTNAME=$(hostname)
-  ${HELM_CLI} repo add localrepo http://${HOSTNAME}:8080
-  cp ${ROOT_DIR}/aimanager33-0.0.1.tgz /opt/charts
   ${HELM_CLI} search repo localrepo
+  if [[ $? != 0 ]]; then
+    mkdir /opt/charts
+    docker run -d \
+    -p 8080:8080 \
+    -e DEBUG=1 \
+    -e STORAGE=local \
+    -e STORAGE_LOCAL_ROOTDIR=/charts \
+    -v /opt/charts:/charts \
+    chartmuseum/chartmuseum:latest
 
-  echo "done"
+    sleep 5s
+
+    HOSTNAME=$(hostname -I | awk '{print $1}')
+    ${HELM_CLI} repo add localrepo http://${HOSTNAME}:8080
+    cp ${ROOT_DIR}/aimanager33-0.0.1.tgz /opt/charts
+  else
+    echo "Helm Repo detected."
+  fi
 
   info "Installing Helm Repo http://${HOSTNAME}:8080 ... OK"
 
