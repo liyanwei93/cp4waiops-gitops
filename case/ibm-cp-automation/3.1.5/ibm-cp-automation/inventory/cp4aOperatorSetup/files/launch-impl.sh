@@ -354,17 +354,13 @@ install_gitops_applicationset() {
 
     echo "-------------Install Gitops ApplicationSet-------------"
 
-    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-    echo y | argocd login https://$(hostname):9443 -u admin -p ${ARGOCD_PASSWORD}
-
     HOSTNAME=$(hostname -I | awk '{print $2}')
     local storageclass=rook-cephfs
     local storageclassblock=rook-cephfs
+    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
     sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
     $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
-
-    echo "done"
 
 }
 
@@ -372,6 +368,8 @@ install_gitops_application() {
 
     echo "-------------Add Cluster to Argocd-------------"
 
+    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+    echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
     echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
 
