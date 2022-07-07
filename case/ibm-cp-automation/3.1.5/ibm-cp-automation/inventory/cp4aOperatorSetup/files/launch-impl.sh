@@ -371,7 +371,7 @@ install-gitops-application() {
     echo "-------------Add Cluster to Argocd-------------"
 
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
-    echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ${cluster_name}
+    echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
 
     echo "done"
 
