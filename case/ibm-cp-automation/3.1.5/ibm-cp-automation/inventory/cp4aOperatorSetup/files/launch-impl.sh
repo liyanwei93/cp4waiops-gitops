@@ -354,7 +354,7 @@ launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
 
-    ./"${casePath}"/inventory/"${inventory}"/files/gitops/install.sh
+    "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
 
     echo "done"
 

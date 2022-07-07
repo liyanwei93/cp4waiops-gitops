@@ -1,2 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-icr.io,cpopen/ibm-zen-cpp-operator,1.1.2,sha256:9067acd2485cbd9d1c22382639fcd5e553aa2dec8e7b3003efa13456ed014bf0,LIST,"","","",0,CASE,"",""

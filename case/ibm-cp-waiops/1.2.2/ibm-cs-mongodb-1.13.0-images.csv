@@ -1,5 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-icr.io,cpopen/ibm-mongodb-operator,1.13.0,sha256:36eb4099ae8c59ac09977b609acbf238bbbac377dad515c1423714ad655939d2,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-mongodb,3.18.0-mongodb.4.0.24,sha256:f7e7c65dc9b2e26789f660e91c8d5184d158274606c53a7fe3b875df07d008e0,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-mongodb-install,3.18.0,sha256:9de44461d34318a1ef5cd8b0e7b418ea41a5d333c5b58a9e5772dec08aef07d7,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-mongodb-exporter,3.18.0,sha256:e72d950b681d9bd60e7174add32518251ff39fb1b905217b74b8a30a7748c2df,LIST,"","","",0,CASE,"",""

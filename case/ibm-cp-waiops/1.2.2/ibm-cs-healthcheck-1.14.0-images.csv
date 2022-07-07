@@ -1,6 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-icr.io,cpopen/ibm-healthcheck-operator,3.19.0,sha256:b549ce1893296c0456e48c44594adf2fa4e6f7c2f06a703c72656bbdb92fe5eb,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/system-healthcheck-service,3.9.12,sha256:ce22063976ecf283b256723a9604308810524887904584c51d51414b3a3a83b3,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/icp-memcached,3.9.11,sha256:4c23c710998c61f89f147dcc07ee707413341d71fddbf4025865b2e26715503d,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/must-gather,4.5.16,sha256:4c733968e6f94ecc2460466d457a9156ba64640596f6fe6d74b559b5a1dcae09,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/must-gather-service,1.2.13,sha256:00cb913e0501db0fb94b6c521f5aa47fd0f52e5e2407c93173316c9c6aa1a5f1,LIST,"","","",0,CASE,"",""

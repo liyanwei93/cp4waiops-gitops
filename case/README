@@ -4,5 +4,5 @@ oc ibm-pak get ibm-cp-automation --skip-verify=true
 ```
 
 ```
-oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-automation/3.1.5/ibm-cp-automation-3.1.5.tgz --action launch-boot-cluster --inventory cp4aOperatorSetup  --skip-verify=true
+oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-automation/3.1.5/ibm-cp-automation-3.1.5.tgz --action launch-boot-cluster --inventory cp4aOperatorSetup
 ```

@@ -1,7 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-icr.io,cpopen/cpfs/ibm-license-service-reporter-ui,1.15.0,sha256:972d72e4e0247c2f424d457c380a3390e219ddb7df9c0bee04bee3d4aa4ade7d,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-license-service-reporter,1.15.0,sha256:1fbed65c648ed6d5dec422e9451a930a26c9a5165f702daae16c24a535455231,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-postgresql,1.15.0,sha256:0ac5172acf84745fb1782e6b4df373e8f191d16d0d03fd62a088d38400ce593e,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-licensing,1.15.0,sha256:f6e857e3a3a3665b5dfee8c216788fed3ebc20b8dd821a2aca3556230624c095,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/ibm-licensing-operator,1.15.0,sha256:4a8c5338ea8fdfe403c44cdb559dccb97a8d6e550f4de59b0fc3422905691cdc,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/ibm-licensing-usage,1.15.0,sha256:12e897932b64298300c9c015c575dd2dc3ca92dbc8eac69f945b5280befac58c,LIST,"","","",0,CASE,"",""

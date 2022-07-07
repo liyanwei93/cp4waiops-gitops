@@ -1,8 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-quay.io,opencloudio/ibm-platform-api-operator,3.9.1,sha256:b4dba37f6cbf1639719be7013b88f352c806e713e143f5a03e5fde03a2a17fc6,LIST,"","","",0,CASE,"",""
-quay.io,opencloudio/icp-platform-api,3.7.1,sha256:836be6b63aed69331bc7860ea1eb5ff1bd15be0114ac0aafd1b515d25a20d800,LIST,"","","",0,CASE,"",""
-quay.io,opencloudio/audit-syslog-service,1.0.6,sha256:4c02a23b8cbee2fdf0bda3344945590dafad8fae18aa1dfcd0c808e5a569cdbf,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/ibm-platform-api-operator,3.20.0,sha256:70fc2af15e8b4e2b9995dce136a43e7225c62cfcf385c11821b6ab37a03098c8,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/icp-platform-api,3.18.0,sha256:81cf4b4ed848b1ff0646733bfcb18a21cdb0276e373dd79efe18860bc323b431,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/audit-syslog-service,1.9.0,sha256:25c7f8745ca486bb42f01ca5269c745cf8016cee9f66485b8d6283612bcd205c,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/cpfs/kubectl,v1.15.9.16,sha256:2449e758071510981f207c54fa572b40eb714c74184427ad365d4a99cbb1c7d2,LIST,"","","",0,CASE,"",""

@@ -1,3 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-quay.io,opencloudio/ibm-crossplane-operator,1.0.0,sha256:bb23220d99376008e61654eace5f9c436a6661848ebb3e0da75dde90ed1e3ae3,LIST,"","","",0,CASE,"",""
-quay.io,opencloudio/ibm-crossplane-bedrock-shim-config,1.0.0,sha256:7774b5642cb49dbdff7371123b1d0fb705ecc5019c0a5928c704d69127a89e59,IMAGE,linux,amd64,"",0,CASE,"",""

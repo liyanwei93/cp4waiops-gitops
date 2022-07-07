@@ -1,5 +1,0 @@
-registry,image_name,tag,digest,mtype,os,arch,variant,insecure,digest_source,image_type,groups
-cp.icr.io,cp/cp4waiops/ibm-stolon,v3.3.2-20220511.0601-372032032,sha256:372032032672b7c8ff393dabcf3b7ad91014c999e483488d091af2323b748b5b,LIST,"","","",0,CASE,"",""
-icr.io,cpopen/ibm-postgreservice-operator-bundle,v3.3.2-20220511.0601-05cbfc6ce,sha256:05cbfc6ce0bcd2a1a07bcf09089944b1ae3e225c22dcb80da7145641e996d99d,IMAGE,linux,amd64,"",0,CASE,olm-bundle,""
-icr.io,cpopen/ibm-postgreservice-operator-catalog,v3.3.2-20220511.0601-931ca3d92,sha256:931ca3d92b092ba908e373cbbbd16221ec201adfec6fc832e52a2059b2a6ecbd,LIST,"","","",0,CASE,olm-catalog,""
-icr.io,cpopen/ibm-postgreservice-operator,v3.3.2-20220511.0601-eb45d8ca3,sha256:eb45d8ca37a4258941ffe38deec06d11d4076a5d390fbc839727605937b22b74,LIST,"","","",0,CASE,"",""
