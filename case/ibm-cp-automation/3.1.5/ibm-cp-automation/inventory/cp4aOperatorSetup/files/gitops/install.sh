@@ -232,8 +232,10 @@ function install-helm {
   info "Installing Helm ${HELM_VERSION} ..."
 
   if [[ ! -f ${HELM_CLI} ]]; then
-    curl -fsSLo ${HELM_CLI} https://get.helm.sh/helm-${HELM_VERSION}-${SAFEHOSTARCH}.tar.gz || exit -1
-    chmod +x ${HELM_CLI}
+    wget https://get.helm.sh/helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz || exit -1
+    tar -xvf helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz
+    mv ${HOSTOS}-${SAFEHOSTARCH}/helm ${HELM_CLI}
+    rm -rf ${HOSTOS}-${SAFEHOSTARCH} helm-${HELM_VERSION}-${HOSTOS}-${SAFEHOSTARCH}.tar.gz
   else
     echo "Helm CLI ${HELM_VERSION} detected."
   fi
@@ -280,7 +282,6 @@ function install-tekton {
 
   ${KUBECTL} apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.6/git-clone.yaml
   ${KUBECTL} apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/ansible-runner/0.2/ansible-runner.yaml
-  ${KUBECTL} apply -f ${ROOT_DIR}/../tekton/ -R
 
   patch-sa-pull-secret default -n default
 
@@ -372,7 +373,7 @@ function install-helm-repo {
 
   HOSTNAME=$(hostname)
   ${HELM_CLI} repo add localrepo http://${HOSTNAME}:8080
-  cp "${casePath}"/inventory/"${inventory}"/files/gitops/aimanager33-0.0.1.tgz /opt/charts
+  cp ${ROOT_DIR}/aimanager33-0.0.1.tgz /opt/charts
   ${HELM_CLI} search repo localrepo
 
   echo "done"
