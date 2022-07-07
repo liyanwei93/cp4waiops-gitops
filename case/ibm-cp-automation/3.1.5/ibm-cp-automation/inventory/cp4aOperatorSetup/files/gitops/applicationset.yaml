@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: aimanagerappset
+  namespace: argocd
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: '{{ `{{name}}-aimanager` }}'
+    spec:
+      destination:
+        namespace: cp4waiops
+        server: '{{ `{{server}}` }}'
+      project: default
+      source:
+        chart: AIMANAGER_CHARTS
+        repoURL: http://HOSTNAME:8080
+        targetRevision: 0.0.1
+        helm:
+          parameters:
+            - name: spec.aiManager.instanceName
+              value: 'aiopsinstance'
+            - name: spec.aiManager.namespace
+              value: 'cp4waiops'
+            - name: spec.aiManager.size
+              value: 'small'
+            - name: spec.imageCatalog
+              value: 'icr.io/cpopen/ibm-operator-catalog:latest'
+            - name: spec.aiManager.channel
+              value: 'v3.4'
+            - name: spec.storageClass
+              value: 'STORAGECLASS'
+            - name: spec.storageClassLargeBlock
+              value: 'STORAGECLASSBLOCK'
+      ignoreDifferences:
+        - group: orchestrator.aiops.ibm.com
+          jsonPointers:
+            - /spec/pakModules
+          kind: Installation
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

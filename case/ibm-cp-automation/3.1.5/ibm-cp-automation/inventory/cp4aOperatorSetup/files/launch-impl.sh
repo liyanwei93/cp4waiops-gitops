@@ -350,30 +350,42 @@ install_gitops() {
 
 }
 
+install_gitops_applicationset() {
+
+    echo "-------------Install Gitops ApplicationSet-------------"
+
+    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+    echo y | argocd login https://$(hostname):9443 -u admin -p ${ARGOCD_PASSWORD}
+
+    HOSTNAME=$(hostname -I | awk '{print $2}')
+    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
+    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
+    $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
+
+    echo "done"
+
+}
+
+install-gitops-application() {
+
+    echo "-------------Add Cluster to Argocd-------------"
+
+    OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
+    echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ${cluster_name}
+
+    echo "done"
+
+}
+
 launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
 
-    echo "done"
-
-}
-
-install_gitops_application() {
-
-    echo "-------------Install Gitops Application-------------"
-
-    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-    OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
-    echo y | argocd login https://$(hostname):9443 -u admin -p ${ARGOCD_PASSWORD}
-    echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp_cluster
-
-    HOSTNAME=$(hostname -I | awk '{print $2}')
-    sed -i 's|SERVER|'"ocp_cluster"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    sed -i 's|AIMANAGER_CHARTS|'"aimanager33"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    if [[ ${applicationset} == "true" ]]; then
+      install_gitops_applicationset
+    fi
 
     echo "done"
 
