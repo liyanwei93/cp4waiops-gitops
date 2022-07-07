@@ -303,7 +303,6 @@ actions:
         case.cli.alias: "launch-boot-cluster"
       roles:
         - clusterAdmin
-      requires: "/case/prereqs/client/docker"
       k8sPermissions:
         rules: []
 
@@ -315,6 +314,5 @@ actions:
         case.cli.alias: "install-gitops-application"
       roles:
         - clusterAdmin
-      requires: "/case/prereqs/client/docker"
       k8sPermissions:
         rules: []
