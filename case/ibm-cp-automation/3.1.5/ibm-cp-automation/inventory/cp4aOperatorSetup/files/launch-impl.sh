@@ -369,7 +369,7 @@ install_gitops_application() {
     echo y | argocd login https://$(hostname):9443 -u admin -p ${ARGOCD_PASSWORD}
     echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp_cluster
 
-    HOSTNAME=$(hostname -I | awk '{print $1}')
+    HOSTNAME=$(hostname -I | awk '{print $2}')
     sed -i 's|SERVER|'"ocp_cluster"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|AIMANAGER_CHARTS|'"aimanager33"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml

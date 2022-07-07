@@ -371,11 +371,12 @@ function install-helm-repo {
     -v /opt/charts:/charts \
     chartmuseum/chartmuseum:latest
 
+    cp ${ROOT_DIR}/aimanager33-0.0.1.tgz /opt/charts
     sleep 5s
 
-    HOSTNAME=$(hostname -I | awk '{print $1}')
+    HOSTNAME=$(hostname -I | awk '{print $2}')
     ${HELM_CLI} repo add localrepo http://${HOSTNAME}:8080
-    cp ${ROOT_DIR}/aimanager33-0.0.1.tgz /opt/charts
+
   else
     echo "Helm Repo detected."
   fi
