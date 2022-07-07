@@ -229,6 +229,15 @@ run_action() {
     install)
         install
         ;;
+    installGitops)
+        install_gitops
+        ;;
+    launchBootCluster)
+        launch_boot_cluster
+        ;;
+    installGitopsApplication)
+        install_gitops_application
+        ;;
     installCatalog)
         install_catalog
         ;;

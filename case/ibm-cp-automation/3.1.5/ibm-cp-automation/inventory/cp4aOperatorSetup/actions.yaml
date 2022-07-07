@@ -300,7 +300,7 @@ actions:
         name: "launchBootCluster"
         description: "launch Boot Cluster"
         case.launcher.type: "script"
-        case.cli.alias: "launch_boot_cluster"
+        case.cli.alias: "launch-boot-cluster"
       roles:
         - clusterAdmin
       requires: "/case/prereqs/client/docker"
@@ -312,7 +312,7 @@ actions:
         name: "installGitopsApplication"
         description: "install Gitops Application"
         case.launcher.type: "script"
-        case.cli.alias: "install_gitops_application"
+        case.cli.alias: "install-gitops-application"
       roles:
         - clusterAdmin
       requires: "/case/prereqs/client/docker"

@@ -133,3 +133,42 @@ actions:
           - "/case/prereqs/client/docker"
       k8sPermissions:
         rules: []
+
+    installGitops:
+      metadata:
+        name: "installGitops"
+        description: "Installs Gitops"
+        case.launcher.type: "script"
+        case.cli.alias: "install-gitops"
+      roles:
+        - clusterAdmin
+      requires:
+        and: 
+          - "/case/prereqs/k8sDistros/openshift"
+          - "/case/prereqs/client/docker"
+      k8sPermissions:
+        rules: []
+
+    launchBootCluster:
+      metadata:
+        name: "launchBootCluster"
+        description: "launch Boot Cluster"
+        case.launcher.type: "script"
+        case.cli.alias: "launch-boot-cluster"
+      roles:
+        - clusterAdmin
+      requires: "/case/prereqs/client/docker"
+      k8sPermissions:
+        rules: []
+
+    installGitopsApplication:
+      metadata:
+        name: "installGitopsApplication"
+        description: "install Gitops Application"
+        case.launcher.type: "script"
+        case.cli.alias: "install-gitops-application"
+      roles:
+        - clusterAdmin
+      requires: "/case/prereqs/client/docker"
+      k8sPermissions:
+        rules: []

@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aimanagerapp
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: cp4waiops
+    server: SERVER
+  project: default
+  source:
+    chart: AIMANAGER_CHARTS
+    repoURL: http://HOSTNAME:8080
+    targetRevision: 0.0.1
+  syncPolicy:
+    automated: {}

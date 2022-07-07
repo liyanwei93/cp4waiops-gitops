@@ -82,6 +82,17 @@ resources:
       ref: launch.sh
     - mediaType: application/vnd.case.resource.k8s.v1+yaml
       ref: subscription.yaml
+    - ref: gitops/subscription.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/clusterrolebinding.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/application.yaml
+      mediaType: application/vnd.case.resource.k8s.v1+yaml
+    - ref: gitops/aimanager33-0.0.1.tgz
+    - ref: gitops/install.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
+    - ref: gitops/config.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
     containerImages:
     - image: cpopen/ibm-aiops-orchestrator-bundle
       digest: sha256:792f165a0f18d061d11c9349bc478baecdf9bb23c3e1a509f7555ad691dde2fd
