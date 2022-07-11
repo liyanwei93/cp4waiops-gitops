@@ -360,7 +360,7 @@ install_gitops_applicationset() {
     local registry=v2
     local username=admin
     local password=admin
-    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|HOSTNAME|'"$(hostname)"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|REGISTRY|'"${registry}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
