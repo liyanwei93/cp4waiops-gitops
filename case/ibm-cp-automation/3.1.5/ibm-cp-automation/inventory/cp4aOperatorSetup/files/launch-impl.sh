@@ -354,13 +354,13 @@ install_gitops_applicationset() {
 
     echo "-------------Install Gitops ApplicationSet-------------"
 
-    HOSTNAME=$(hostname -I | awk '{print $2}')
+    HOSTNAME=$(hostname)
     local storageclass=rook-cephfs
     local storageclassblock=rook-cephfs
     local registry=v2
     local username=admin
     local password=admin
-    sed -i 's|HOSTNAME|'"$(hostname)"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|REGISTRY|'"${registry}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
