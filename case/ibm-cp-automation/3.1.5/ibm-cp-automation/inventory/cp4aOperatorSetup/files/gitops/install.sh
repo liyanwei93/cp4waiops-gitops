@@ -139,13 +139,19 @@ nodes:
     - containerPort: 30445
       hostPort: 9445
       listenAddress: "0.0.0.0"
+    - containerPort: 30080
+      hostPort: 9080
+      listenAddress: "0.0.0.0"
+    - containerPort: 30043
+      hostPort: 9043
+      listenAddress: "0.0.0.0"
+    - containerPort: 30088
+      hostPort: 9088
+      listenAddress: "0.0.0.0"
+    - containerPort: 30022
+      hostPort: 9022
+      listenAddress: "0.0.0.0"
 $(print-extra-port-mappings)
-  - role: worker
-    image: kindest/node:${K8S_VERSION}
-  - role: worker
-    image: kindest/node:${K8S_VERSION}
-  - role: worker
-    image: kindest/node:${K8S_VERSION}
 EOF
 
   ${KIND} get kubeconfig --name ${KIND_CLUSTER_NAME} >/dev/null 2>&1 || ${KIND} create cluster --name=${KIND_CLUSTER_NAME} --config="${KIND_CONFIG_FILE}"
@@ -385,6 +391,77 @@ function install-helm-repo {
 
 }
 
+# Install Gitlab
+####################
+
+function install-gitlab {
+  info "Installing Gitlab ..."
+ 
+  echo "-------------Installing Gitlab-------------"
+
+  ${HELM_CLI} list -n gitlab | grep gitlab
+  if [[ $? != 0 ]]; then
+
+    ${KUBECTL} get ns -o name | grep -q gitlab || ${KUBECTL} create namespace gitlab
+
+    ${HELM_CLI} repo add gitlab https://charts.gitlab.io/
+    ${HELM_CLI} repo update
+    ${HELM_CLI} upgrade --install gitlab gitlab/gitlab \
+      --set global.edition=ce \
+      --set global.hosts.domain=$(hostname) \
+      --set certmanager-issuer.email=me@example.com \
+      --set gitlab-runner.install=false \
+      --namespace gitlab
+
+    ${KUBECTL} patch service/gitlab-nginx-ingress-controller -n gitlab -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30043, "port": 443},{"name":"gitlab-shell", "nodePort": 30022, "port": 22},{"name":"http", "nodePort": 30080, "port": 80}]}}'
+
+    wait-deployment gitlab-webservice-default gitlab
+
+  else
+    echo "Gitlab detected."
+  fi
+
+  info "Installing Gitlab https://gitlab.$(hostname):9043 ... OK"
+
+}
+
+# Push to Gitlab
+###################
+
+function push-gitlab {
+  info "Pushing to Gitlab ..."
+ 
+  echo "-------------Creating Gitlab Repo-------------"
+
+  GITLAB_PASSWORD=$(${KUBECTL} -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
+
+  git clone https://github.com/IBM/cp4waiops-gitops.git
+  cd cp4waiops-gitops
+  git remote remove origin
+  git remote add origin https://root:${GITLAB_PASSWORD}@gitlab.$(hostname):9043/root/cp4waiops-gitops.git
+  git -c http.sslVerify=false push origin main
+
+  info "Pushing to Gitlab ... OK"
+
+}
+
+# Connect Gitlab Repo to Argocd
+###################
+
+function argocd-gitlab-connect {
+  info "Connect Gitlab Repo to Argocd ..."
+ 
+  echo "-------------Connect Gitlab Repo to Argocd-------------"
+
+  ARGOCD_PASSWORD="$($kubernetesCLI -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+  GITLAB_PASSWORD=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
+  echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
+  argocd repo add https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git --username root --password ${GITLAB_PASSWORD} --insecure-skip-server-verification
+
+  info "Connect Gitlab Repo to Argocd ... OK"
+
+}
+
 ####################
 # Print summary after install
 ####################
@@ -419,11 +496,16 @@ EOF
 function print-console {
   ARGOCD_PASSWORD="$(${KUBECTL} -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
   DASHBOARD_TOKEN="$(${KUBECTL} -n kubernetes-dashboard get secret $(${KUBECTL} -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")"
+  GITLAB_PASSWORD=$(${KUBECTL} -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
   cat << EOF
 To access Argo CD UI, open https://$(hostname):9443 in browser.
 - username: admin
 - password: ${ARGOCD_PASSWORD}
+
+To access Gitlab UI, open https://gitlab.$(hostname):9043 in browser.
+- username: root
+- password: ${GITLAB_PASSWORD}
 
 To access Tekton Dashboard UI, open http://$(hostname):9097 in browser.
 
@@ -563,7 +645,9 @@ case $1 in
     install-tekton
     install-tekton-cli
     install-helm
-    install-helm-repo
+    install-gitlab
+    push-gitlab
+    argocd-gitlab-connect
     print-summary
     ;;
   "cluster-config")

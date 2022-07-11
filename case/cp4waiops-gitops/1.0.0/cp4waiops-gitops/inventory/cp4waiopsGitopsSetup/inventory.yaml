@@ -1,7 +1,0 @@
-inventory:
-  k8sScope: cluster
-  metadata:
-    description: Setup files for network restricted Gitops
-    displayName: Gitops Setup
-    name: cp4waiopsGitopsSetup
-    case.launcher.isdefault: true

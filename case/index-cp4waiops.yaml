@@ -1,5 +1,0 @@
-apiVersion: v1
-entries:
-  cp4waiops-gitops:
-    latestAppVersion: 1.0.0
-    latestVersion: 1.0.0

@@ -357,10 +357,16 @@ install_gitops_applicationset() {
     HOSTNAME=$(hostname -I | awk '{print $2}')
     local storageclass=rook-cephfs
     local storageclassblock=rook-cephfs
-    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
-    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
-    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
-    $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/applicationset.yaml
+    local registry=v2
+    local username=admin
+    local password=admin
+    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|REGISTRY|'"${registry}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|USERNAME|'"${username}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|PASSWORD|'"${password}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
 
 }
 
@@ -380,11 +386,7 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
-
-    ARGOCD_PASSWORD="$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-    echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
     install_gitops_applicationset
-
     echo "done"
 
 }
