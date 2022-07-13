@@ -411,6 +411,11 @@ parse_dynamic_args() {
             v="${arr[${idx}]}"
             log_level="${v}"
             ;;
+        --storage)
+            idx=$((idx + 1))
+            v="${arr[${idx}]}"
+            storage_class="${v}"
+            ;;
         --clean)
             registry_clean=1
             ;;

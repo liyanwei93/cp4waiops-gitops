@@ -263,8 +263,16 @@ install_gitops_applicationset() {
     echo "-------------Install Gitops ApplicationSet-------------"
 
     HOSTNAME=$(hostname)
-    local storageclass=rook-cephfs
-    local storageclassblock=rook-cephfs
+    if [[ -z $storage_class ]]; then
+        echo "-------------storageclass is $storage_class-------------"
+        local storageclass=rook-cephfs
+        local storageclassblock=rook-cephfs
+    else
+        echo "-------------storageclass is $storage_class-------------"
+        local storageclass=$storage_class
+        local storageclassblock=$storage_class
+    fi
+
     local registry=v2
     local username=admin
     local password=admin

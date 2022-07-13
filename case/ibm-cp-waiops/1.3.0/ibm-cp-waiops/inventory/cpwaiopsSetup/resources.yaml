@@ -87,15 +87,8 @@ resources:
       ref: launch.sh
     - mediaType: application/vnd.case.resource.k8s.v1+yaml
       ref: subscription.yaml
-    - ref: gitops/subscription.yaml
-      mediaType: application/vnd.case.resource.k8s.v1+yaml
-    - ref: gitops/clusterrolebinding.yaml
-      mediaType: application/vnd.case.resource.k8s.v1+yaml
-    - ref: gitops/applicationset.yaml
-      mediaType: application/vnd.case.resource.k8s.v1+yaml
     - ref: gitops/application.yaml
       mediaType: application/vnd.case.resource.k8s.v1+yaml
-    - ref: gitops/aimanager33-0.0.1.tgz
     - ref: gitops/install.sh
       mediaType: application/vnd.case.resource.script.bash.v1
     - ref: gitops/config.sh
