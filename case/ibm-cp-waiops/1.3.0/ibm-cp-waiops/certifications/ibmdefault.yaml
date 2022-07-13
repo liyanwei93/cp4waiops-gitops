@@ -1,0 +1,16 @@
+certification:
+  metadata:
+    name: ibmdefault
+  id: 8dc39971-51d4-4a75-9025-10459f3fcd20
+  provider: ibm
+  type: ccp
+  issueDate: 04/29/2021
+  expirationDate: 04/30/2022
+  terms: >-
+    Valid from date of issue. Security vulnerability management and enhancements
+    are delivered on the latest version of the chart and images
+resources:
+  resourceDefs:
+    files:
+      - ref: ExternalSecurityReport.pdf
+        mediaType: application/pdf

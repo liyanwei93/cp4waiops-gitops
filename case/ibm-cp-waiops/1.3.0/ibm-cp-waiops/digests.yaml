@@ -1,0 +1,94 @@
+digests:
+  digestDefs:
+    case:
+      digest: sha256:905d98039fcf7229e85af9eb3feccd9465a6ebc02920e4cff1796cb22514d3a9
+      size: 20043
+      skip: false
+    inventory:
+      cpwaiopsSetup:
+        imageManifest: {}
+        readme:
+          digest: sha256:e24296cef60271e930aaaa9a599da6d359b7ee56f2b4f19097284a53f5f98e2d
+          size: 15
+          skip: false
+        resources:
+          resourceDefs:
+            cases:
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            - digest: RANGE:""
+              skip: true
+            containerImages:
+            - digest: sha256:a34cf98ddb2ea747d9bb0e3baf0b5c0b87ae93841a9eb6be98ed73f67fe1c8e7
+              skip: false
+            - digest: sha256:c724f40aecab317f3b624090f4de5dcbf201ab2aaf226513de5f049901d30189
+              skip: false
+            - digest: sha256:6c10e87e44fdc9d1af04dd950a74474fba4671e659522f7acee12f867bde4e97
+              skip: false
+            - digest: sha256:b2d8e0138b711a5497898d945815ab3c0d59038b519fbfcd153bd9f832ff97ae
+              skip: false
+            - digest: sha256:bb7d8cfbbd099b1e32315c7c9ae68dc8423d6bfdfa46c5678e49141d8d5d0ca9
+              skip: false
+            files:
+            - digest: sha256:b9b7b3a94ee657fb328684f1f8647dbc4a15a05a2c6e319ddd5818e972c700f3
+              size: 111038
+              skip: false
+            - digest: sha256:4d62d31bd818235aa1fa32c7793e2b373ffded6bb7a87c99f6625a1203f029a8
+              size: 362
+              skip: false
+            - digest: sha256:306aef9effda40ffa0deab2e231b78d06d5726e11fa207bb4bc842e854dffdeb
+              size: 8152
+              skip: false
+            - digest: sha256:30d16a13b3573cd64878e52ee85f33ddca58f2d6b87d38e1151d30c05ddb4dde
+              size: 31975
+              skip: false
+            - digest: sha256:1cd900a9f272d189ac0f5bc5991bab716d1a8ba3de637f69e2a8d0b33b17834d
+              size: 296
+              skip: false
+    license:
+      digest: sha256:354b6c66de02552084a87836027755625da60836ec9777b620c0d1800c157563
+      size: 11346
+      skip: false
+    licenses:
+      license:
+        digest: sha256:aa1b67118af0f2cf5ae83933395cf5d39b32da87dc7053e975d40630775c9c05
+        size: 124088
+        skip: false
+      nonIbmLicense:
+        digest: sha256:788814d560537eddaaef31bc8fb56f030edce4fa6fc20f04c53718153a6f6697
+        size: 1011475
+        skip: false
+      notices:
+        digest: sha256:4538da307abaab4a1b75df3b9e031c36a5da1656f77867ffb7f0d5ab5f754a46
+        size: 4752856
+        skip: false
+    readme:
+      digest: sha256:a997187a926bc6d41efb1eceabf9f15a656a007083aee57e9b7679daca6cf9ea
+      size: 9651
+      skip: false

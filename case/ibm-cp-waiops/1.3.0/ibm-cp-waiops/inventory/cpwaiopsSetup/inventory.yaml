@@ -1,0 +1,7 @@
+inventory:
+  k8sScope: cluster
+  metadata:
+    description: Setup files for network restricted CP4WAIOps
+    displayName: CP4WAIOps Setup
+    name: cpwaiopsSetup
+    case.launcher.isdefault: true

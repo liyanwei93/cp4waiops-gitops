@@ -1,0 +1,10 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: ibm-cp-waiops-catalog
+  namespace: openshift-marketplace
+spec:
+  displayName: IBM Cloud Pak for Watson AIOps Catalog
+  publisher: IBM
+  sourceType: grpc
+  image: icr.io/cpopen/ibm-cp-waiops-case-bundle-catalog@sha256:c724f40aecab317f3b624090f4de5dcbf201ab2aaf226513de5f049901d30189
