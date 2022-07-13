@@ -264,7 +264,7 @@ install_gitops_applicationset() {
 
     HOSTNAME=$(hostname)
     if [[ -z $storage_class ]]; then
-        echo "-------------storageclass is $storage_class-------------"
+        echo "-------------storageclass is rook-cephfs-------------"
         local storageclass=rook-cephfs
         local storageclassblock=rook-cephfs
     else
@@ -273,15 +273,12 @@ install_gitops_applicationset() {
         local storageclassblock=$storage_class
     fi
 
-    local registry=v2
-    local username=admin
-    local password=admin
     sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|REGISTRY|'"${registry}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    sed -i 's|USERNAME|'"${username}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    sed -i 's|PASSWORD|'"${password}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|USERNAME|'"${user}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|PASSWORD|'"${pass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     $kubernetesCLI apply -f "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
 
 }
@@ -300,7 +297,9 @@ install_gitops_application() {
 launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
-
+    if [[ ! -z $registry ]]; then
+        "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
+    fi
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
     install_gitops_applicationset
     echo "done"

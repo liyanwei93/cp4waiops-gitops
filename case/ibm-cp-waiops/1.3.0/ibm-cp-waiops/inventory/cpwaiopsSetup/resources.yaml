@@ -93,6 +93,8 @@ resources:
       mediaType: application/vnd.case.resource.script.bash.v1
     - ref: gitops/config.sh
       mediaType: application/vnd.case.resource.script.bash.v1
+    - ref: gitops/load-image.sh
+      mediaType: application/vnd.case.resource.script.bash.v1
     containerImages:
     - image: cpopen/ibm-aiops-orchestrator-bundle
       digest: sha256:a34cf98ddb2ea747d9bb0e3baf0b5c0b87ae93841a9eb6be98ed73f67fe1c8e7
