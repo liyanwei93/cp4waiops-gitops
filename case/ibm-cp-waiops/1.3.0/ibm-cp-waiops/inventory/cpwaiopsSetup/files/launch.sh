@@ -419,6 +419,9 @@ parse_dynamic_args() {
         --loadImage)
             load_image="true"
             ;;
+        --launchRegistry)
+            launch_registry="true"
+            ;;
         --clean)
             registry_clean=1
             ;;

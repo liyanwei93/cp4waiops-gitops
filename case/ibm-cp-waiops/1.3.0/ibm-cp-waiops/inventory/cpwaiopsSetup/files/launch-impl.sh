@@ -297,15 +297,16 @@ install_gitops_application() {
 launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
+
+    if [[ $launch_registry == "true" ]]; then
+       "${casePath}"/inventory/"${inventory}"/files/gitops/launch-registry.sh
+        registry=$(hostname):5003
+        user=admin
+        pass=admin
+    fi
+
     if [[ $load_image == "true" ]]; then
-        if [[ ! -z $registry ]]; then
-            "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
-        else
-            "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh
-            registry=$(hostname):5003
-            user=admin
-            pass=admin
-        fi
+        "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
     fi
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
