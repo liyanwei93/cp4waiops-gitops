@@ -264,18 +264,18 @@ install_gitops_applicationset() {
 
     HOSTNAME=$(hostname)
     if [[ -z $storage_class ]]; then
-        echo "-------------storageclass is rook-cephfs-------------"
+        echo "Default storageclass is rook-cephfs"
         local storageclass=rook-cephfs
         local storageclassblock=rook-cephfs
     else
-        echo "-------------storageclass is $storage_class-------------"
+        echo "Storageclass is $storage_class"
         local storageclass=$storage_class
         local storageclassblock=$storage_class
     fi
 
     sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
-    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
+    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|REGISTRY|'"${registry}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|USERNAME|'"${user}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
     sed -i 's|PASSWORD|'"${pass}"'|g' "${casePath}"/inventory/"${inventory}"/files/gitops/application.yaml
@@ -297,13 +297,23 @@ install_gitops_application() {
 launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
-    if [[ ! -z $registry ]]; then
-        "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
-    else
-        "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh
+    if [[ $load_image == "true" ]]; then
+        if [[ ! -z $registry ]]; then
+            "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
+        else
+            "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh
+            registry=$(hostname):5003
+            user=admin
+            pass=admin
+        fi
     fi
+
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
-    install_gitops_applicationset
+
+    if [[ ! -z $storage_class ]]; then
+        install_gitops_applicationset
+    fi
+    
     echo "done"
 
 }

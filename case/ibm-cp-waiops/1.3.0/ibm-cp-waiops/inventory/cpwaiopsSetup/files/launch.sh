@@ -416,6 +416,9 @@ parse_dynamic_args() {
             v="${arr[${idx}]}"
             storage_class="${v}"
             ;;
+        --loadImage)
+            load_image="true"
+            ;;
         --clean)
             registry_clean=1
             ;;

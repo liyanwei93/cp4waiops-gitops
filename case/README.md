@@ -5,7 +5,7 @@ oc ibm-pak get ibm-cp-waiops --skip-verify=true
 ```
 
 ```
-oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--storage ceph --registry dormer1.fyre.ibm.com:5003 --user admin --pass admin"
+oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--storage ceph --loadImage --registry dormer1.fyre.ibm.com:5003 --user admin --pass admin"
 ```
 
 ### mirror image
