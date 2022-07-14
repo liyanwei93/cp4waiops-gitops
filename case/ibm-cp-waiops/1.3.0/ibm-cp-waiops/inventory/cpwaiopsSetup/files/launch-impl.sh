@@ -285,6 +285,53 @@ install_gitops_applicationset() {
 
 install_gitops_application() {
 
+    echo "-------------Create ImageContentSourcePolicy-------------"
+
+  cat << EOF | $kubernetesCLI apply -f -
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: ibm-cp-waiops
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - ${registry}/cp
+    source: cp.icr.io/cp
+  - mirrors:
+    - ${registry}/ibmcom
+    source: docker.io/ibmcom
+  - mirrors:
+    - ${registry}/cpopen
+    source: icr.io/cpopen
+  - mirrors:
+    - ${registry}/opencloudio
+    source: quay.io/opencloudio
+  - mirrors:
+    - ${registry}/openshift
+    source: quay.io/openshift
+EOF
+
+    echo "-------------Patch insecureRegistries-------------"
+
+    $kubernetesCLI patch image.config.openshift.io/cluster --type=merge \
+    -p '{"spec":{"registrySources":{"insecureRegistries":["'${registry}'"]}}}' \
+    || {
+    echo "image.config.openshift.io/cluster patch failed."
+    exit
+    }    
+
+    echo "-------------Configuring cluster pullsecret-------------"
+
+    rm -rf ${HOME}/.dockerconfigjson
+    $kubernetesCLI extract secret/pull-secret -n openshift-config --to ${HOME} --confirm
+
+    DOCKER_AUTH=${user}:${pass}
+    $kubernetesCLI registry login --registry ${registry} \
+    --auth-basic=$DOCKER_AUTH \
+    --to=${HOME}/.dockerconfigjson
+
+    $kubernetesCLI set data secret/pull-secret --from-file .dockerconfigjson=${HOME}/.dockerconfigjson -n openshift-config
+
     echo "-------------Add Cluster to Argocd-------------"
 
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
