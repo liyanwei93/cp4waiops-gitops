@@ -299,6 +299,8 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
     if [[ ! -z $registry ]]; then
         "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh -r ${registry} -u ${user} -p ${pass}
+    else
+        "${casePath}"/inventory/"${inventory}"/files/gitops/load-image.sh
     fi
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
     install_gitops_applicationset
