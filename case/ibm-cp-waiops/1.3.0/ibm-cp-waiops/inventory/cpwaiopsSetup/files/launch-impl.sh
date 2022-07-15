@@ -358,7 +358,7 @@ launch_boot_cluster() {
 
     "${casePath}"/inventory/"${inventory}"/files/gitops/install.sh up
 
-    if [[ ! -z $storage_class ]]; then
+    if [[ $launch_application == "true" ]]; then
         install_gitops_applicationset
     fi
     

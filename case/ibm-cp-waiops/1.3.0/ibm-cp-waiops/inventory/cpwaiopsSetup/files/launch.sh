@@ -422,6 +422,9 @@ parse_dynamic_args() {
         --launchRegistry)
             launch_registry="true"
             ;;
+        --launchApplication)
+            launch_application="true"
+            ;;
         --clean)
             registry_clean=1
             ;;

@@ -18,8 +18,8 @@ function launch_registry() {
       if [ "${is_running}" != 'true' ]; then
          info "Launch local container registry ..."
          msg "-----------------------------------------------------------------------"
-         mkdir -p /opt/registry/{auth,certs,data}
-         local REGISTRY_DIR=/opt/registry
+         mkdir -p ~/.ibm-pak/data/registry/{auth,certs,data}
+         local REGISTRY_DIR=~/.ibm-pak/data/registry
          cd ${REGISTRY_DIR}/certs
          HOSTNAME=$(hostname)
          REGISTRY_TLS_CA_SUBJECT="/C=US/ST=New York/L=Armonk/O=IBM Cloud Pak/CN=IBM Cloud Pak Root CA"

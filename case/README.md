@@ -28,13 +28,13 @@ oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-w
 2. Launch a boot cluster and deploy argocd applicationset to install aiops.
 
 ```
-oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--loadImage --registry ${LOCAL_REGISTRY} --user ${USERNAME} --pass {PASSWORD} --storage ${STORAGE_CALSS}"
+oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--launchApplication --loadImage --registry ${LOCAL_REGISTRY} --user ${USERNAME} --pass {PASSWORD} --storage ${STORAGE_CALSS}"
 ```
 
 3. Launch a boot cluster, launch a local docker registry, and deploy argocd applicationset to install aiops.
 
 ```
-oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--launchRegistry --loadImage --storage ${STORAGE_CALSS}"
+oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup --args "--launchRegistry --launchApplication --loadImage --storage ${STORAGE_CALSS}"
 ```
 
 ### mirror image
