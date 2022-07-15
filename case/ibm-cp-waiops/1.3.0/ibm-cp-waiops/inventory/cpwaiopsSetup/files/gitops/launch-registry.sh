@@ -46,7 +46,7 @@ function launch_registry() {
 
          cd -  
          info "Launch local container registry ${HOSTNAME}:5003..."
-         info "Copy image data in /opt/registry/data"
+         info "Copy image data in ~/.ibm-pak/data/registry/data"
       fi
    fi
 }

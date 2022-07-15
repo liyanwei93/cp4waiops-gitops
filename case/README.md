@@ -22,7 +22,7 @@ oc ibm-pak get ibm-cp-waiops --skip-verify=true
 1. Launch a pure boot cluster, include kind cluster, argocd, tekton, kube dashboard, helm, gitlab
 
 ```
-oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetu
+oc ibm-pak launch --case  /root/.ibm-pak/data/cases/ibm-cp-waiops/1.3.0/ibm-cp-waiops-1.3.0.tgz --action launch-boot-cluster --inventory cpwaiopsSetup
 ```
 
 2. Launch a boot cluster and deploy argocd applicationset to install aiops.
