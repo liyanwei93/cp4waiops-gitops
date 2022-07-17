@@ -1,0 +1,102 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: airgap-install
+spec:
+  description: >-
+    Task to Airgap Install.
+  params:
+    - name: registry
+      description: local registry name.
+      type: string
+    - name: registry_port
+      description: local registry name.
+      type: string
+  steps:
+    - name: mirror-image
+      image: alpine
+      env:
+      - name: REGISTRY
+        value: "$(params.registry)"
+      - name: REGISTRY_PORT
+        value: "$(params.registry_port)"
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+
+        if [ "${WORKSPACE_INSTALL_ENV_BOUND}" != "true" ] ; then
+          echo "Workspace install-env not bound!"
+          exit 1
+        fi
+
+        if [[ ${WORKSPACE_KUBECONFIG_BOUND} == "true" ]] ; then
+          export KUBECONFIG=${WORKSPACE_KUBECONFIG_PATH}/${PARAM_KUBECONFIG_FILE}
+        fi
+
+        if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
+          export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
+        fi
+
+        wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
+        tar -xf openshift-client-linux.tar.gz
+        mv oc /usr/bin/oc
+
+        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+        chmod +x /usr/local/bin/argocd
+
+        echo "-------------Create ImageContentSourcePolicy-------------"
+
+        cat << EOF | oc apply -f -
+        apiVersion: operator.openshift.io/v1alpha1
+        kind: ImageContentSourcePolicy
+        metadata:
+          name: ibm-cp-waiops
+        spec:
+          repositoryDigestMirrors:
+          - mirrors:
+            - ${registry}/cp
+            source: cp.icr.io/cp
+          - mirrors:
+            - ${registry}/ibmcom
+            source: docker.io/ibmcom
+          - mirrors:
+            - ${registry}/cpopen
+            source: icr.io/cpopen
+          - mirrors:
+            - ${registry}/opencloudio
+            source: quay.io/opencloudio
+          - mirrors:
+            - ${registry}/openshift
+            source: quay.io/openshift
+        EOF
+
+        echo "-------------Patch insecureRegistries-------------"
+
+        oc patch image.config.openshift.io/cluster --type=merge \
+        -p '{"spec":{"registrySources":{"insecureRegistries":["'${registry}'"]}}}' \
+        || {
+        echo "image.config.openshift.io/cluster patch failed."
+        exit
+        }    
+
+        echo "-------------Configuring cluster pullsecret-------------"
+
+        rm -rf ${HOME}/.dockerconfigjson
+        oc extract secret/pull-secret -n openshift-config --to ${HOME} --confirm
+
+        DOCKER_AUTH=${user}:${pass}
+        oc registry login --registry ${registry} \
+        --auth-basic=$DOCKER_AUTH \
+        --to=${HOME}/.dockerconfigjson
+
+        oc set data secret/pull-secret --from-file .dockerconfigjson=${HOME}/.dockerconfigjson -n openshift-config
+
+        echo "-------------Add Cluster to Argocd-------------"
+
+        ARGOCD_PASSWORD="$(oc -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+        echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
+        OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
+        echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
+
+        echo "done"
