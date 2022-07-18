@@ -213,9 +213,9 @@ while [ "${1-}" != "" ]; do
         shift
         launch_boot_cluster="true"
         ;;
-    --mirrorImage)
+    --aiopsCase)
         shift
-        mirror_image="true"
+        aiops_case="true"
         ;;
     --debug)
         set -x
@@ -233,7 +233,7 @@ if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
 fi
 
-if [[ $mirror_image == "true" ]]; then
+if [[ $aiops_case == "true" ]]; then
     launch_pipeline
 fi
 
