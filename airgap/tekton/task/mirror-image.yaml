@@ -26,15 +26,15 @@ spec:
           exit 1
         fi
 
-        apk add --no-cache jq git bash wget docker podman openssl
+        apk add --no-cache curl bash wget docker podman openssl
 
         wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
         tar -xf openshift-client-linux.tar.gz
         mv oc /usr/bin/oc
 
-        wget https://github.ibm.com/CloudPakOpenContent/cloud-pak-airgap-plugin/releases/download/v1.1.0/oc-ibm_pak-linux-amd64.tar.gz
+        curl https://codeload.github.com/liyanwei93/cp4waiops-gitops/tar.gz/airgap | tar -xz --strip=2 cp4waiops-gitops-airgap/airgap/oc-ibm_pak-linux-amd64.tar.gz
         tar -xvf oc-ibm_pak-linux-amd64.tar.gz
-        cp oc-ibm_pak-linux-amd64 /usr/local/bin/oc-ibm_pak
+        cp oc-ibm_pak-linux-amd64 /usr/local/bin/oc-ibm_pak       
 
         if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
           export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
