@@ -32,9 +32,9 @@ spec:
         tar -xf openshift-client-linux.tar.gz
         mv oc /usr/bin/oc
 
-        #wget https://github.ibm.com/CloudPakOpenContent/cloud-pak-airgap-plugin/releases/download/v1.1.0/oc-ibm_pak-linux-amd64.tar.gz
-        #tar -xvf oc-ibm_pak-linux-amd64.tar.gz
-        #cp oc-ibm_pak-linux-amd64 /usr/local/bin/oc-ibm_pak
+        wget https://github.ibm.com/CloudPakOpenContent/cloud-pak-airgap-plugin/releases/download/v1.1.0/oc-ibm_pak-linux-amd64.tar.gz
+        tar -xvf oc-ibm_pak-linux-amd64.tar.gz
+        cp oc-ibm_pak-linux-amd64 /usr/local/bin/oc-ibm_pak
 
         if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
           export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)

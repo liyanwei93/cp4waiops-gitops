@@ -176,15 +176,12 @@ while [ "${1-}" != "" ]; do
     case $1 in
     # Supported parameters for cloudctl & direct script invocation
     --launchRegistry | -l)
-        shift
         launch_registry="true"
         ;;
     --loadImage | -i)
-        shift
         load_image="true"
         ;;
     --launchApplication | -a)
-        shift
         launch_application="true"
         ;;
     --registry | -r)
@@ -208,15 +205,12 @@ while [ "${1-}" != "" ]; do
         storage_class="${1}"
         ;;
     --addCluster)
-        shift
         add_cluster="true"
         ;;
     --launchBootCluster)
-        shift
         launch_boot_cluster="true"
         ;;
     --aiopsCase)
-        shift
         aiops_case="true"
         ;;
     --debug)
