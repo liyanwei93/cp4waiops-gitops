@@ -11,6 +11,10 @@ launch_application=
 DOCKER_USERNAME=
 DOCKER_PASSWORD=
 
+ROOT_DIR=$(cd -P $(dirname $0) >/dev/null 2>&1 && pwd)
+DEPLOY_LOCAL_WORKDIR=${ROOT_DIR}/.work
+TOOLS_HOST_DIR=${ROOT_DIR}/.cache/tools/${HOST_PLATFORM}
+
 install_gitops_applicationset() {
 
     echo "-------------Install Gitops ApplicationSet-------------"
@@ -26,13 +30,13 @@ install_gitops_applicationset() {
         local storageclassblock=$storage_class
     fi
 
-    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' ./application.yaml
-    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' ./application.yaml
-    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' ./application.yaml
-    sed -i 's|REGISTRY|'"${registry}"'|g' ./application.yaml
-    sed -i 's|USERNAME|'"${user}"'|g' ./application.yaml
-    sed -i 's|PASSWORD|'"${pass}"'|g' ./application.yaml
-    $kubernetesCLI apply -f ./application.yaml
+    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|REGISTRY|'"${registry}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|USERNAME|'"${user}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|PASSWORD|'"${pass}"'|g' ${ROOT_DIR}/application.yaml
+    $kubernetesCLI apply -f ${ROOT_DIR}/application.yaml
 
 }
 
@@ -75,15 +79,15 @@ EOF
 
     echo "-------------Configuring cluster pullsecret-------------"
 
-    rm -rf ${HOME}/.dockerconfigjson
-    $kubernetesCLI extract secret/pull-secret -n openshift-config --to ${HOME} --confirm
+    rm -rf ${ROOT_DIR}/.dockerconfigjson
+    $kubernetesCLI extract secret/pull-secret -n openshift-config --to ${ROOT_DIR} --confirm
 
     DOCKER_AUTH=${user}:${pass}
     $kubernetesCLI registry login --registry ${registry} \
     --auth-basic=$DOCKER_AUTH \
-    --to=${HOME}/.dockerconfigjson
+    --to=${ROOT_DIR}/.dockerconfigjson
 
-    $kubernetesCLI set data secret/pull-secret --from-file .dockerconfigjson=${HOME}/.dockerconfigjson -n openshift-config
+    $kubernetesCLI set data secret/pull-secret --from-file .dockerconfigjson=${ROOT_DIR}/.dockerconfigjson -n openshift-config
 
     echo "-------------Add Cluster to Argocd-------------"
 
@@ -98,7 +102,7 @@ launch_pipeline() {
 
     echo "-------------Launch Pipeline to mirror image-------------"
 
-    $kubernetesCLI apply -f ../tekton/task/mirror-image.yaml
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton/task/mirror-image.yaml
 
     cat <<EOF | $kubernetesCLI apply -f -
 ---
@@ -139,23 +143,21 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
 
     if [[ $launch_registry == "true" ]]; then
-       ./launch-registry.sh
+        ${ROOT_DIR}/launch-registry.sh
         registry=$(hostname):5003
         user=admin
         pass=admin
     fi
 
     if [[ $load_image == "true" ]]; then
-        ./load-image.sh -r ${registry} -u ${user} -p ${pass}
+        ${ROOT_DIR}/load-image.sh -r ${registry} -u ${user} -p ${pass}
     fi
 
-    ./install.sh up
+    ${ROOT_DIR}/install.sh up
 
     if [[ $launch_application == "true" ]]; then
         install_gitops_applicationset
     fi
-
-    $kubernetesCLI apply -f ../tekton/task/mirror-image.yaml -R
     
     echo "done"
 
