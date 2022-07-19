@@ -80,7 +80,5 @@ function parse_arguments() {
 parse_arguments "$@"
 imagelist=(
 quay.io/openshift/origin-cli:latest
-docker.io/kindest/node:v1.21.2
-quay.io/jetstack/cert-manager-controller:v1.5.4
 )
 main

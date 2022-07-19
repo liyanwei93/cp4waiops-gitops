@@ -8,6 +8,9 @@ launch_registry=
 load_image=
 launch_application=
 
+aiops_case=
+aiops_case_versoin="1.3.0"
+
 DOCKER_USERNAME=
 DOCKER_PASSWORD=
 
@@ -117,6 +120,8 @@ stringData:
     USERNAME=${user}                      
     PASSWORD=${pass}
     CP_TOKEN=${cp_token}
+    CASE_NAME=${aiops_case}
+    CASE_VERSION=${aiops_case_versoin}
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
@@ -211,7 +216,12 @@ while [ "${1-}" != "" ]; do
         launch_boot_cluster="true"
         ;;
     --aiopsCase)
-        aiops_case="true"
+        shift
+        aiops_case="${1}"
+        ;;
+    --aiopsCaseVersoin)
+        shift
+        aiops_case_versoin="${1}"
         ;;
     --debug)
         set -x
@@ -229,7 +239,7 @@ if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
 fi
 
-if [[ $aiops_case == "true" ]]; then
+if [[ ! -z $aiops_case ]]; then
     launch_pipeline
 fi
 
