@@ -9,7 +9,7 @@ spec:
   workspaces:
     - name: install-env
       description: A workspace containing environment variables used by install code.
-    - name: install-workspace
+    - name: install-repo
       description: A workspace containing install code.
   steps:
     - name: push-code
@@ -20,7 +20,7 @@ spec:
       - name: WORKSPACE_INSTALL_ENV_PATH
         value: $(workspaces.install-env.path)
       - name: WORKSPACE_INSTALL_REPO_PATH
-        value: $(workspaces.install-workspace.path)
+        value: $(workspaces.install-repo.path)
       script: |
         #!/usr/bin/env sh
         set -x

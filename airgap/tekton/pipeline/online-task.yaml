@@ -50,7 +50,7 @@ spec:
       workspaces:
         - name: install-env
           workspace: install-env
-        - name: output
+        - name: install-repo
           workspace: install-workspace
           subPath: cp4waiops-gitops
 
