@@ -1,0 +1,44 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: push-code-to-git
+spec:
+  description: >-
+    Task to Push Code to Git.
+  workspaces:
+    - name: install-env
+      description: A workspace containing environment variables used by install code.
+    - name: install-repo
+      description: A workspace containing install code.
+  steps:
+    - name: push-code
+      image: redhat/ubi8
+      env:
+      - name: WORKSPACE_INSTALL_ENV_BOUND
+        value: $(workspaces.install-env.bound)
+      - name: WORKSPACE_INSTALL_ENV_PATH
+        value: $(workspaces.install-env.path)
+      - name: WORKSPACE_INSTALL_REPO_PATH
+        value: $(workspaces.install-repo.path)
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        if [ "${WORKSPACE_INSTALL_ENV_BOUND}" != "true" ] ; then
+          echo "Workspace install-env not bound!"
+          exit 1
+        fi
+
+        if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
+          export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
+        fi
+     
+        echo "-------------Creating Gitlab Repo-------------"
+
+        cd ${WORKSPACE_INSTALL_REPO_PATH}
+        git remote remove origin
+        git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@${GIT_REPO}
+        git -c http.sslVerify=false push origin main
+
+        info "Pushing cp4waiops-gitops Code to Git ... OK"

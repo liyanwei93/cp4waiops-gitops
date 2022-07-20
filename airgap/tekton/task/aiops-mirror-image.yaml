@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: mirror-image
+  name: aiops-mirror-image
 spec:
   description: >-
     Task to Mirror Image.
@@ -10,7 +10,7 @@ spec:
     - name: install-env
       description: A workspace containing environment variables used by install code.
   steps:
-    - name: install-aimanager
+    - name: aiops-install-aimanager
       image: redhat/ubi8
       env:
       - name: WORKSPACE_INSTALL_ENV_BOUND
@@ -54,8 +54,8 @@ spec:
         export CASE_LOCAL_PATH=$OFFLINEDIR/$CASE_ARCHIVE
         export CP_REGISTRY_PASSWORD=${CP_TOKEN}
         export LOCAL_DOCKER_REGISTRY=${REGISTRY}
-        export LOCAL_DOCKER_REGISTRY_USER=${USERNAME}
-        export LOCAL_DOCKER_REGISTRY_PASSWORD=${PASSWORD}
+        export LOCAL_DOCKER_REGISTRY_USER=${REGISTRY_USERNAME}
+        export LOCAL_DOCKER_REGISTRY_PASSWORD=${REGISTRY_PASSWORD}
 
         cloudctl case save \
         --repo https://github.com/IBM/cloud-pak/raw/master/repo/case \

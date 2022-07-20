@@ -1,0 +1,78 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: applicationset-install
+spec:
+  description: >-
+    Task to Install argocd ApplicationSet.
+  workspaces:
+    - name: install-env
+      description: A workspace containing environment variables used by install code.
+  steps:
+    - name: install-aimanager
+      image: openshift/origin-cli:latest
+      env:
+      - name: WORKSPACE_INSTALL_ENV_BOUND
+        value: $(workspaces.install-env.bound)
+      - name: WORKSPACE_INSTALL_ENV_PATH
+        value: $(workspaces.install-env.path)
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        if [ "${WORKSPACE_INSTALL_ENV_BOUND}" != "true" ] ; then
+          echo "Workspace install-env not bound!"
+          exit 1
+        fi
+
+        if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
+          export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
+        fi
+
+        echo "-------------Install Gitops ApplicationSet-------------"
+
+        cat << EOF | oc apply -f -
+        ---
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        metadata:
+          name: cp4waiops-app
+          namespace: argocd
+        spec:
+          destination:
+            namespace: argocd
+            server: https://kubernetes.default.svc
+          project: default
+          source:
+            helm:
+              parameters:
+              - name: argocd.allowLocalDeploy
+                value: "false"
+              - name: argocd.cluster
+                value: kubernetes
+              - name: cp4waiops.eventManager.enabled
+                value: "false"
+              - name: cp4waiops.version
+                value: v3.4
+              - name: rookceph.enabled
+                value: "false"
+              valueFiles:
+              - values.yaml
+              values: |-
+                globalImagePullSecrets:
+                - registry: ${REGISTRY}
+                  username: ${REGISTRY_USERNAME}
+                  password: ${REGISTRY_PASSWORD}
+                cp4waiops:
+                  repoURL: ${GIT_REPO}
+                  targetRevision: HEAD
+                storageClass: ${STORAGECLASS}
+                storageClassLargeBlock: ${STORAGECLASSBLOCK}
+            path: config/all-in-one
+            repoURL: ${GIT_REPO}
+            targetRevision: HEAD
+          syncPolicy:
+            automated: {}
+        EOF
+        

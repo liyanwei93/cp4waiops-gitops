@@ -1,0 +1,60 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: bootcluster-mirror-image
+spec:
+  description: >-
+    Task to Mirror Boot Cluster Image.
+  workspaces:
+    - name: install-env
+      description: A workspace containing environment variables used by install code.
+  steps:
+    - name: bootcluster-mirror-image
+      image: redhat/ubi8
+      env:
+      - name: WORKSPACE_INSTALL_ENV_BOUND
+        value: $(workspaces.install-env.bound)
+      - name: WORKSPACE_INSTALL_ENV_PATH
+        value: $(workspaces.install-env.path)
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        if [ "${WORKSPACE_INSTALL_ENV_BOUND}" != "true" ] ; then
+          echo "Workspace install-env not bound!"
+          exit 1
+        fi
+
+        if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
+          export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
+        fi
+
+        echo y | yum install wget
+        wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.8.3/openshift-client-linux-4.8.3.tar.gz
+        tar -xf openshift-client-linux-4.8.3.tar.gz
+        mv oc /usr/bin/oc
+
+        cp_auth=$(echo -n "cp:${CP_TOKEN}" | base64 | tr -d "\n")
+        local_auth=$(echo -n "${REGISTRY_USERNAME}:${REGISTRY_PASSWORD}" | base64 | tr -d "\n")
+
+        cat << EOF > auth.json
+        {
+          "auths": {
+            "cp.icr.io": {
+              "auth": "${cp_auth}"
+            },
+            "${REGISTRY}": {
+              "auth": "${local_auth}"
+            }
+          }
+        }
+        EOF
+
+        cat << EOF > images-mapping.txt
+        quay.io/openshift/origin-cli:latest=${REGISTRY}/openshift/origin-cli:latest
+        redhat/ubi8:latest=${REGISTRY}/redhat/ubi8:latest
+        EOF
+        
+        oc image mirror -f images-mapping.txt --filter-by-os=.* --insecure --skip-multiple-scopes --max-per-registry=1 -a auth.json
+

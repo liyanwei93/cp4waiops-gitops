@@ -18,32 +18,7 @@ ROOT_DIR=$(cd -P $(dirname $0) >/dev/null 2>&1 && pwd)
 DEPLOY_LOCAL_WORKDIR=${ROOT_DIR}/.work
 TOOLS_HOST_DIR=${ROOT_DIR}/.cache/tools/${HOST_PLATFORM}
 
-install_gitops_applicationset() {
-
-    echo "-------------Install Gitops ApplicationSet-------------"
-
-    HOSTNAME=$(hostname)
-    if [[ -z $storage_class ]]; then
-        echo "Default storageclass is rook-cephfs"
-        local storageclass=rook-cephfs
-        local storageclassblock=rook-cephfs
-    else
-        echo "Storageclass is $storage_class"
-        local storageclass=$storage_class
-        local storageclassblock=$storage_class
-    fi
-
-    sed -i 's|HOSTNAME|'"${HOSTNAME}"'|g' ${ROOT_DIR}/application.yaml
-    sed -i 's|STORAGECLASSBLOCK|'"${storageclassblock}"'|g' ${ROOT_DIR}/application.yaml
-    sed -i 's|STORAGECLASS|'"${storageclass}"'|g' ${ROOT_DIR}/application.yaml
-    sed -i 's|REGISTRY|'"${registry}"'|g' ${ROOT_DIR}/application.yaml
-    sed -i 's|USERNAME|'"${user}"'|g' ${ROOT_DIR}/application.yaml
-    sed -i 's|PASSWORD|'"${pass}"'|g' ${ROOT_DIR}/application.yaml
-    $kubernetesCLI apply -f ${ROOT_DIR}/application.yaml
-
-}
-
-install_gitops_application() {
+airgap_cluster_pre() {
 
     echo "-------------Create ImageContentSourcePolicy-------------"
 
@@ -92,51 +67,74 @@ EOF
 
     $kubernetesCLI set data secret/pull-secret --from-file .dockerconfigjson=${ROOT_DIR}/.dockerconfigjson -n openshift-config
 
+}
+
+add_cluster() {
+
     echo "-------------Add Cluster to Argocd-------------"
 
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
     echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
 
     echo "done"
-
 }
 
 launch_pipeline() {
 
     echo "-------------Launch Pipeline to mirror image-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton/task/mirror-image.yaml
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
 
     cat <<EOF | $kubernetesCLI apply -f -
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-workspace
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
 kind: Secret
 metadata:
-  name: registry-install-env-secret
+  name: gitops-install-env-secret
 type: Opaque
 stringData:
   .env: |
     REGISTRY=${registry}
-    USERNAME=${user}                      
-    PASSWORD=${pass}
+    REGISTRY_USERNAME=${user}                      
+    REGISTRY_PASSWORD=${pass}
     CP_TOKEN=${cp_token}
     CASE_NAME=${aiops_case}
     CASE_VERSION=${aiops_case_versoin}
+    GIT_REPO=${git_repo}
+    GIT_USERNAME=${git_username}
+    GIT_PASSWORD=${git_password}
+    STORAGECLASS=${storage_class}
+    STORAGECLASSBLOCK=${storage_class}
 ---
 apiVersion: tekton.dev/v1beta1
-kind: TaskRun
+kind: PipelineRun
 metadata:
-  name: mirror-image
-  generateName: mirror-image-
+  name: online-task
+  generateName: online-task-
 spec:
-  taskRef:
-    kind: Task
-    name: aiops-mirror-image
-  timeout: 3h0m0s
+  serviceAccountName: tekton-pipeline
+  pipelineRef:
+    name: gitops-install-online-task
+  timeouts:
+    pipeline: 300m
   workspaces:
     - name: install-env
       secret:
-        secretName: registry-install-env-secret
+        secretName: gitops-install-env-secret
+    - name: install-workspace
+      persistentVolumeClaim:
+        claimName: my-workspace
 EOF
 
     echo "done"
@@ -147,22 +145,7 @@ launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
 
-    if [[ $launch_registry == "true" ]]; then
-        ${ROOT_DIR}/launch-registry.sh
-        registry=$(hostname):5003
-        user=admin
-        pass=admin
-    fi
-
-    if [[ $load_image == "true" ]]; then
-        ${ROOT_DIR}/load-image.sh -r ${registry} -u ${user} -p ${pass}
-    fi
-
     ${ROOT_DIR}/install.sh up
-
-    if [[ $launch_application == "true" ]]; then
-        install_gitops_applicationset
-    fi
     
     echo "done"
 
@@ -182,9 +165,6 @@ while [ "${1-}" != "" ]; do
     # Supported parameters for cloudctl & direct script invocation
     --launchRegistry | -l)
         launch_registry="true"
-        ;;
-    --loadImage | -i)
-        load_image="true"
         ;;
     --launchApplication | -a)
         launch_application="true"
@@ -235,6 +215,18 @@ while [ "${1-}" != "" ]; do
 done
 
 
+git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
+git_username="admin"
+git_password="admin"
+
+
+if [[ $launch_registry == "true" ]]; then
+    ${ROOT_DIR}/launch-registry.sh
+    registry=$(hostname):5003
+    user=admin
+    pass=admin
+fi
+
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
 fi
@@ -244,5 +236,6 @@ if [[ ! -z $aiops_case ]]; then
 fi
 
 if [[ $add_cluster == "true" ]]; then
-    install_gitops_application
+    airgap_cluster_pre
+    add_cluster
 fi
