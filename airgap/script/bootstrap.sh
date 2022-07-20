@@ -105,7 +105,7 @@ launch_pipeline() {
 
     echo "-------------Launch Pipeline to mirror image-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton/task/mirror-image.yaml
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton/ -R
 
     cat <<EOF | $kubernetesCLI apply -f -
 ---

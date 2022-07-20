@@ -214,11 +214,9 @@ while [ "${1-}" != "" ]; do
     shift
 done
 
-
 git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
-git_username="admin"
-git_password="admin"
-
+git_username="root"
+git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
 if [[ $launch_registry == "true" ]]; then
     ${ROOT_DIR}/launch-registry.sh
