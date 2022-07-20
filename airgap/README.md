@@ -1,21 +1,28 @@
 ### Launch boot cluster (online)
 
-1. Launch a pure boot cluster, include kind cluster, argocd, tekton, kube dashboard, helm, gitlab, then create a tekton task to mirror image
+Launch a boot cluster, include `kind cluster`, `argocd`, `tekton`, `gitlab`
 
 ```
-./bootstrap/bootstrap.sh --launchBootCluster --aiopsCase ibm-cp-waiops --registry ${LOCAL_REGISTRY} --username ${USERNAME} --password {PASSWORD}
+./script/bootstrap.sh --launchBootCluster
 ```
 
-2. Launch a boot cluster and deploy argocd applicationset to install aiops.
+Usage help:
 
 ```
-./bootstrap/bootstrap.sh --launchBootCluster --launchApplication --registry ${LOCAL_REGISTRY} --username ${USERNAME} --password {PASSWORD} --storageClass ${STORAGE_CALSS} --aiopsCase ibm-cp-waiops
-```
+--launchBootCluster                         # Launch a pure boot cluster, include `kind`, `argocd`, `tekton`, `gitlab`
+--launchRegistry                            # Launch a local docker registry if you don't have one
+--registry ${LOCAL_REGISTRY}                # Local docker registry, provide this if you have a local docker registry
+--username ${USERNAME}                      # Local docker registry username, provide this if you have a local docker registry
+--password ${PASSWORD}                      # Local docker registry password, provide this if you have a local docker registry
+--cpToken ${CPTOKEN}                        # cp.icr.io registry token
+--storageClass ${STORAGE_CALSS}             # storage class of your target OCP cluster
+--aiopsCase ${aiopsCase}                    # Case bundle name
+--aiopsCaseVersoin ${aiopsCaseVersoin}      # Case bundle version
 
-3. Launch a boot cluster, launch a local docker registry, and deploy argocd applicationset to install aiops.
-
-```
-./bootstrap/bootstrap.sh --launchBootCluster --launchRegistry --launchApplication --storageClass ceph --aiopsCase ibm-cp-waiops
+Optional:
+--gitRepo ${GITREPO}                        # Git repo name, provide this if you want to use your own git server
+--gitUsername ${GITUSERNAME}                # Git repo username, provide this if you want to use your own git server
+--gitPassword ${GITPASSWORD}                # Git repo password, provide this if you want to use your own git server
 ```
 
 ### Add cluster to argocd (airgap)
