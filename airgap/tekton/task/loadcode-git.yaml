@@ -34,10 +34,12 @@ spec:
 
         echo "-------------Creating Gitlab Repo-------------"
 
+        REPO="${GIT_REPO#*//}"
+
         git clone https://github.com/IBM/cp4waiops-gitops.git
         cd cp4waiops-gitops
         git remote remove origin
-        git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@${GIT_REPO}
+        git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@${REPO}
         git -c http.sslVerify=false push origin main
 
         info "Pushing cp4waiops-gitops Code to Git ... OK"
