@@ -27,8 +27,6 @@ spec:
           workspace: install-env
 
     - name: push-gitops-code-to-git
-      runAfter:
-        - fetch-cp4waiops-gitops-code
       taskRef:
         kind: Task
         name: push-code-to-git
