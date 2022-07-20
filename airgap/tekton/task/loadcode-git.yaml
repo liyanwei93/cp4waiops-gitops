@@ -9,8 +9,6 @@ spec:
   workspaces:
     - name: install-env
       description: A workspace containing environment variables used by install code.
-    - name: install-repo
-      description: A workspace containing install code.
   steps:
     - name: push-code
       image: redhat/ubi8
@@ -19,8 +17,6 @@ spec:
         value: $(workspaces.install-env.bound)
       - name: WORKSPACE_INSTALL_ENV_PATH
         value: $(workspaces.install-env.path)
-      - name: WORKSPACE_INSTALL_REPO_PATH
-        value: $(workspaces.install-repo.path)
       script: |
         #!/usr/bin/env sh
         set -x
@@ -33,10 +29,13 @@ spec:
         if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
           export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
         fi
-     
+        
+        echo y | yum install git
+
         echo "-------------Creating Gitlab Repo-------------"
 
-        cd ${WORKSPACE_INSTALL_REPO_PATH}
+        git clone https://github.com/IBM/cp4waiops-gitops.git
+        cd cp4waiops-gitops
         git remote remove origin
         git remote add origin https://${GIT_USERNAME}:${GIT_PASSWORD}@${GIT_REPO}
         git -c http.sslVerify=false push origin main

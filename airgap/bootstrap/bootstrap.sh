@@ -88,17 +88,6 @@ launch_pipeline() {
     cat <<EOF | $kubernetesCLI apply -f -
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-workspace
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
 kind: Secret
 metadata:
   name: gitops-install-env-secret
@@ -132,9 +121,6 @@ spec:
     - name: install-env
       secret:
         secretName: gitops-install-env-secret
-    - name: install-workspace
-      persistentVolumeClaim:
-        claimName: my-workspace
 EOF
 
     echo "done"
