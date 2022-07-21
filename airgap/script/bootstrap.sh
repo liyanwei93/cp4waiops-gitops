@@ -70,6 +70,10 @@ add_cluster() {
 
     echo "-------------Add Cluster to Argocd-------------"
 
+    if [[ ! -z $argocd_url ]]; then
+      echo y | argocd login ${argocd_url} --username ${argocd_username} --password ${argocd_password}
+    fi
+
     OCP_CLUSTER_NAME=$($kubernetesCLI config current-context)
     echo y | argocd cluster add ${OCP_CLUSTER_NAME} --name ocp-$(date +%s)
 
@@ -132,6 +136,20 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
 
     ${ROOT_DIR}/install.sh up
+
+    if [[ -z $git_repo ]]; then
+      git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
+      git_username="root"
+      git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
+    fi
+
+    if [[ -z $argocd_url ]]; then
+      argocd_url=$(hostname):9443
+      argocd_username="admin"
+      argocd_password="$($kubernetesCLI -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+    fi
+
+    echo y | argocd login ${argocd_url} --username ${argocd_username} --password ${argocd_password}
 
     echo "done"
 
@@ -231,13 +249,6 @@ fi
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
 fi
-
-git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
-git_username="root"
-git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
-argocd_url=$(hostname):9443
-argocd_username="admin"
-argocd_password="$($kubernetesCLI -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
 
 if [[ ! -z $aiops_case ]]; then
     launch_pipeline
