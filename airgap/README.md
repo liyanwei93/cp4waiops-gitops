@@ -23,6 +23,9 @@ Optional:
 --gitRepo ${GITREPO}                        # Git repo name, provide this if you want to use your own git server
 --gitUsername ${GITUSERNAME}                # Git repo username, provide this if you want to use your own git server
 --gitPassword ${GITPASSWORD}                # Git repo password, provide this if you want to use your own git server
+--argocdUrl ${ARGOCD_URL}                   # ArgoCD server, provide this if you want to use your own argocd server
+--argocdUsername ${ARGOCD_USERNAME}         # ArgoCD login username, provide this if you want to use your own argocd server
+--argocdPassword ${ARGOCD_PASSWORD}         # ArgoCD login password, provide this if you want to use your own argocd server
 ```
 
 ### Add cluster to argocd (airgap)

@@ -32,10 +32,20 @@ spec:
       workspaces:
         - name: install-env
           workspace: install-env
+    
+    - name: argocd-gitlab-connect
+      runAfter:
+        - push-gitops-code-to-git
+      taskRef:
+        kind: Task
+        name: argocd-gitlab-connect
+      workspaces:
+        - name: install-env
+          workspace: install-env
 
     - name: install-applicationset
       runAfter:
-        - push-gitops-code-to-git
+        - argocd-gitlab-connect
       taskRef:
         kind: Task
         name: applicationset-install

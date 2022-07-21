@@ -1,0 +1,41 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: argocd-gitlab-connect
+spec:
+  description: >-
+    Task to Argocd Gitlab Connect.
+  workspaces:
+    - name: install-env
+      description: A workspace containing environment variables used by install code.
+  steps:
+    - name: argocd-gitlab-connect
+      image: redhat/ubi8
+      env:
+      - name: WORKSPACE_INSTALL_ENV_BOUND
+        value: $(workspaces.install-env.bound)
+      - name: WORKSPACE_INSTALL_ENV_PATH
+        value: $(workspaces.install-env.path)
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        if [ "${WORKSPACE_INSTALL_ENV_BOUND}" != "true" ] ; then
+          echo "Workspace install-env not bound!"
+          exit 1
+        fi
+
+        if [ -f ${WORKSPACE_INSTALL_ENV_PATH}/.env ] ; then
+          export $(cat ${WORKSPACE_INSTALL_ENV_PATH}/.env | xargs)
+        fi
+
+        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+        chmod +x /usr/local/bin/argocd
+
+        echo "-------------Connect Gitlab Repo to Argocd-------------"
+
+        echo y | argocd login ${ARGOCD_URL} --username ${ARGOCD_USERNAME} --password ${ARGOCD_PASSWORD}
+        argocd repo add ${GIT_REPO} --username ${GIT_USERNAME} --password ${GIT_PASSWORD} --insecure-skip-server-verification
+
+        info "Connect Gitlab Repo to Argocd ... OK"

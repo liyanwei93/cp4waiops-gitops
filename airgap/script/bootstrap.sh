@@ -1,13 +1,9 @@
-storage_class=
-registry=
-user=
-pass=
+storage_class="rook-cephfs"
 kubernetesCLI="kubectl"
 
 launch_registry=
-load_image=
 
-aiops_case=
+aiops_case="ibm-cp-waiops"
 aiops_case_versoin="1.3.0"
 
 DOCKER_USERNAME=
@@ -18,6 +14,8 @@ DEPLOY_LOCAL_WORKDIR=${ROOT_DIR}/.work
 TOOLS_HOST_DIR=${ROOT_DIR}/.cache/tools/${HOST_PLATFORM}
 
 airgap_cluster_pre() {
+
+    kubernetesCLI="oc"
 
     echo "-------------Create ImageContentSourcePolicy-------------"
 
@@ -102,6 +100,9 @@ stringData:
     GIT_REPO=${git_repo}
     GIT_USERNAME=${git_username}
     GIT_PASSWORD=${git_password}
+    ARGOCD_URL=${argocd_url}
+    ARGOCD_USERNAME=${argocd_username}
+    ARGOCD_PASSWORD=${argocd_password}
     STORAGECLASS=${storage_class}
     STORAGECLASSBLOCK=${storage_class}
 ---
@@ -131,10 +132,6 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
 
     ${ROOT_DIR}/install.sh up
-
-    git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
-    git_username="root"
-    git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
     echo "done"
 
@@ -201,6 +198,18 @@ while [ "${1-}" != "" ]; do
         shift
         git_password="${1}"
         ;;
+    --argocdUrl)
+        shift
+        argocd_url="${1}"
+        ;;
+    --argocdUsername)
+        shift
+        argocd_username="${1}"
+        ;;
+    --argocdPassword)
+        shift
+        argocd_password="${1}"
+        ;;
     --debug)
         set -x
         ;;
@@ -222,6 +231,13 @@ fi
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
 fi
+
+git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
+git_username="root"
+git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
+argocd_url=$(hostname):9443
+argocd_username="admin"
+argocd_password="$($kubernetesCLI -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
 
 if [[ ! -z $aiops_case ]]; then
     launch_pipeline

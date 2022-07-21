@@ -642,7 +642,6 @@ case $1 in
     install-tekton-cli
     install-helm
     install-gitlab
-    argocd-gitlab-connect
     print-summary
     ;;
   "cluster-config")
