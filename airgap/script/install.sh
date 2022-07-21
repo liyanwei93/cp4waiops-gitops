@@ -455,8 +455,8 @@ function argocd-gitlab-connect {
 
   ARGOCD_PASSWORD="$(${KUBECTL} -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
   GITLAB_PASSWORD=$(${KUBECTL} -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
-  echo y | argocd login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
-  argocd repo add https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git --username root --password ${GITLAB_PASSWORD} --insecure-skip-server-verification
+  echo y | ${ARGOCD_CLI} login $(hostname):9443 --username admin --password ${ARGOCD_PASSWORD}
+  ${ARGOCD_CLI} repo add https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git --username root --password ${GITLAB_PASSWORD} --insecure-skip-server-verification
 
   info "Connect Gitlab Repo to Argocd ... OK"
 
@@ -638,7 +638,6 @@ case $1 in
     install-kubectl
     install-kind
     kind-up
-    install-kube-dashboard
     install-argocd
     install-argocd-cli
     install-kubeseal-cli
