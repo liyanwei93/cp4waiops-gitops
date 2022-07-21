@@ -2,7 +2,7 @@ storage_class=
 registry=
 user=
 pass=
-kubernetesCLI="oc"
+kubernetesCLI="kubectl"
 
 launch_registry=
 load_image=
