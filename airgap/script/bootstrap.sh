@@ -248,9 +248,6 @@ fi
 
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
-fi
-
-if [[ ! -z $aiops_case ]]; then
     launch_pipeline
 fi
 
