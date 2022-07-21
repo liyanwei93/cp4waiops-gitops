@@ -1,4 +1,8 @@
-### Launch boot cluster (online)
+## Gitops airgap install
+
+![w](images/arch.png)
+
+## Launch boot cluster (online)
 
 Launch a boot cluster, include `kind cluster`, `argocd`, `tekton`, `gitlab`
 
@@ -27,8 +31,6 @@ Optional:
 --argocdUsername ${ARGOCD_USERNAME}         # ArgoCD login username, provide this if you want to use your own argocd server
 --argocdPassword ${ARGOCD_PASSWORD}         # ArgoCD login password, provide this if you want to use your own argocd server
 ```
-
-![w](images/arch.png)
 
 For example:
 
@@ -297,7 +299,7 @@ done
 ![w](images/argocd-applicationset.png)
 
 
-### Add cluster to argocd (airgap)
+## Add cluster to argocd (airgap)
 
 ```
 oc login
