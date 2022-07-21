@@ -60,6 +60,7 @@ EOF
     DOCKER_AUTH=${user}:${pass}
     $kubernetesCLI registry login --registry ${registry} \
     --auth-basic=$DOCKER_AUTH \
+    --skip-check \
     --to=${ROOT_DIR}/.dockerconfigjson
 
     $kubernetesCLI set data secret/pull-secret --from-file .dockerconfigjson=${ROOT_DIR}/.dockerconfigjson -n openshift-config
