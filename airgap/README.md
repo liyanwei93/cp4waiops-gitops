@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Gitops airgap install](#gitops-airgap-install)
+  - [Overview](#overview)
+  - [Launch boot cluster (online)](#launch-boot-cluster-online)
+  - [Add cluster to argocd (airgap)](#add-cluster-to-argocd-airgap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Gitops airgap install
 
 ## Overview
