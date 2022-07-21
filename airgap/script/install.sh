@@ -479,7 +479,6 @@ It launched a kind cluster, installed following tools and applitions:
 - tekton ${TEKTON_VERSION}
 - tekton dashboard ${TEKTON_DASHBOARD_VERSION}
 - tekton cli ${TEKTON_CLI_VERSION}
-- kube dashboard ${KUBE_DASHBOARD_VERSION}
 - helm ${HELM_VERSION}
 $(print-console)
 
@@ -495,7 +494,7 @@ EOF
 
 function print-console {
   ARGOCD_PASSWORD="$(${KUBECTL} -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
-  DASHBOARD_TOKEN="$(${KUBECTL} -n kubernetes-dashboard get secret $(${KUBECTL} -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")"
+  #DASHBOARD_TOKEN="$(${KUBECTL} -n kubernetes-dashboard get secret $(${KUBECTL} -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")"
   GITLAB_PASSWORD=$(${KUBECTL} -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
   cat << EOF
@@ -509,8 +508,6 @@ To access Gitlab UI, open https://gitlab.$(hostname):9043 in browser.
 
 To access Tekton Dashboard UI, open http://$(hostname):9097 in browser.
 
-To access Kube Dashboard UI, open https://$(hostname):9445 in browser.
-- Token: ${DASHBOARD_TOKEN}
 EOF
 }
 
@@ -645,7 +642,6 @@ case $1 in
     install-tekton-cli
     install-helm
     install-gitlab
-    push-gitlab
     argocd-gitlab-connect
     print-summary
     ;;
