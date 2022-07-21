@@ -131,7 +131,11 @@ launch_boot_cluster() {
     echo "-------------Launch Boot Cluster-------------"
 
     ${ROOT_DIR}/install.sh up
-    
+
+    git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
+    git_username="root"
+    git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
+
     echo "done"
 
 }
@@ -207,10 +211,6 @@ while [ "${1-}" != "" ]; do
     esac
     shift
 done
-
-git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
-git_username="root"
-git_password=$($kubernetesCLI -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo)
 
 if [[ $launch_registry == "true" ]]; then
     ${ROOT_DIR}/launch-registry.sh
