@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: image-mirror-online-task
+spec:
+  workspaces:
+    - name: install-env
+  tasks:
+
+    - name: bootcluster-mirror-image
+      taskRef:
+        kind: Task
+        name: bootcluster-mirror-image
+      timeout: 200m
+      workspaces:
+        - name: install-env
+          workspace: install-env
+
+    - name: aiops-mirror-image
+      taskRef:
+        kind: Task
+        name: aiops-mirror-image
+      timeout: 200m
+      workspaces:
+        - name: install-env
+          workspace: install-env
