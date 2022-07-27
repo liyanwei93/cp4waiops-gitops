@@ -37,7 +37,7 @@ spec:
         value: $(params.user-home)
   steps:
     - name: requirements
-      image: quay.io/ansible/ansible-runner:stable-2.12-latest #tag: stable-2.12-latest
+      image: LOCALREGISTRY/ansible/ansible-runner:stable-2.12-latest #tag: stable-2.12-latest
       script: |
         #!/bin/bash
         set -e
@@ -58,7 +58,7 @@ spec:
       workingDir: '$(workspaces.runner-dir.path)/$(params.project-dir)'
 
     - name: run-playbook
-      image: quay.io/ansible/ansible-runner:stable-2.12-latest #tag: stable-2.12-latest
+      image: LOCALREGISTRY/ansible/ansible-runner:stable-2.12-latest #tag: stable-2.12-latest
       command: ['entrypoint']
       args:
         - ansible-runner

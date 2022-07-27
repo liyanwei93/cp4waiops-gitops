@@ -20414,7 +20414,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: certmanager
-          image: "quay.io/jetstack/cert-manager-cainjector:v1.5.4"
+          image: "LOCALREGISTRY/jetstack/cert-manager-cainjector:v1.5.4"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
@@ -20522,7 +20522,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: certmanager
-          image: "quay.io/jetstack/cert-manager-webhook:v1.5.4"
+          image: "LOCALREGISTRY/jetstack/cert-manager-webhook:v1.5.4"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
@@ -20620,7 +20620,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           - name: MALLOC_CONF
@@ -20644,7 +20644,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           - name: MALLOC_CONF
@@ -20674,7 +20674,7 @@ spec:
       containers:
         
         - name: gitlab-exporter
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter:11.17.1"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-exporter:11.17.1"          
           env:
             - name: CONFIG_TEMPLATE_DIRECTORY
               value: '/var/opt/gitlab-exporter/templates'
@@ -20798,7 +20798,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -20814,7 +20814,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           
@@ -20850,7 +20850,7 @@ spec:
       containers:
         
         - name: gitlab-shell
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-shell:v14.9.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-shell:v14.9.0"          
           ports:
             - containerPort: 2222
               name: ssh
@@ -20995,7 +20995,7 @@ spec:
         fsGroup: 65532      
       initContainers:
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -21012,7 +21012,7 @@ spec:
       containers:
         
         - name: kas
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-kas:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-kas:v15.2.0"          
           args:
             - "--configuration-file=/etc/kas/config.yaml"
           env:
@@ -21150,7 +21150,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -21166,7 +21166,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           
@@ -21188,7 +21188,7 @@ spec:
             requests:
               cpu: 50m
         - name: dependencies
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0"          
           args:
             - /scripts/wait-for-deps
           env:
@@ -21231,7 +21231,7 @@ spec:
       containers:
         
         - name: sidekiq
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0"          
           env:
             - name: prometheus_multiproc_dir
               value: /metrics
@@ -21450,7 +21450,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -21466,7 +21466,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           
@@ -21503,7 +21503,7 @@ spec:
             - /bin/bash
             - -c
             - cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while sleep 3600; do :; done # alpine sleep has no infinity
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0"          
           env:
             - name: ARTIFACTS_BUCKET_NAME
               value: gitlab-artifacts
@@ -21721,7 +21721,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -21738,7 +21738,7 @@ spec:
         - name: configure
           command: ['sh']
           args: [ '-c', 'sh -x /config-webservice/configure ; sh -x /config-workhorse/configure ; mkdir -p -m 3770 /tmp/gitlab']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
             
             
@@ -21768,7 +21768,7 @@ spec:
             requests:
               cpu: 50m
         - name: dependencies
-          image: registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0          
+          image: LOCALREGISTRY/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0        
           args:
             - /scripts/wait-for-deps
           env:
@@ -21807,7 +21807,7 @@ spec:
       containers:
         
         - name: webservice
-          image: registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0          
+          image: LOCALREGISTRY/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0         
           ports:
             - containerPort: 8080
               name: http-webservice
@@ -21906,7 +21906,7 @@ spec:
               cpu: 300m
               memory: 2.5G
         - name: gitlab-workhorse
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.0"          
           ports:
             - containerPort: 8181
               name: http-workhorse
@@ -22137,7 +22137,7 @@ spec:
             medium: "Memory"
       initContainers:
         - name: configure
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           command: ["sh", "/config/configure"]
           volumeMounts:
             - name: minio-configuration
@@ -22149,7 +22149,7 @@ spec:
               cpu: 50m      
       containers:
         - name: minio
-          image: minio/minio:RELEASE.2017-12-28T01-21-00Z          
+          image: LOCALREGISTRY/minio/minio:RELEASE.2017-12-28T01-21-00Z       
           args: ["-C", "/tmp/.minio", "--quiet", "server", "/export"]
           volumeMounts:
             - name: export
@@ -22210,7 +22210,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4@sha256:545cff00370f28363dad31e3b59a94ba377854d3a11f18988f5f9e56841ef9ef"
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4"
           imagePullPolicy: IfNotPresent
           lifecycle: 
             preStop:
@@ -22321,7 +22321,7 @@ spec:
     spec:
       containers:
         - name: nginx-ingress-default-backend
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5@sha256:4dc5e07c8ca4e23bddb3153737d7b8c556e5fb2f29c4558b7cd6e6df99c512c7"
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5"
           imagePullPolicy: IfNotPresent
           securityContext:
             capabilities:
@@ -22397,7 +22397,7 @@ spec:
       serviceAccountName: gitlab-prometheus-server
       containers:
         - name: prometheus-server-configmap-reload
-          image: "jimmidyson/configmap-reload:v0.5.0"
+          image: "LOCALREGISTRY/jimmidyson/configmap-reload:v0.5.0"
           imagePullPolicy: "IfNotPresent"
           args:
             - --volume-dir=/etc/config
@@ -22410,7 +22410,7 @@ spec:
               readOnly: true
 
         - name: prometheus-server
-          image: "quay.io/prometheus/prometheus:v2.31.1"
+          image: "LOCALREGISTRY/prometheus/prometheus:v2.31.1"
           imagePullPolicy: "IfNotPresent"
           args:
             - --storage.tsdb.retention.time=15d
@@ -22516,7 +22516,7 @@ spec:
       automountServiceAccountToken: false
       initContainers:
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -22531,7 +22531,7 @@ spec:
             requests:
               cpu: 50m
         - name: configure
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           command: ["sh", "/config/configure"]
           volumeMounts:
             - name: registry-secrets
@@ -22546,7 +22546,7 @@ spec:
                 
       containers:
         - name: registry
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab"          
           env:
           
           
@@ -22793,7 +22793,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -22809,7 +22809,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           
@@ -22845,7 +22845,7 @@ spec:
       containers:
         
         - name: gitaly
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitaly:v15.2.0"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitaly:v15.2.0"          
           ports:
             - containerPort: 8075
               name: grpc-gitaly
@@ -22980,7 +22980,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: gitlab-postgresql
-          image: docker.io/bitnami/postgresql:12.7.0
+          image: LOCALREGISTRY/bitnami/postgresql:12.7.0
           imagePullPolicy: "IfNotPresent"
           resources:
             requests:
@@ -23049,7 +23049,7 @@ spec:
               name: custom-init-scripts
               subPath: init_revision.sh
         - name: metrics
-          image: docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r99
+          image: LOCALREGISTRY/bitnami/postgres-exporter:0.8.0-debian-10-r99
           imagePullPolicy: "IfNotPresent"
           env:
             - name: DATA_SOURCE_URI
@@ -23141,7 +23141,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: redis
-          image: docker.io/bitnami/redis:6.0.9-debian-10-r0
+          image: LOCALREGISTRY/bitnami/redis:6.0.9-debian-10-r0
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001
@@ -23201,7 +23201,7 @@ spec:
             - name: redis-tmp-conf
               mountPath: /opt/bitnami/redis/etc/
         - name: metrics
-          image: docker.io/bitnami/redis-exporter:1.12.1-debian-10-r11
+          image: LOCALREGISTRY/bitnami/redis-exporter:1.12.1-debian-10-r11
           imagePullPolicy: "IfNotPresent"
           command:
             - /bin/bash
@@ -23289,7 +23289,7 @@ spec:
       restartPolicy: OnFailure      
       containers:
         - name: create-issuer
-          image: "registry.gitlab.com/gitlab-org/build/cng/kubectl:1.18.20@sha256:8d27c191af306cafddba2f293c5613f8966363f779d79a5599ad0231e60069e4"
+          image: "LOCALREGISTRY/gitlab-org/build/cng/kubectl:1.18.20"
           command: ['/bin/bash', '/scripts/create-issuer', '/scripts/issuer.yml']          
           volumeMounts:
             - name: scripts
@@ -23334,7 +23334,7 @@ spec:
       initContainers:
         
         - name: certificates
-          image: "registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2@sha256:367d437d024d7647432d67fb2442e3e5723af5930bad77d3535f4f8f4f8630d9"  
+          image: "LOCALREGISTRY/gitlab-org/build/cng/alpine-certificates:20191127-r2"  
           env:
           
           
@@ -23350,7 +23350,7 @@ spec:
               cpu: 50m
         - name: configure
           command: ['sh', '/config/configure']
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"          
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"          
           env:
           
           
@@ -23374,7 +23374,7 @@ spec:
       containers:
         
         - name: migrations
-          image: "registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0"
+          image: "LOCALREGISTRY/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0"
           args:
             - /scripts/wait-for-deps
             - /scripts/db-migrate          
@@ -23509,7 +23509,7 @@ spec:
                 name: "gitlab-minio-secret"      
       containers:
       - name: minio-mc
-        image: minio/mc:RELEASE.2018-07-13T00-53-22Z        
+        image: LOCALREGISTRY/minio/mc:RELEASE.2018-07-13T00-53-22Z      
         command: ["/bin/sh", "/config/initialize"]
         env:
           - name: MINIO_ENDPOINT
@@ -24234,7 +24234,7 @@ metadata:
 spec:
   containers:
   - name: test-runner
-    image: registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0
+    image: LOCALREGISTRY/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0
     command: ['sh', '/tests/test_login']
     volumeMounts:
       - name: tests
@@ -24292,7 +24292,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: certmanager
-          image: "quay.io/jetstack/cert-manager-ctl:v1.5.4"
+          image: "LOCALREGISTRY/jetstack/cert-manager-ctl:v1.5.4"
           imagePullPolicy: IfNotPresent
           args:
           - check
@@ -24337,7 +24337,7 @@ spec:
       
       containers:
         - name: gitlab
-          image: "registry.gitlab.com/gitlab-org/build/cng/kubectl:1.18.20@sha256:8d27c191af306cafddba2f293c5613f8966363f779d79a5599ad0231e60069e4"          
+          image: "LOCALREGISTRY/gitlab-org/build/cng/kubectl:1.18.20"          
           command: ['/bin/bash', '/scripts/generate-secrets']
           volumeMounts:
             - name: scripts
@@ -24387,7 +24387,7 @@ spec:
       
       containers:
         - name: run-check
-          image: "registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest"
+          image: "LOCALREGISTRY/gitlab-org/cloud-native/mirror/images/busybox:latest"
           command: ['/bin/sh', '/scripts/runcheck']          
           env:
             - name: GITLAB_VERSION

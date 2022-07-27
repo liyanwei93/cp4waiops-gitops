@@ -136,7 +136,12 @@ launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
 
-    ${ROOT_DIR}/install.sh up
+    if [[ $airgap_launch_boot_cluster == "true" ]]; then
+      grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
+      ${ROOT_DIR}/portable-storage-device-install.sh up
+    else
+      ${ROOT_DIR}/install.sh up
+    fi
 
     if [[ -z $git_repo ]]; then
       git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
@@ -197,6 +202,9 @@ while [ "${1-}" != "" ]; do
     --launchBootCluster)
         launch_boot_cluster="true"
         ;;
+    --airgapLaunchBootCluster)
+        airgap_launch_boot_cluster="true"
+        ;;
     --aiopsCase)
         shift
         aiops_case="${1}"
@@ -250,6 +258,10 @@ fi
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
     launch_pipeline
+fi
+
+if [[ $airgap_launch_boot_cluster == "true" ]]; then
+    launch_boot_cluster
 fi
 
 if [[ $add_cluster == "true" ]]; then
