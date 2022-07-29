@@ -138,6 +138,7 @@ launch_boot_cluster() {
 
     if [[ $airgap_launch_boot_cluster == "true" ]]; then
       grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
+      sed -i 's|LOCALREGISTRY|'"${registry}"'|g' ${ROOT_DIR}/portable-storage-device-install.sh
       ${ROOT_DIR}/portable-storage-device-install.sh up
     else
       ${ROOT_DIR}/install.sh up

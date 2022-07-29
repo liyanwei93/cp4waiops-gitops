@@ -47,12 +47,13 @@ function error {
 function wait-deployment {
   local object=$1
   local ns=$2
+  local number=$3
   echo -n "Waiting for deployment $object in $ns namespace ready "
   retries=600
   until [[ $retries == 0 ]]; do
     echo -n "."
     local result=$(${KUBECTL} get deploy $object -n $ns -o jsonpath='{.status.readyReplicas}' 2>/dev/null)
-    if [[ $result == 1 ]]; then
+    if [[ $result == $number ]]; then
       echo " Done"
       break
     fi
@@ -78,6 +79,7 @@ KUBECTL=${TOOLS_HOST_DIR}/kubectl-${KUBECTL_VERSION}
 KUBESEAL_CLI=${TOOLS_HOST_DIR}/kubeseal-${KUBESEAL_CLI_VERSION}
 TEKTON_CLI=${TOOLS_HOST_DIR}/tkn-${TEKTON_CLI_VERSION}
 TEKTON_CLI_TEMP=tkn_${TEKTON_CLI_VERSION#v}_${HOSTOS}_${HOSTARCH}
+HELM_CLI=${TOOLS_HOST_DIR}/helm-${HELM_VERSION}
 
 ####################
 # Launch kind
@@ -96,10 +98,10 @@ networking:
   apiServerPort: 6443
 nodes:
   - role: control-plane
-    image: kindest/node:${K8S_VERSION}
+    image: LOCALREGISTRY/kindest/node:v1.21.12
     extraMounts:
     - containerPath: /usr/local/share/ca-certificates/server.crt
-      hostPath: /usr/local/share/ca-certificates/server.crt
+      hostPath: /root/.ibm-pak/data/registry/certs/server.crt
     extraPortMappings:
     - containerPort: 30443
       hostPort: 9443
@@ -126,7 +128,7 @@ $(print-extra-port-mappings)
 EOF
 
   ${KIND} get kubeconfig --name ${KIND_CLUSTER_NAME} >/dev/null 2>&1 || ${KIND} create cluster --name=${KIND_CLUSTER_NAME} --config="${KIND_CONFIG_FILE}"
-
+  docker exec -it gitops-sandbox-control-plane /bin/bash -c 'update-ca-certificates'
   info "kind up ... OK"
 }
 
@@ -175,11 +177,11 @@ function install-argocd {
 
   ${KUBECTL} apply -n argocd -f ${ROOT_DIR}/../boot-cluster/argocd_applicationset.yaml
 
-  wait-deployment argocd-server argocd
+  wait-deployment argocd-server argocd "1"
 
   ${KUBECTL} patch service/argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30443, "port": 443}]}}'
 
-  wait-deployment argocd-applicationset-controller argocd
+  wait-deployment argocd-applicationset-controller argocd "1"
 
   restart-pods-with-image-errors -n argocd
 
@@ -198,9 +200,9 @@ function install-tekton {
 
   ${KUBECTL} patch service/tekton-dashboard -n tekton-pipelines -p '{"spec": {"type": "NodePort", "ports": [{"name":"http", "nodePort": 30097, "port": 9097, "targetPort": 9097}]}}'
 
-  wait-deployment tekton-pipelines-controller tekton-pipelines
-  wait-deployment tekton-pipelines-webhook tekton-pipelines
-  wait-deployment tekton-dashboard tekton-pipelines
+  wait-deployment tekton-pipelines-controller tekton-pipelines "1"
+  wait-deployment tekton-pipelines-webhook tekton-pipelines "1"
+  wait-deployment tekton-dashboard tekton-pipelines "1"
 
   ${KUBECTL} patch cm/feature-flags -n tekton-pipelines -p '{"data": {"enable-api-fields": "alpha"}}'
 
@@ -220,12 +222,25 @@ function install-gitlab {
  
   echo "-------------Installing Gitlab-------------"
 
-  ${KUBECTL} get ns -o name | grep -q gitlab || ${KUBECTL} create namespace gitlab
-  ${KUBECTL} apply -n argocd -f ${ROOT_DIR}/../boot-cluster/gitlab.yaml
+  ${HELM_CLI} list -n gitlab | grep gitlab
+  if [[ $? != 0 ]]; then
 
-  ${KUBECTL} patch service/gitlab-nginx-ingress-controller -n gitlab -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30043, "port": 443},{"name":"gitlab-shell", "nodePort": 30022, "port": 22},{"name":"http", "nodePort": 30080, "port": 80}]}}'
+    ${KUBECTL} get ns -o name | grep -q gitlab || ${KUBECTL} create namespace gitlab
 
-  wait-deployment gitlab-webservice-default gitlab
+    ${HELM_CLI} upgrade --install gitlab ${ROOT_DIR}/../boot-cluster/gitlab \
+      --set global.edition=ce \
+      --set global.hosts.domain=$(hostname) \
+      --set certmanager-issuer.email=me@example.com \
+      --set gitlab-runner.install=false \
+      --namespace gitlab
+
+    ${KUBECTL} patch service/gitlab-nginx-ingress-controller -n gitlab -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30043, "port": 443},{"name":"gitlab-shell", "nodePort": 30022, "port": 22},{"name":"http", "nodePort": 30080, "port": 80}]}}'
+
+    wait-deployment gitlab-webservice-default gitlab "2"
+
+  else
+    echo "Gitlab detected."
+  fi
 
   info "Installing Gitlab https://gitlab.$(hostname):9043 ... OK"
 
@@ -243,7 +258,7 @@ function push-gitlab {
 
   git remote remove origin
   git remote add origin https://root:${GITLAB_PASSWORD}@gitlab.$(hostname):9043/root/cp4waiops-gitops.git
-  git -c http.sslVerify=false push origin main
+  git -c http.sslVerify=false push origin airgap
 
   info "Pushing to Gitlab ... OK"
 
@@ -437,6 +452,8 @@ case $1 in
     install-argocd
     install-tekton
     install-gitlab
+    push-gitlab
+    argocd-gitlab-connect
     print-summary
     ;;
   *)

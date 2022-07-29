@@ -52,9 +52,10 @@ spec:
         EOF
 
         cat << EOF > images-mapping.txt
+        kindest/node@sha256:f316b33dd88f8196379f38feb80545ef3ed44d9197dca1bfd48bcb1583210207=${REGISTRY}/kindest/node:v1.21.12
         quay.io/openshift/origin-cli:latest=${REGISTRY}/openshift/origin-cli:latest
         redhat/ubi8:latest=${REGISTRY}/redhat/ubi8:latest
-        quay.io/argoproj/argocd-applicationset:v0.3.0=${REGISTRY}/argoproj/argocd-applicationsetv0.3.0
+        quay.io/argoproj/argocd-applicationset:v0.3.0=${REGISTRY}/argoproj/argocd-applicationset:v0.3.0
         quay.io/argoproj/argocd:v2.4.7=${REGISTRY}/argoproj/argocd:v2.4.7
         ghcr.io/dexidp/dex:v2.30.2=${REGISTRY}/dexidp/dex:v2.30.2
         docker.io/library/redis:7.0.0-alpine=${REGISTRY}/library/redis:7.0.0-alpine
@@ -69,24 +70,24 @@ spec:
         registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest=${REGISTRY}/gitlab-org/cloud-native/mirror/images/busybox:latest
         registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter:11.17.1=${REGISTRY}/gitlab-org/build/cng/gitlab-exporter:11.17.1
         registry.gitlab.com/gitlab-org/build/cng/gitlab-shell:v14.9.0=${REGISTRY}/gitlab-org/build/cng/gitlab-shell:v14.9.0
-        registry.gitlab.com/gitlab-org/build/cng/gitlab-kas:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitlab-kas:v15.2.0
-        registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.0
-        registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.0
-        registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.0
-        registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.0
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1
         minio/minio:RELEASE.2017-12-28T01-21-00Z=${REGISTRY}/minio/minio:RELEASE.2017-12-28T01-21-00Z
         registry.gitlab.com/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4=${REGISTRY}/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4
         registry.gitlab.com/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5=${REGISTRY}/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5
         jimmidyson/configmap-reload:v0.5.0=${REGISTRY}/jimmidyson/configmap-reload:v0.5.0
         quay.io/prometheus/prometheus:v2.31.1=${REGISTRY}/prometheus/prometheus:v2.31.1
         registry.gitlab.com/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab=${REGISTRY}/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab
-        registry.gitlab.com/gitlab-org/build/cng/gitaly:v15.2.0=${REGISTRY}/gitlab-org/build/cng/gitaly:v15.2.0
+        registry.gitlab.com/gitlab-org/build/cng/gitaly:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitaly:v15.2.1
         docker.io/bitnami/postgresql:12.7.0=${REGISTRY}/bitnami/postgresql:12.7.0
         docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r99=${REGISTRY}/bitnami/postgres-exporter:0.8.0-debian-10-r99
         docker.io/bitnami/redis:6.0.9-debian-10-r0=${REGISTRY}/bitnami/redis:6.0.9-debian-10-r0
         docker.io/bitnami/redis-exporter:1.12.1-debian-10-r11=${REGISTRY}/bitnami/redis-exporter:1.12.1-debian-10-r11
         registry.gitlab.com/gitlab-org/build/cng/kubectl:1.18.20=${REGISTRY}/gitlab-org/build/cng/kubectl:1.18.20
         minio/mc:RELEASE.2018-07-13T00-53-22Z=${REGISTRY}/minio/mc:RELEASE.2018-07-13T00-53-22Z
+        quay.io/jetstack/cert-manager-controller:v1.5.4=${REGISTRY}/jetstack/cert-manager-controller:v1.5.4
         EOF
         
         oc image mirror -f images-mapping.txt --filter-by-os=.* --insecure --skip-multiple-scopes --max-per-registry=1 -a auth.json
