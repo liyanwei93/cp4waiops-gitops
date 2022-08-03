@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: bootcluster-mirror-image-filesystem
+spec:
+  workspaces:
+    - name: install-env
+  tasks:
+
+    - name: bootcluster-mirror-image-filesystem
+      taskRef:
+        kind: Task
+        name: bootcluster-mirror-image-filesystem
+      timeout: 200m
+      workspaces:
+        - name: install-bootcluster
+          workspace: install-workspace
+          subPath: bootcluster
+
+    - name: bootcluster-wait-image-copy
+      runAfter:
+        - bootcluster-mirror-image-filesystem
+      taskRef:
+        kind: Task
+        name: wait-image-copy
+      workspaces:
+        - name: install-image
+          workspace: install-workspace
+          subPath: bootcluster

@@ -29,12 +29,12 @@ spec:
           username: USERNAME
           password: PASSWORD
         cp4waiops:
-          repoURL: https://gitlab.HOSTNAME:9043/root/cp4waiops-gitops.git
+          repoURL: GIT_REPO
           targetRevision: HEAD
         storageClass: STORAGECLASS
-        storageClassLargeBlock: STORAGECLASSBLOCK
+        storageClassLargeBlock: STORAGECLASS
     path: config/all-in-one
-    repoURL: https://gitlab.HOSTNAME:9043/root/cp4waiops-gitops.git
+    repoURL: GIT_REPO
     targetRevision: HEAD
   syncPolicy:
     automated: {}

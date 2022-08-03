@@ -13,6 +13,28 @@ ROOT_DIR=$(cd -P $(dirname $0) >/dev/null 2>&1 && pwd)
 DEPLOY_LOCAL_WORKDIR=${ROOT_DIR}/.work
 TOOLS_HOST_DIR=${ROOT_DIR}/.cache/tools/${HOST_PLATFORM}
 
+function wait-task {
+  local object=$1
+  local ns=$2
+  echo -n "Waiting for image mirror task $object done "
+  retries=600
+  until [[ $retries == 0 ]]; do
+    echo -n "."
+    local result=$($kubernetesCLI get pod $object -n $ns -o=jsonpath='{.status.phase}' 2>/dev/null)
+    if [[ $result == "Succeeded" ]]; then
+      echo " Done"
+      break
+    fi
+    sleep 10
+    retries=$((retries - 1))
+  done
+  [[ $retries == 0 ]] && echo
+}
+
+#######################
+# Aiops Install Prepare
+#######################
+
 airgap_cluster_pre() {
 
     kubernetesCLI="oc"
@@ -81,13 +103,28 @@ add_cluster() {
     echo "done"
 }
 
+#######################
+# Launch Pipeline
+#######################
+
 launch_pipeline() {
 
-    echo "-------------Launch Pipeline to mirror image-------------"
+    echo "-------------Launch Tekton Pipeline-------------"
 
     $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
 
     cat <<EOF | $kubernetesCLI apply -f -
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-workspace
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: Secret
@@ -110,12 +147,21 @@ stringData:
     ARGOCD_PASSWORD=${argocd_password}
     STORAGECLASS=${storage_class}
     STORAGECLASSBLOCK=${storage_class}
----
+EOF
+
+    echo "done"
+
+}
+
+bootcluster_online_pipeline() {
+
+    echo "-------------Launch Bootcluster Online Pipeline-------------"
+
+    cat <<EOF | $kubernetesCLI apply -f -
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: online-task
-  generateName: online-task-
+  name: gitops-install-online-task
 spec:
   serviceAccountName: tekton-pipeline
   pipelineRef:
@@ -132,16 +178,185 @@ EOF
 
 }
 
+bootcluster_airgap_pipeline() {
+
+    echo "-------------Launch Pipeline to mirror image of Bootcluster-------------"
+
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+
+    cat <<EOF | $kubernetesCLI apply -f -
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: bootcluster-mirror-image-filesystem
+spec:
+  serviceAccountName: tekton-pipeline
+  pipelineRef:
+    name: bootcluster-mirror-image-filesystem
+  timeouts:
+    pipeline: 300m
+  workspaces:
+    - name: install-workspace
+      persistentVolumeClaim:
+        claimName: my-workspace
+EOF
+
+    echo "done"
+
+}
+
+aiops_online_pipeline() {
+
+    echo "-------------Launch Pipeline to mirror image-------------"
+
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+
+    cat <<EOF | $kubernetesCLI apply -f -
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: aiops-mirror-image
+spec:
+  serviceAccountName: tekton-pipeline
+  pipelineRef:
+    name: aiops-mirror-image
+  timeouts:
+    pipeline: 300m
+  workspaces:
+    - name: install-env
+      secret:
+        secretName: gitops-install-env-secret
+EOF
+
+    echo "done"
+
+}
+
+aiops_airgap_pipeline() {
+
+    echo "-------------Launch Pipeline to mirror image-------------"
+
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+
+    cat <<EOF | $kubernetesCLI apply -f -
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: aiops-mirror-image-filesystem
+spec:
+  serviceAccountName: tekton-pipeline
+  pipelineRef:
+    name: aiops-mirror-image-filesystem
+  timeouts:
+    pipeline: 300m
+  workspaces:
+    - name: install-env
+      secret:
+        secretName: gitops-install-env-secret
+    - name: install-workspace
+      persistentVolumeClaim:
+        claimName: my-workspace
+EOF
+
+    echo "done"
+
+}
+
+####################
+# Aiops Install
+####################
+
+image_mirror_bastion() {
+
+  launch_pipeline
+  aiops_online_pipeline
+
+}
+
+image_mirror_filesystem() {
+
+    echo "-------------Prepare Airgap Launch Boot Cluster-------------"
+
+    launch_pipeline
+    aiops_airgap_pipeline
+    wait-task aiops-mirror-image-filesystem-pod default
+    mkdir -p ${ROOT_DIR}/.image/case
+    $kubernetesCLI cp aiops-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/case
+
+    echo "done"
+
+}
+
+airgap_launch_case() {
+
+    echo "-------------Prepare Airgap Launch Boot Cluster-------------"
+
+    ${ROOT_DIR}/image-mirror.sh "case" ${registry} ${user} ${pass}
+    sed -i 's|REGISTRY|'"${registry}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|USERNAME|'"${user}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|PASSWORD|'"${pass}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|GIT_REPO|'"${git_repo}"'|g' ${ROOT_DIR}/application.yaml
+    sed -i 's|STORAGECLASS|'"${storage_class}"'|g' ${ROOT_DIR}/application.yaml
+    $kubernetesCLI apply -f ${ROOT_DIR}/application.yaml
+
+    echo "done"
+
+}
+
+####################
+# Launch Boot Cluster
+####################
+
 launch_boot_cluster() {
 
     echo "-------------Launch Boot Cluster-------------"
 
-    if [[ $airgap_launch_boot_cluster == "true" ]]; then
-      grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
-      sed -i 's|LOCALREGISTRY|'"${registry}"'|g' ${ROOT_DIR}/portable-storage-device-install.sh
-      ${ROOT_DIR}/portable-storage-device-install.sh up
-    else
-      ${ROOT_DIR}/install.sh up
+    ${ROOT_DIR}/install.sh up
+    boot_cluster_env
+    echo y | argocd login ${argocd_url} --username ${argocd_username} --password ${argocd_password}
+    launch_pipeline
+    bootcluster_online_pipeline
+    echo "done"
+
+}
+
+pre_launch_boot_cluster() {
+
+    echo "-------------Prepare Airgap Launch Boot Cluster-------------"
+
+    ${ROOT_DIR}/install.sh pre-airgap
+    boot_cluster_env
+    launch_pipeline
+    bootcluster_airgap_pipeline
+    
+    wait-task bootcluster-mirror-image-filesystem-pod default
+    mkdir -p ${ROOT_DIR}/.image/bootcluster
+    $kubernetesCLI cp bootcluster-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/bootcluster
+
+    echo "done"
+
+}
+
+airgap_launch_boot_cluster() {
+
+    echo "-------------Airgap Launch Boot Cluster-------------"
+
+    boot_cluster_env
+    ${ROOT_DIR}/image-mirror.sh "bootcluster" ${registry} ${user} ${pass}
+    grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
+    sed -i 's|LOCALREGISTRY|'"${registry}"'|g' ${ROOT_DIR}/portable-storage-device-install.sh
+    ${ROOT_DIR}/portable-storage-device-install.sh up
+
+    echo "done"
+
+}
+
+boot_cluster_env() {
+
+    if [[ -z $registry ]]; then
+      registry=$(hostname):5003
+      user=admin
+      pass=admin
     fi
 
     if [[ -z $git_repo ]]; then
@@ -155,11 +370,7 @@ launch_boot_cluster() {
       argocd_username="admin"
       argocd_password="$($kubernetesCLI -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
     fi
-
-    echo y | argocd login ${argocd_url} --username ${argocd_username} --password ${argocd_password}
-
-    echo "done"
-
+    
 }
 
 ####################
@@ -189,6 +400,24 @@ while [ "${1-}" != "" ]; do
         shift
         pass="${1}"
         ;;
+    --launchBootCluster)
+        launch_boot_cluster="true"
+        ;;
+    --preLaunchBootCluster)
+        prepare_launch_boot_cluster="true"
+        ;;
+    --airgapLaunchBootCluster)
+        airgap_launch_boot_cluster="true"
+        ;;
+    --caseImageMirrorBastion)
+        case_image_mirror_bastion="true"
+        ;;
+    --caseImageMirrorFilesystem)
+        case_image_mirror_filesystem="true"
+        ;;
+    --caseAirgapLaunch)
+        airgap_launch_case="true"
+        ;;
     --cpToken | -t)
         shift
         cp_token="${1}"
@@ -200,17 +429,11 @@ while [ "${1-}" != "" ]; do
     --addCluster)
         add_cluster="true"
         ;;
-    --launchBootCluster)
-        launch_boot_cluster="true"
-        ;;
-    --airgapLaunchBootCluster)
-        airgap_launch_boot_cluster="true"
-        ;;
-    --aiopsCase)
+    --caseName)
         shift
         aiops_case="${1}"
         ;;
-    --aiopsCaseVersoin)
+    --caseVersoin)
         shift
         aiops_case_versoin="${1}"
         ;;
@@ -251,18 +474,30 @@ done
 
 if [[ $launch_registry == "true" ]]; then
     ${ROOT_DIR}/launch-registry.sh
-    registry=$(hostname):5003
-    user=admin
-    pass=admin
 fi
 
 if [[ $launch_boot_cluster == "true" ]]; then
     launch_boot_cluster
-    launch_pipeline
+fi
+
+if [[ $prepare_launch_boot_cluster == "true" ]]; then
+    pre_launch_boot_cluster
 fi
 
 if [[ $airgap_launch_boot_cluster == "true" ]]; then
-    launch_boot_cluster
+    airgap_launch_boot_cluster
+fi
+
+if [[ $case_image_mirror_bastion == "true" ]]; then
+    image_mirror_bastion
+fi
+
+if [[ $case_image_mirror_filesystem == "true" ]]; then
+    image_mirror_filesystem
+fi
+
+if [[ $airgap_launch_case == "true" ]]; then
+    airgap_launch_case
 fi
 
 if [[ $add_cluster == "true" ]]; then

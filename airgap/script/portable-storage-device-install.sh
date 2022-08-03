@@ -101,7 +101,7 @@ nodes:
     image: LOCALREGISTRY/kindest/node:v1.21.12
     extraMounts:
     - containerPath: /usr/local/share/ca-certificates/server.crt
-      hostPath: /root/.ibm-pak/data/registry/certs/server.crt
+      hostPath: /opt/registry/certs/server.crt
     extraPortMappings:
     - containerPort: 30443
       hostPort: 9443
@@ -205,8 +205,6 @@ function install-tekton {
   wait-deployment tekton-dashboard tekton-pipelines "1"
 
   ${KUBECTL} patch cm/feature-flags -n tekton-pipelines -p '{"data": {"enable-api-fields": "alpha"}}'
-
-  ${KUBECTL} apply -f ${ROOT_DIR}/../boot-cluster/tekton-ansible-runner.yaml
 
   patch-sa-pull-secret default -n default
 

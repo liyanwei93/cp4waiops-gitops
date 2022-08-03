@@ -31,8 +31,8 @@ spec:
         fi
 
         echo y | yum install wget
-        wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.8.3/openshift-client-linux-4.8.3.tar.gz
-        tar -xf openshift-client-linux-4.8.3.tar.gz
+        wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
+        tar -xf openshift-client-linux.tar.gz
         mv oc /usr/bin/oc
 
         cp_auth=$(echo -n "cp:${CP_TOKEN}" | base64 | tr -d "\n")
@@ -59,7 +59,6 @@ spec:
         quay.io/argoproj/argocd:v2.4.7=${REGISTRY}/argoproj/argocd:v2.4.7
         ghcr.io/dexidp/dex:v2.30.2=${REGISTRY}/dexidp/dex:v2.30.2
         docker.io/library/redis:7.0.0-alpine=${REGISTRY}/library/redis:7.0.0-alpine
-        quay.io/ansible/ansible-runner:stable-2.12-latest=${REGISTRY}/ansible/ansible-runner:stable-2.12-latest
         gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0=${REGISTRY}/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0
         gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0=${REGISTRY}/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0
         gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0=${REGISTRY}/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0

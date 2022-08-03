@@ -2,15 +2,17 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: aiops-mirror-image
+  name: aiops-mirror-image-filesystem
 spec:
   description: >-
     Task to Mirror Image.
   workspaces:
     - name: install-env
       description: A workspace containing environment variables used by install code.
+    - name: install-aiops
+      description: The folder where we write the message to
   steps:
-    - name: aiops-mirror-image
+    - name: aiops-mirror-image-filesystem
       image: redhat/ubi8
       env:
       - name: WORKSPACE_INSTALL_ENV_BOUND
@@ -43,8 +45,15 @@ spec:
         export CASE_VERSION=$CASE_VERSION
         oc ibm-pak get $CASE_NAME --version $CASE_VERSION
 
-        export TARGET_REGISTRY=${REGISTRY}
-        oc ibm-pak generate mirror-manifests $CASE_NAME $TARGET_REGISTRY --version $CASE_VERSION
+        cd $(workspaces.install-aiops.path)
+        
+        if [[ -z ${REGISTRY} ]]; then
+          export TARGET_REGISTRY=TARGET_REGISTRY
+        else
+          export TARGET_REGISTRY=${REGISTRY}
+        fi
+
+        oc ibm-pak generate mirror-manifests $CASE_NAME file://cpfs --version $CASE_VERSION --final-registry $TARGET_REGISTRY
 
         cp_auth=$(echo -n "cp:${CP_TOKEN}" | base64 | tr -d "\n")
         local_auth=$(echo -n "${REGISTRY_USERNAME}:${REGISTRY_PASSWORD}" | base64 | tr -d "\n")
@@ -62,9 +71,13 @@ spec:
         }
         EOF
 
-        oc image mirror -f ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping.txt \
+        oc image mirror -f ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping-to-filesystem.txt \
         --filter-by-os=.* \
         --insecure \
         --skip-multiple-scopes \
         --max-per-registry=1 \
         -a auth.json
+
+        tar -czvf v2.tgz v2
+        rm -rf v2
+        cp ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping-from-filesystem.txt .

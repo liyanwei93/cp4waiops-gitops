@@ -1,0 +1,19 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: wait-image-copy
+spec:
+  description: >-
+    Task to Mirror Image.
+  workspaces:
+    - name: install-image
+      description: The folder where we write the message to
+  steps:
+    - name: wait-image-copy
+      image: redhat/ubi8
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        sleep 1000s

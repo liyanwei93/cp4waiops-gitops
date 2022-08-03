@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: aiops-mirror-image-filesystem
+spec:
+  workspaces:
+    - name: install-env
+  tasks:
+
+    - name: aiops-mirror-image-filesystem
+      taskRef:
+        kind: Task
+        name: aiops-mirror-image-filesystem
+      timeout: 200m
+      workspaces:
+        - name: install-env
+          workspace: install-env
+        - name: install-aiops
+          workspace: install-workspace
+          subPath: aiops
+
+    - name: aiops-wait-image-copy
+      runAfter:
+        - aiops-mirror-image-filesystem
+      taskRef:
+        kind: Task
+        name: wait-image-copy
+      workspaces:
+        - name: install-image
+          workspace: install-workspace
+          subPath: aiops

@@ -47,12 +47,13 @@ function error {
 function wait-deployment {
   local object=$1
   local ns=$2
+  local number=$3
   echo -n "Waiting for deployment $object in $ns namespace ready "
   retries=600
   until [[ $retries == 0 ]]; do
     echo -n "."
     local result=$(${KUBECTL} get deploy $object -n $ns -o jsonpath='{.status.readyReplicas}' 2>/dev/null)
-    if [[ $result == 1 ]]; then
+    if [[ $result == $number ]]; then
       echo " Done"
       break
     fi
@@ -204,11 +205,11 @@ function install-argocd {
 
   ${KUBECTL} apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/applicationset/${ARGOCD_APPSET_VERSION}/manifests/install.yaml
 
-  wait-deployment argocd-server argocd
+  wait-deployment argocd-server argocd "1"
 
   ${KUBECTL} patch service/argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30443, "port": 443}]}}'
 
-  wait-deployment argocd-applicationset-controller argocd
+  wait-deployment argocd-applicationset-controller argocd "1"
 
   restart-pods-with-image-errors -n argocd
 
@@ -280,9 +281,9 @@ function install-tekton {
 
   ${KUBECTL} patch service/tekton-dashboard -n tekton-pipelines -p '{"spec": {"type": "NodePort", "ports": [{"name":"http", "nodePort": 30097, "port": 9097, "targetPort": 9097}]}}'
 
-  wait-deployment tekton-pipelines-controller tekton-pipelines
-  wait-deployment tekton-pipelines-webhook tekton-pipelines
-  wait-deployment tekton-dashboard tekton-pipelines
+  wait-deployment tekton-pipelines-controller tekton-pipelines "1"
+  wait-deployment tekton-pipelines-webhook tekton-pipelines "1"
+  wait-deployment tekton-dashboard tekton-pipelines "1"
 
   ${KUBECTL} patch cm/feature-flags -n tekton-pipelines -p '{"data": {"enable-api-fields": "alpha"}}'
 
@@ -329,7 +330,7 @@ function install-kube-dashboard {
 
   restart-pods-with-image-errors -n kubernetes-dashboard 30
 
-  wait-deployment kubernetes-dashboard kubernetes-dashboard
+  wait-deployment kubernetes-dashboard kubernetes-dashboard "1"
 
   ${KUBECTL} patch service/kubernetes-dashboard -n kubernetes-dashboard -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30445, "port": 443}]}}'
 
@@ -415,7 +416,7 @@ function install-gitlab {
 
     ${KUBECTL} patch service/gitlab-nginx-ingress-controller -n gitlab -p '{"spec": {"type": "NodePort", "ports": [{"name":"https", "nodePort": 30043, "port": 443},{"name":"gitlab-shell", "nodePort": 30022, "port": 22},{"name":"http", "nodePort": 30080, "port": 80}]}}'
 
-    wait-deployment gitlab-webservice-default gitlab
+    wait-deployment gitlab-webservice-default gitlab "2"
 
   else
     echo "Gitlab detected."
@@ -643,6 +644,15 @@ case $1 in
     install-helm
     install-gitlab
     print-summary
+    ;;
+  "pre-airgap")
+    install-kubectl
+    install-kind
+    kind-up
+    install-argocd-cli
+    install-kubeseal-cli
+    install-tekton-cli
+    install-helm
     ;;
   "cluster-config")
     install-kubeseal-cli

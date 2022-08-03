@@ -16,16 +16,9 @@ spec:
         - name: install-env
           workspace: install-env
 
-    - name: aiops-mirror-image
-      taskRef:
-        kind: Task
-        name: aiops-mirror-image
-      timeout: 200m
-      workspaces:
-        - name: install-env
-          workspace: install-env
-
     - name: push-gitops-code-to-git
+      runAfter:
+        - bootcluster-mirror-image
       taskRef:
         kind: Task
         name: push-code-to-git
@@ -39,16 +32,6 @@ spec:
       taskRef:
         kind: Task
         name: argocd-gitlab-connect
-      workspaces:
-        - name: install-env
-          workspace: install-env
-
-    - name: install-applicationset
-      runAfter:
-        - argocd-gitlab-connect
-      taskRef:
-        kind: Task
-        name: applicationset-install
       workspaces:
         - name: install-env
           workspace: install-env

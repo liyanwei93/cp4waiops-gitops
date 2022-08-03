@@ -1,0 +1,113 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: bootcluster-mirror-image-filesystem
+spec:
+  description: >-
+    Task to Mirror Boot Cluster Image.
+  workspaces:
+    - name: install-bootcluster
+      description: The folder where we write the message to
+  steps:
+    - name: bootcluster-mirror-image-filesystem
+      image: redhat/ubi8
+      script: |
+        #!/usr/bin/env sh
+        set -x
+
+        echo y | yum install wget
+        wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
+        tar -xf openshift-client-linux.tar.gz
+        mv oc /usr/bin/oc
+
+        cd $(workspaces.install-bootcluster.path)
+
+        cat << EOF > images-mapping.txt
+        kindest/node@sha256:f316b33dd88f8196379f38feb80545ef3ed44d9197dca1bfd48bcb1583210207=file://cpfs/kindest/node:v1.21.12
+        quay.io/openshift/origin-cli:latest=file://cpfs/openshift/origin-cli:latest
+        redhat/ubi8:latest=file://cpfs/redhat/ubi8:latest
+        quay.io/argoproj/argocd-applicationset:v0.3.0=file://cpfs/argoproj/argocd-applicationset:v0.3.0
+        quay.io/argoproj/argocd:v2.4.7=file://cpfs/argoproj/argocd:v2.4.7
+        ghcr.io/dexidp/dex:v2.30.2=file://cpfs/dexidp/dex:v2.30.2
+        docker.io/library/redis:7.0.0-alpine=file://cpfs/library/redis:7.0.0-alpine
+        gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0=file://cpfs/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0
+        gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0=file://cpfs/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0
+        gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0=file://cpfs/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0
+        quay.io/jetstack/cert-manager-cainjector:v1.5.4=file://cpfs/jetstack/cert-manager-cainjector:v1.5.4
+        quay.io/jetstack/cert-manager-webhook:v1.5.4=file://cpfs/jetstack/cert-manager-webhook:v1.5.4
+        quay.io/jetstack/cert-manager-ctl:v1.5.4=file://cpfs/jetstack/cert-manager-ctl:v1.5.4
+        registry.gitlab.com/gitlab-org/build/cng/alpine-certificates:20191127-r2=file://cpfs/gitlab-org/build/cng/alpine-certificates:20191127-r2
+        registry.gitlab.com/gitlab-org/cloud-native/mirror/images/busybox:latest=file://cpfs/gitlab-org/cloud-native/mirror/images/busybox:latest
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-exporter:11.17.1=file://cpfs/gitlab-org/build/cng/gitlab-exporter:11.17.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-shell:v14.9.0=file://cpfs/gitlab-org/build/cng/gitlab-shell:v14.9.0
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1=file://cpfs/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1=file://cpfs/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1=file://cpfs/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1=file://cpfs/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1
+        minio/minio:RELEASE.2017-12-28T01-21-00Z=file://cpfs/minio/minio:RELEASE.2017-12-28T01-21-00Z
+        registry.gitlab.com/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4=file://cpfs/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4
+        registry.gitlab.com/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5=file://cpfs/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5
+        jimmidyson/configmap-reload:v0.5.0=file://cpfs/jimmidyson/configmap-reload:v0.5.0
+        quay.io/prometheus/prometheus:v2.31.1=file://cpfs/prometheus/prometheus:v2.31.1
+        registry.gitlab.com/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab=file://cpfs/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab
+        registry.gitlab.com/gitlab-org/build/cng/gitaly:v15.2.1=file://cpfs/gitlab-org/build/cng/gitaly:v15.2.1
+        docker.io/bitnami/postgresql:12.7.0=file://cpfs/bitnami/postgresql:12.7.0
+        docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r99=file://cpfs/bitnami/postgres-exporter:0.8.0-debian-10-r99
+        docker.io/bitnami/redis:6.0.9-debian-10-r0=file://cpfs/bitnami/redis:6.0.9-debian-10-r0
+        docker.io/bitnami/redis-exporter:1.12.1-debian-10-r11=file://cpfs/bitnami/redis-exporter:1.12.1-debian-10-r11
+        registry.gitlab.com/gitlab-org/build/cng/kubectl:1.18.20=file://cpfs/gitlab-org/build/cng/kubectl:1.18.20
+        minio/mc:RELEASE.2018-07-13T00-53-22Z=file://cpfs/minio/mc:RELEASE.2018-07-13T00-53-22Z
+        quay.io/jetstack/cert-manager-controller:v1.5.4=file://cpfs/jetstack/cert-manager-controller:v1.5.4
+        EOF
+        
+        oc image mirror -f images-mapping.txt \
+        --filter-by-os=.* \
+        --insecure \
+        --skip-multiple-scopes \
+        --max-per-registry=1
+        
+        tar -czvf v2.tgz v2
+        rm -rf v2
+
+        if [[ -z ${REGISTRY} ]]; then
+          REGISTRY=LOCALREGISTRY
+        fi
+
+        cat << EOF > images-mapping-from-filesystem.txt
+        file://cpfs/kindest/node:v1.21.12=${REGISTRY}/kindest/node:v1.21.12
+        file://cpfs/openshift/origin-cli:latest=${REGISTRY}/openshift/origin-cli:latest
+        file://cpfs/redhat/ubi8:latest=${REGISTRY}/redhat/ubi8:latest
+        file://cpfs/argoproj/argocd-applicationset:v0.3.0=${REGISTRY}/argoproj/argocd-applicationset:v0.3.0
+        file://cpfs/argoproj/argocd:v2.4.7=${REGISTRY}/argoproj/argocd:v2.4.7
+        file://cpfs/dexidp/dex:v2.30.2=${REGISTRY}/dexidp/dex:v2.30.2
+        file://cpfs/library/redis:7.0.0-alpine=${REGISTRY}/library/redis:7.0.0-alpine
+        file://cpfs/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0=${REGISTRY}/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard:v0.25.0
+        file://cpfs/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0=${REGISTRY}/tekton-releases/github.com/tektoncd/pipeline/cmd/controller:v0.35.0
+        file://cpfs/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0=${REGISTRY}/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.35.0
+        file://cpfs/jetstack/cert-manager-cainjector:v1.5.4=${REGISTRY}/jetstack/cert-manager-cainjector:v1.5.4
+        file://cpfs/jetstack/cert-manager-webhook:v1.5.4=${REGISTRY}/jetstack/cert-manager-webhook:v1.5.4
+        file://cpfs/jetstack/cert-manager-ctl:v1.5.4=${REGISTRY}/jetstack/cert-manager-ctl:v1.5.4
+        file://cpfs/gitlab-org/build/cng/alpine-certificates:20191127-r2=${REGISTRY}/gitlab-org/build/cng/alpine-certificates:20191127-r2
+        file://cpfs/gitlab-org/cloud-native/mirror/images/busybox:latest=${REGISTRY}/gitlab-org/cloud-native/mirror/images/busybox:latest
+        file://cpfs/gitlab-org/build/cng/gitlab-exporter:11.17.1=${REGISTRY}/gitlab-org/build/cng/gitlab-exporter:11.17.1
+        file://cpfs/gitlab-org/build/cng/gitlab-shell:v14.9.0=${REGISTRY}/gitlab-org/build/cng/gitlab-shell:v14.9.0
+        file://cpfs/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-sidekiq-ce:v15.2.1
+        file://cpfs/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-toolbox-ce:v15.2.1
+        file://cpfs/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-webservice-ce:v15.2.1
+        file://cpfs/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitlab-workhorse-ce:v15.2.1
+        file://cpfs/minio/minio:RELEASE.2017-12-28T01-21-00Z=${REGISTRY}/minio/minio:RELEASE.2017-12-28T01-21-00Z
+        file://cpfs/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4=${REGISTRY}/gitlab-org/cloud-native/mirror/images/ingress-nginx/controller:v1.0.4
+        file://cpfs/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5=${REGISTRY}/gitlab-org/cloud-native/mirror/images/defaultbackend-amd64:1.5
+        file://cpfs/jimmidyson/configmap-reload:v0.5.0=${REGISTRY}/jimmidyson/configmap-reload:v0.5.0
+        file://cpfs/prometheus/prometheus:v2.31.1=${REGISTRY}/prometheus/prometheus:v2.31.1
+        file://cpfs/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab=${REGISTRY}/gitlab-org/build/cng/gitlab-container-registry:v3.51.1-gitlab
+        file://cpfs/gitlab-org/build/cng/gitaly:v15.2.1=${REGISTRY}/gitlab-org/build/cng/gitaly:v15.2.1
+        file://cpfs/bitnami/postgresql:12.7.0=${REGISTRY}/bitnami/postgresql:12.7.0
+        file://cpfs/bitnami/postgres-exporter:0.8.0-debian-10-r99=${REGISTRY}/bitnami/postgres-exporter:0.8.0-debian-10-r99
+        file://cpfs/bitnami/redis:6.0.9-debian-10-r0=${REGISTRY}/bitnami/redis:6.0.9-debian-10-r0
+        file://cpfs/bitnami/redis-exporter:1.12.1-debian-10-r11=${REGISTRY}/bitnami/redis-exporter:1.12.1-debian-10-r11
+        file://cpfs/gitlab-org/build/cng/kubectl:1.18.20=${REGISTRY}/gitlab-org/build/cng/kubectl:1.18.20
+        file://cpfs/minio/mc:RELEASE.2018-07-13T00-53-22Z=${REGISTRY}/minio/mc:RELEASE.2018-07-13T00-53-22Z
+        file://cpfs/jetstack/cert-manager-controller:v1.5.4=${REGISTRY}/jetstack/cert-manager-controller:v1.5.4
+        EOF
