@@ -292,7 +292,6 @@ EOF
 
 image_mirror_bastion() {
 
-  boot_cluster_env
   launch_pipeline
   aiops_online_pipeline
 
@@ -302,7 +301,6 @@ image_mirror_filesystem() {
 
     echo "-------------Prepare Airgap Launch Boot Cluster-------------"
 
-    boot_cluster_env
     launch_pipeline
     aiops_airgap_pipeline
     wait-task ai-airgap-aiops-mirror-image-filesystem-pod default
@@ -353,7 +351,6 @@ pre_launch_boot_cluster() {
     echo "-------------Prepare Airgap Launch Boot Cluster-------------"
 
     ${ROOT_DIR}/install.sh pre-airgap
-    boot_cluster_env
     launch_pipeline
     bootcluster_airgap_pipeline
     
@@ -364,17 +361,13 @@ pre_launch_boot_cluster() {
 
     echo "done"
 
+    docker save -o ${ROOT_DIR}/.image/bootcluster/registry-image.tar docker.io/library/registry:2
+
 }
 
 airgap_launch_boot_cluster() {
 
     echo "-------------Airgap Launch Boot Cluster-------------"
-
-    if [[ -z $registry ]]; then
-      registry=$(hostname):5003
-      user=admin
-      pass=admin
-    fi
 
     ${ROOT_DIR}/image-mirror.sh "bootcluster" ${registry} ${user} ${pass}
     grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
@@ -386,12 +379,6 @@ airgap_launch_boot_cluster() {
 }
 
 boot_cluster_env() {
-
-    if [[ -z $registry ]]; then
-      registry=$(hostname):5003
-      user=admin
-      pass=admin
-    fi
 
     if [[ -z $git_repo ]]; then
       git_repo="https://gitlab.$(hostname):9043/root/cp4waiops-gitops.git"
@@ -507,7 +494,16 @@ while [ "${1-}" != "" ]; do
 done
 
 if [[ $launch_registry == "true" ]]; then
-    ${ROOT_DIR}/launch-registry.sh
+  if [[ $airgap_launch_boot_cluster == "true" ]]; then
+    docker load -i ${ROOT_DIR}/.image/bootcluster/registry-image.tar
+  fi
+  ${ROOT_DIR}/launch-registry.sh
+fi 
+
+if [[ -z $registry ]]; then
+  registry=$(hostname):5003
+  user=admin
+  pass=admin
 fi
 
 if [[ $launch_boot_cluster == "true" ]]; then

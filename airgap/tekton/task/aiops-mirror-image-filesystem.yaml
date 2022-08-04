@@ -44,28 +44,15 @@ spec:
         export CASE_NAME=$CASE_NAME
         export CASE_VERSION=$CASE_VERSION
         oc ibm-pak get $CASE_NAME --version $CASE_VERSION
-
-        cd $(workspaces.install-aiops.path)
         
-        if [[ -z ${REGISTRY} ]]; then
-          export TARGET_REGISTRY=TARGET_REGISTRY
-        else
-          export TARGET_REGISTRY=${REGISTRY}
-        fi
-
-        oc ibm-pak generate mirror-manifests $CASE_NAME file://cpfs --version $CASE_VERSION --final-registry $TARGET_REGISTRY
+        oc ibm-pak generate mirror-manifests $CASE_NAME file://cpfs --version $CASE_VERSION --final-registry LOCALREGISTRY
 
         cp_auth=$(echo -n "cp:${CP_TOKEN}" | base64 | tr -d "\n")
-        local_auth=$(echo -n "${REGISTRY_USERNAME}:${REGISTRY_PASSWORD}" | base64 | tr -d "\n")
-
         cat << EOF > auth.json
         {
           "auths": {
             "cp.icr.io": {
               "auth": "${cp_auth}"
-            },
-            "${REGISTRY}": {
-              "auth": "${local_auth}"
             }
           }
         }
@@ -79,5 +66,5 @@ spec:
         -a auth.json
 
         tar -czvf v2.tgz v2
-        rm -rf v2
-        cp ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping-from-filesystem.txt .
+        cp v2.tgz $(workspaces.install-aiops.path)/
+        cp ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping-from-filesystem.txt $(workspaces.install-aiops.path)/

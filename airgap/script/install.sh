@@ -651,6 +651,7 @@ case $1 in
     kind-up
     install-argocd-cli
     install-kubeseal-cli
+    install-tekton
     install-tekton-cli
     install-helm
     ;;
