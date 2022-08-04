@@ -4,7 +4,7 @@ kubernetesCLI="kubectl"
 launch_registry=
 
 aiops_case="ibm-cp-waiops"
-aiops_case_versoin="1.3.0"
+aiops_case_versoin="1.3.1"
 
 DOCKER_USERNAME=
 DOCKER_PASSWORD=
@@ -16,7 +16,7 @@ TOOLS_HOST_DIR=${ROOT_DIR}/.cache/tools/${HOST_PLATFORM}
 function wait-task {
   local object=$1
   local ns=$2
-  echo -n "Waiting for image mirror task $object done "
+  echo -n "Waiting for image mirror $object done "
   retries=600
   until [[ $retries == 0 ]]; do
     echo -n "."
@@ -31,6 +31,23 @@ function wait-task {
   [[ $retries == 0 ]] && echo
 }
 
+function wait-pod-running {
+  local object=$1
+  local ns=$2
+  retries=200
+  until [[ $retries == 0 ]]; do
+    echo -n "."
+    local result=$($kubernetesCLI get pod $object -n $ns -o=jsonpath='{.status.phase}' 2>/dev/null)
+    if [[ $result == "Running" ]]; then
+      echo " Done"
+      break
+    fi
+    sleep 1
+    retries=$((retries - 1))
+  done
+  [[ $retries == 0 ]] && echo
+}
+
 #######################
 # Aiops Install Prepare
 #######################
@@ -38,7 +55,8 @@ function wait-task {
 airgap_cluster_pre() {
 
     kubernetesCLI="oc"
-
+    boot_cluster_env
+    
     echo "-------------Create ImageContentSourcePolicy-------------"
 
   cat << EOF | $kubernetesCLI apply -f -
@@ -111,8 +129,6 @@ launch_pipeline() {
 
     echo "-------------Launch Tekton Pipeline-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
-
     cat <<EOF | $kubernetesCLI apply -f -
 ---
 apiVersion: v1
@@ -149,6 +165,8 @@ stringData:
     STORAGECLASSBLOCK=${storage_class}
 EOF
 
+    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+    
     echo "done"
 
 }
@@ -157,11 +175,14 @@ bootcluster_online_pipeline() {
 
     echo "-------------Launch Bootcluster Online Pipeline-------------"
 
+    $kubernetesCLI delete pipelinerun bc-online
+
     cat <<EOF | $kubernetesCLI apply -f -
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: gitops-install-online-task
+  name: bc-online
+  generateName: bc-online-
 spec:
   serviceAccountName: tekton-pipeline
   pipelineRef:
@@ -180,15 +201,16 @@ EOF
 
 bootcluster_airgap_pipeline() {
 
-    echo "-------------Launch Pipeline to mirror image of Bootcluster-------------"
+    echo "-------------Bootcluster Image Mirror-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+    $kubernetesCLI delete pipelinerun bc-airgap
 
     cat <<EOF | $kubernetesCLI apply -f -
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: bootcluster-mirror-image-filesystem
+  name: bc-airgap
+  generateName: bc-airgap-
 spec:
   serviceAccountName: tekton-pipeline
   pipelineRef:
@@ -207,15 +229,16 @@ EOF
 
 aiops_online_pipeline() {
 
-    echo "-------------Launch Pipeline to mirror image-------------"
+    echo "-------------Case ${aiops_case} ${aiops_case_versoin} Image Mirror - Bastion-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+    $kubernetesCLI delete pipelinerun ai-online
 
     cat <<EOF | $kubernetesCLI apply -f -
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: aiops-mirror-image
+  name: ai-online
+  generateName: ai-online-
 spec:
   serviceAccountName: tekton-pipeline
   pipelineRef:
@@ -234,15 +257,16 @@ EOF
 
 aiops_airgap_pipeline() {
 
-    echo "-------------Launch Pipeline to mirror image-------------"
+    echo "-------------Case ${aiops_case} ${aiops_case_versoin} Image Mirror - filesystem-------------"
 
-    $kubernetesCLI apply -f ${ROOT_DIR}/../tekton -R
+    $kubernetesCLI delete pipelinerun ai-airgap
 
     cat <<EOF | $kubernetesCLI apply -f -
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: aiops-mirror-image-filesystem
+  name: ai-airgap
+  generateName: ai-airgap-
 spec:
   serviceAccountName: tekton-pipeline
   pipelineRef:
@@ -268,6 +292,7 @@ EOF
 
 image_mirror_bastion() {
 
+  boot_cluster_env
   launch_pipeline
   aiops_online_pipeline
 
@@ -277,11 +302,13 @@ image_mirror_filesystem() {
 
     echo "-------------Prepare Airgap Launch Boot Cluster-------------"
 
+    boot_cluster_env
     launch_pipeline
     aiops_airgap_pipeline
-    wait-task aiops-mirror-image-filesystem-pod default
+    wait-task ai-airgap-aiops-mirror-image-filesystem-pod default
+    wait-pod-running ai-airgap-aiops-wait-image-copy-pod default
     mkdir -p ${ROOT_DIR}/.image/case
-    $kubernetesCLI cp aiops-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/case
+    $kubernetesCLI cp ai-airgap-aiops-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/case
 
     echo "done"
 
@@ -291,6 +318,7 @@ airgap_launch_case() {
 
     echo "-------------Prepare Airgap Launch Boot Cluster-------------"
 
+    boot_cluster_env
     ${ROOT_DIR}/image-mirror.sh "case" ${registry} ${user} ${pass}
     sed -i 's|REGISTRY|'"${registry}"'|g' ${ROOT_DIR}/application.yaml
     sed -i 's|USERNAME|'"${user}"'|g' ${ROOT_DIR}/application.yaml
@@ -329,9 +357,10 @@ pre_launch_boot_cluster() {
     launch_pipeline
     bootcluster_airgap_pipeline
     
-    wait-task bootcluster-mirror-image-filesystem-pod default
+    wait-task bc-airgap-bootcluster-mirror-image-filesystem-pod default
+    wait-pod-running bc-airgap-bootcluster-wait-image-copy-pod default  
     mkdir -p ${ROOT_DIR}/.image/bootcluster
-    $kubernetesCLI cp bootcluster-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/bootcluster
+    $kubernetesCLI cp bc-airgap-bootcluster-wait-image-copy-pod:/workspace/install-image ${ROOT_DIR}/.image/bootcluster
 
     echo "done"
 
@@ -341,7 +370,12 @@ airgap_launch_boot_cluster() {
 
     echo "-------------Airgap Launch Boot Cluster-------------"
 
-    boot_cluster_env
+    if [[ -z $registry ]]; then
+      registry=$(hostname):5003
+      user=admin
+      pass=admin
+    fi
+
     ${ROOT_DIR}/image-mirror.sh "bootcluster" ${registry} ${user} ${pass}
     grep -rl 'LOCALREGISTRY' ${ROOT_DIR}/../boot-cluster/ | xargs sed -i 's|LOCALREGISTRY|'"${registry}"'|g'
     sed -i 's|LOCALREGISTRY|'"${registry}"'|g' ${ROOT_DIR}/portable-storage-device-install.sh

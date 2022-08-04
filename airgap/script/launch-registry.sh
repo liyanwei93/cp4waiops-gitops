@@ -42,7 +42,7 @@ function launch_registry() {
          -v ${REGISTRY_DIR}/certs:/certs:z \
          -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/server.crt \
          -e REGISTRY_HTTP_TLS_KEY=/certs/server.key \
-         -d docker.io/library/registry:2
+         -d registry:2
 
          cd -  
          info "Launch local container registry ${HOSTNAME}:5003..."

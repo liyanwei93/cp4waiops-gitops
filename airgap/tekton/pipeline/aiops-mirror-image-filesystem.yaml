@@ -5,6 +5,7 @@ metadata:
 spec:
   workspaces:
     - name: install-env
+    - name: install-workspace
   tasks:
 
     - name: aiops-mirror-image-filesystem

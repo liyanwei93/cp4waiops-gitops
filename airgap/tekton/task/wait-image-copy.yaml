@@ -16,4 +16,4 @@ spec:
         #!/usr/bin/env sh
         set -x
 
-        sleep 1000s
+        sleep 100s
