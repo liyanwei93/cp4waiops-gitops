@@ -10,9 +10,14 @@
       - [1.Launch boot cluster preparation (online)](#1launch-boot-cluster-preparation-online)
       - [2.Copy saved offline data (online)](#2copy-saved-offline-data-online)
       - [3.Launch boot cluster in an airgap environment (airgap)](#3launch-boot-cluster-in-an-airgap-environment-airgap)
-  - [Add airgap OCP cluster to argocd (airgap)](#add-airgap-ocp-cluster-to-argocd-airgap)
-  - [CP4WAIOps Image Mirror](#cp4waiops-image-mirror)
-  - [CP4WAIOps Gitops Install](#cp4waiops-gitops-install)
+  - [CP4WAIOps gitops install - Image Mirror](#cp4waiops-gitops-install---image-mirror)
+    - [Prerequisites](#prerequisites-1)
+    - [Bastion host & Portable compute device (online)](#bastion-host--portable-compute-device-online-1)
+    - [Portable storage device](#portable-storage-device-1)
+      - [1.Mirror image to filesystem (online)](#1mirror-image-to-filesystem-online)
+      - [2.Copy saved offline data (online)](#2copy-saved-offline-data-online-1)
+      - [3.Mirror image to airgap environment (airgap)](#3mirror-image-to-airgap-environment-airgap)
+  - [CP4WAIOps gitops install -- connect airgap OCP cluster](#cp4waiops-gitops-install----connect-airgap-ocp-cluster)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -770,7 +775,171 @@ done
 ![w](images/argocd-ui.png)
 ![w](images/argocd-git.png)
 
-## Add airgap OCP cluster to argocd (airgap)
+
+## CP4WAIOps gitops install - Image Mirror
+
+Suggest use the official [OCP Plugin](https://github.com/IBM/ibm-pak-plugin) to mirror image of CP4WAIOps
+
+- [Download the CASE](https://github.com/IBM/ibm-pak-plugin#download-the-case)
+- [Generate Mirror Manifests](https://github.com/IBM/ibm-pak-plugin#generate-mirror-manifests)
+- [Mirror Image](https://github.com/IBM/ibm-pak-plugin#mirroring)
+
+If you use official way to mirror image, Please ignore this part
+
+### Prerequisites
+
+- bootcluster or argocd&github&tekton
+- oc
+
+### Bastion host & Portable compute device (online)
+
+- Mirror image to local docker registry
+- Deploy argocd applicationSet
+
+```
+./script/bootstrap.sh --caseImageMirrorBastion --launchRegistry --cpToken {CP_Token} --caseName ibm-cp-waiops --caseVersoin 1.3.1 --storageClass {Storage_Class}
+```
+
+Usage help:
+
+```
+--caseImageMirrorBastion                    # Image Mirror to local docker registry
+--launchRegistry                            # Launch a local docker registry if you don't have one
+--registry ${LOCAL_REGISTRY}                # Local docker registry, provide this if you have a local docker registry
+--username ${USERNAME}                      # Local docker registry username, provide this if you have a local docker registry
+--password ${PASSWORD}                      # Local docker registry password, provide this if you have a local docker registry
+--storageClass ${STORAGE_CALSS}             # storage class of your target OCP cluster, default is rook-cephfs
+--caseName ${caseName}                      # Case bundle name, default is ibm-cp-waiops
+--caseVersoin ${caseVersoin}                # Case bundle version, default is 1.3.1
+--cpToken ${CPTOKEN}                        # cp.icr.io registry token
+
+Optional:
+--gitRepo ${GITREPO}                        # Git repo name, provide this if you want to use your own git server
+--gitUsername ${GITUSERNAME}                # Git repo username, provide this if you want to use your own git server
+--gitPassword ${GITPASSWORD}                # Git repo password, provide this if you want to use your own git server
+--argocdUrl ${ARGOCD_URL}                   # ArgoCD server, provide this if you want to use your own argocd server
+--argocdUsername ${ARGOCD_USERNAME}         # ArgoCD login username, provide this if you want to use your own argocd server
+--argocdPassword ${ARGOCD_PASSWORD}         # ArgoCD login password, provide this if you want to use your own argocd server
+```
+
+Output:
+
+```
+-------------Case ibm-cp-waiops 1.3.1 Image Mirror - Bastion-------------
+pipelinerun.tekton.dev/ai-online created
+done
+```
+
+### Portable storage device
+
+#### 1.Mirror image to filesystem (online)
+
+- Mirror image to local docker registry
+- Deploy argocd applicationSet
+
+```
+./script/bootstrap.sh --caseImageMirrorFilesystem --launchRegistry --cpToken {CP_Token} --caseName ibm-cp-waiops --caseVersoin 1.3.1
+```
+
+Usage help:
+
+```
+--caseImageMirrorBastion                    # Image Mirror to local docker registry
+--launchRegistry                            # Launch a local docker registry if you don't have one
+--registry ${LOCAL_REGISTRY}                # Local docker registry, provide this if you have a local docker registry
+--username ${USERNAME}                      # Local docker registry username, provide this if you have a local docker registry
+--password ${PASSWORD}                      # Local docker registry password, provide this if you have a local docker registry
+--caseName ${caseName}                      # Case bundle name, default is ibm-cp-waiops
+--caseVersoin ${caseVersoin}                # Case bundle version, default is 1.3.1
+--cpToken ${CPTOKEN}                        # cp.icr.io registry token
+```
+
+Output:
+
+```
+-------------Case ibm-cp-waiops 1.3.1 Image Mirror - filesystem-------------
+Error from server (NotFound): pipelineruns.tekton.dev "ai-airgap" not found
+pipelinerun.tekton.dev/ai-airgap created
+done
+Waiting for image mirror ai-airgap-aiops-mirror-image-filesystem-pod done ...................................................................................................................................................................................................................................................................................... Done
+done
+```
+
+#### 2.Copy saved offline data (online)
+
+Copy the git repo `cp4waiops-gitops` to portable storage device, such as a USB drive or external HDD. 
+- Images of Bootcluster 
+
+#### 3.Mirror image to airgap environment (airgap)
+
+- Mirror image from filesystem to local docker registry
+- Deploy argocd applicationSet
+
+```
+./script/bootstrap.sh --caseAirgapLaunch --launchRegistry
+```
+
+Usage help:
+
+```
+--caseAirgapLaunch                         # Launch a pure boot cluster, include `kind`, `argocd`, `tekton`, `gitlab`
+--launchRegistry                            # Launch a local docker registry if you don't have one
+--registry ${LOCAL_REGISTRY}                # Local docker registry, provide this if you have a local docker registry
+--username ${USERNAME}                      # Local docker registry username, provide this if you have a local docker registry
+--password ${PASSWORD}                      # Local docker registry password, provide this if you have a local docker registry
+--storageClass ${STORAGE_CALSS}             # storage class of your target OCP cluster, default is rook-cephfs
+--caseName ${caseName}                      # Case bundle name, default is ibm-cp-waiops
+--caseVersoin ${caseVersoin}                # Case bundle version, default is 1.3.0
+
+Optional:
+--gitRepo ${GITREPO}                        # Git repo name, provide this if you want to use your own git server
+--gitUsername ${GITUSERNAME}                # Git repo username, provide this if you want to use your own git server
+--gitPassword ${GITPASSWORD}                # Git repo password, provide this if you want to use your own git server
+--argocdUrl ${ARGOCD_URL}                   # ArgoCD server, provide this if you want to use your own argocd server
+--argocdUsername ${ARGOCD_USERNAME}         # ArgoCD login username, provide this if you want to use your own argocd server
+--argocdPassword ${ARGOCD_PASSWORD}         # ArgoCD login password, provide this if you want to use your own argocd server
+```
+
+Output:
+
+```
+-------------Airgap Launch Case Image-------------
+ec34fcc1d526: Loading layer  5.811MB/5.811MB
+7b35f2def65d: Loading layer  736.3kB/736.3kB
+f93fff1ab6f7: Loading layer  18.09MB/18.09MB
+6a4340199717: Loading layer  4.096kB/4.096kB
+4977497eb9c0: Loading layer  2.048kB/2.048kB
+Loaded image: registry:2
+[INFO] Launch local container registry ...
+-----------------------------------------------------------------------
+......+......+..+.+..+..........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+...+..+...+....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+4a790577546b1af4353dcc5a31a2b2f6160e089f5baeb52639724205f024cf07
+/root/cp4waiops-gitops/airgap
+[INFO] Launch local container registry princely1.fyre.ibm.com:5003...
+[INFO] Copy image data in /opt/registry/data
+-------------Airgap Launch Boot Cluster-------------
+INFO  Mirror images...
+Waiting for image files copy...
+  oc image mirror   -f images-mapping-from-filesystem.txt   -a auth.json   --from-dir=/root/cp4waiops-gitops/airgap/script/.image/case   --filter-by-os '.*'   --insecure   --skip-multiple-scopes   --max-per-registry=1
+
+...
+
+uploading: princely1.fyre.ibm.com:5003/cp/iaf-flink sha256:3e8287059a671292f0ad6734d9bd9d15d13240ef790c342b88ec438c5ac83c0f 417.7KiB
+
+...
+
+[INFO] Mirror image ... Done
+application.argoproj.io/cp4waiops-app created
+done
+```
+
+On ArgoCD UI, we can see Argocd applicationset has been deployed.
+
+![w](images/argocd.png)
+![w](images/argocd-applicationset.png)
+
+## CP4WAIOps gitops install -- add airgap OCP cluster to argocd
 
 ```
 oc login
@@ -802,14 +971,10 @@ Cluster 'https://api.lyanwei.cp.fyre.ibm.com:6443' added
 done
 ```
 
-## CP4WAIOps Image Mirror
+On ArgoCD UI, we can see a new application has been created to deploy, the destination is target OCP cluster.
 
-Suggest use the official [OCP Plugin](https://github.com/IBM/ibm-pak-plugin) to mirror image of CP4WAIOps
+![w](images/add-cluster.png)
 
-- [Download the CASE](https://github.com/IBM/ibm-pak-plugin#download-the-case)
-- [Generate Mirror Manifests](https://github.com/IBM/ibm-pak-plugin#generate-mirror-manifests)
-- [Mirror Image](https://github.com/IBM/ibm-pak-plugin#mirroring)
+CP4WAIOps has been deployed on the target cluster.
 
-## CP4WAIOps Gitops Install
-
-Follow the instructions in [Online production install of IBM Cloud Pak for Watson](https://github.com/IBM/cp4waiops-gitops/blob/docs/docs/how-to-deploy-cp4waiops.md)
+![w](images/ocp-application.png)

@@ -65,6 +65,6 @@ spec:
         --max-per-registry=1 \
         -a auth.json
 
-        tar -czvf v2.tgz v2
+        tar -czvf v2.tgz -C v2 .
         cp v2.tgz $(workspaces.install-aiops.path)/
         cp ~/.ibm-pak/data/mirror/$CASE_NAME/$CASE_VERSION/images-mapping-from-filesystem.txt $(workspaces.install-aiops.path)/

@@ -140,7 +140,7 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: Secret
@@ -299,8 +299,6 @@ image_mirror_bastion() {
 
 image_mirror_filesystem() {
 
-    echo "-------------Prepare Airgap Launch Boot Cluster-------------"
-
     launch_pipeline
     aiops_airgap_pipeline
     wait-task ai-airgap-aiops-mirror-image-filesystem-pod default
@@ -314,7 +312,7 @@ image_mirror_filesystem() {
 
 airgap_launch_case() {
 
-    echo "-------------Prepare Airgap Launch Boot Cluster-------------"
+    echo "-------------Airgap Launch Case Image-------------"
 
     boot_cluster_env
     ${ROOT_DIR}/image-mirror.sh "case" ${registry} ${user} ${pass}
