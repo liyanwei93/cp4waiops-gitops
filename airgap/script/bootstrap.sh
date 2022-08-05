@@ -292,6 +292,7 @@ EOF
 
 image_mirror_bastion() {
 
+  boot_cluster_env
   launch_pipeline
   aiops_online_pipeline
 
