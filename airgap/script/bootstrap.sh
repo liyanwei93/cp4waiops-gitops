@@ -130,18 +130,6 @@ launch_pipeline() {
     echo "-------------Launch Tekton Pipeline-------------"
 
     cat <<EOF | $kubernetesCLI apply -f -
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-workspace
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
----
 apiVersion: v1
 kind: Secret
 metadata:
@@ -206,6 +194,18 @@ bootcluster_airgap_pipeline() {
     $kubernetesCLI delete pipelinerun bc-airgap
 
     cat <<EOF | $kubernetesCLI apply -f -
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bc-image
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
@@ -220,7 +220,7 @@ spec:
   workspaces:
     - name: install-workspace
       persistentVolumeClaim:
-        claimName: my-workspace
+        claimName: bc-image
 EOF
 
     echo "done"
@@ -262,6 +262,18 @@ aiops_airgap_pipeline() {
     $kubernetesCLI delete pipelinerun ai-airgap
 
     cat <<EOF | $kubernetesCLI apply -f -
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aiops-image
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+---
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
@@ -279,7 +291,7 @@ spec:
         secretName: gitops-install-env-secret
     - name: install-workspace
       persistentVolumeClaim:
-        claimName: my-workspace
+        claimName: aiops-image
 EOF
 
     echo "done"
@@ -313,10 +325,9 @@ image_mirror_filesystem() {
 
 airgap_launch_case() {
 
-    echo "-------------Airgap Launch Case Image-------------"
+    echo "-------------AIOPs Airgap Launch-------------"
 
     boot_cluster_env
-    ${ROOT_DIR}/image-mirror.sh "case" ${registry} ${user} ${pass}
     sed -i 's|REGISTRY|'"${registry}"'|g' ${ROOT_DIR}/application.yaml
     sed -i 's|USERNAME|'"${user}"'|g' ${ROOT_DIR}/application.yaml
     sed -i 's|PASSWORD|'"${pass}"'|g' ${ROOT_DIR}/application.yaml
@@ -429,13 +440,10 @@ while [ "${1-}" != "" ]; do
     --airgapLaunchBootCluster)
         airgap_launch_boot_cluster="true"
         ;;
-    --caseImageMirrorBastion)
-        case_image_mirror_bastion="true"
+    --caseImageMirror)
+        case_image_mirror="true"
         ;;
-    --caseImageMirrorFilesystem)
-        case_image_mirror_filesystem="true"
-        ;;
-    --caseAirgapLaunch)
+    --aiopsAirgapLaunch)
         airgap_launch_case="true"
         ;;
     --cpToken | -t)
@@ -517,12 +525,8 @@ if [[ $airgap_launch_boot_cluster == "true" ]]; then
     airgap_launch_boot_cluster
 fi
 
-if [[ $case_image_mirror_bastion == "true" ]]; then
+if [[ $case_image_mirror == "true" ]]; then
     image_mirror_bastion
-fi
-
-if [[ $case_image_mirror_filesystem == "true" ]]; then
-    image_mirror_filesystem
 fi
 
 if [[ $airgap_launch_case == "true" ]]; then

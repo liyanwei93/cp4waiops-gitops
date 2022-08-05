@@ -8,11 +8,12 @@
     - [Bastion host & Portable compute device (online)](#bastion-host--portable-compute-device-online)
     - [Portable storage device](#portable-storage-device)
       - [1.Launch boot cluster preparation (online)](#1launch-boot-cluster-preparation-online)
-      - [2.Copy saved offline data (online)](#2copy-saved-offline-data-online)
+      - [2.Copy saved offline data](#2copy-saved-offline-data)
       - [3.Launch boot cluster in an airgap environment (airgap)](#3launch-boot-cluster-in-an-airgap-environment-airgap)
   - [Add airgap OCP cluster to argocd (airgap)](#add-airgap-ocp-cluster-to-argocd-airgap)
-  - [CP4WAIOps Image Mirror](#cp4waiops-image-mirror)
   - [CP4WAIOps Gitops Install](#cp4waiops-gitops-install)
+    - [Mirror image](#mirror-image)
+    - [Gitops Install (airgap)](#gitops-install-airgap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -274,7 +275,6 @@ WARNING: server certificate had error: x509: certificate is valid for localhost,
 Context 'mothball1.fyre.ibm.com:9443' updated
 done
 -------------Launch Tekton Pipeline-------------
-persistentvolumeclaim/my-workspace created
 secret/gitops-install-env-secret created
 pipeline.tekton.dev/aiops-mirror-image created
 pipeline.tekton.dev/aiops-mirror-image-filesystem created
@@ -294,6 +294,7 @@ task.tekton.dev/wait-image-copy created
 done
 -------------Launch Bootcluster Online Pipeline-------------
 Error from server (NotFound): pipelineruns.tekton.dev "bc-online" not found
+persistentvolumeclaim/bc-image created
 pipelinerun.tekton.dev/bc-online created
 done
 ```
@@ -450,7 +451,7 @@ done
 
 You can find the image filesystem in script/.image/bootcluster/v2.tgz
 
-#### 2.Copy saved offline data (online)
+#### 2.Copy saved offline data
 
 Copy the git repo `cp4waiops-gitops` to portable storage device, such as a USB drive or external HDD. 
 - Gitops code
@@ -770,6 +771,7 @@ done
 ![w](images/argocd-ui.png)
 ![w](images/argocd-git.png)
 
+
 ## Add airgap OCP cluster to argocd (airgap)
 
 ```
@@ -802,7 +804,9 @@ Cluster 'https://api.lyanwei.cp.fyre.ibm.com:6443' added
 done
 ```
 
-## CP4WAIOps Image Mirror
+## CP4WAIOps Gitops Install
+
+### Mirror image
 
 Suggest use the official [OCP Plugin](https://github.com/IBM/ibm-pak-plugin) to mirror image of CP4WAIOps
 
@@ -810,6 +814,6 @@ Suggest use the official [OCP Plugin](https://github.com/IBM/ibm-pak-plugin) to 
 - [Generate Mirror Manifests](https://github.com/IBM/ibm-pak-plugin#generate-mirror-manifests)
 - [Mirror Image](https://github.com/IBM/ibm-pak-plugin#mirroring)
 
-## CP4WAIOps Gitops Install
+### Gitops Install (airgap)
 
 Follow the instructions in [Online production install of IBM Cloud Pak for Watson](https://github.com/IBM/cp4waiops-gitops/blob/docs/docs/how-to-deploy-cp4waiops.md)
